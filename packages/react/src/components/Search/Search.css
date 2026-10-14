@@ -1,0 +1,11 @@
+.ds-search .ds-control {
+  border-radius: var(--ds-radius-full);
+  padding-inline: var(--ds-space-md) var(--ds-space-sm);
+}
+
+/* We render our own clear button; hide the browser's. */
+.ds-search__input::-webkit-search-cancel-button,
+.ds-search__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@lockin/react-native",
+  "version": "0.1.0",
+  "description": "Lock In components for React Native / Expo (iOS + Android), API-compatible with @lockin/react.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "react-native": "./src/index.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "react-native": "./src/index.ts", "default": "./dist/index.js" }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@lockin/icons": "0.1.0",
+    "@lockin/tokens": "0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.74",
+    "react-native-svg": ">=15"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "react-native": "^0.87.0",
+    "react-native-svg": "^15.0.0",
+    "typescript": "^5.9.0"
+  }
+}

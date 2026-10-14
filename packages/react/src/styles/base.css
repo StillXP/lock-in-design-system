@@ -1,0 +1,206 @@
+/* Lock In base styles. Import after @lockin/tokens/css. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.ds-root,
+body {
+  margin: 0;
+  font: var(--ds-typography-body-md);
+  letter-spacing: var(--ds-typography-body-md-letter-spacing);
+  color: var(--ds-color-text-primary);
+  background: var(--ds-color-background-default);
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+.ds-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Shared focus ring (WCAG 2.4.7). Only for keyboard focus. */
+.ds-focus-ring:focus-visible {
+  outline: var(--ds-focus-width) solid var(--ds-color-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+}
+
+/* Windows High Contrast / forced colors: keep boundaries visible. */
+@media (forced-colors: active) {
+  .ds-focus-ring:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+.ds-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--ds-radius-full);
+  animation: ds-spin 700ms linear infinite;
+}
+
+@keyframes ds-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-spinner {
+    animation-duration: 2s;
+  }
+}
+
+/* Shared form field chrome (InputField, Select, Search) */
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs);
+  min-width: 0;
+}
+
+.ds-field__label {
+  font: var(--ds-typography-label-md);
+  color: var(--ds-color-text-primary);
+}
+
+.ds-field__required {
+  color: var(--ds-color-text-danger);
+  margin-inline-start: var(--ds-space-2xs);
+}
+
+.ds-field__optional {
+  color: var(--ds-color-text-secondary);
+  font-weight: var(--ds-font-weight-regular);
+  margin-inline-start: var(--ds-space-2xs);
+}
+
+.ds-field__hint {
+  font: var(--ds-typography-body-sm);
+  color: var(--ds-color-text-secondary);
+  margin: 0;
+}
+
+.ds-field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-2xs);
+  font: var(--ds-typography-body-sm);
+  color: var(--ds-color-text-danger);
+  margin: 0;
+}
+
+.ds-field__error .ds-icon {
+  flex-shrink: 0;
+  margin-top: 0.125em;
+}
+
+.ds-control {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-xs);
+  min-height: var(--ds-size-control-md);
+  padding-inline: var(--ds-space-sm);
+  background: var(--ds-color-surface-default);
+  border: var(--ds-border-width-thin) solid var(--ds-color-border-strong);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-color-text-primary);
+  transition: border-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+
+.ds-control--sm { min-height: var(--ds-size-control-sm); }
+.ds-control--lg { min-height: var(--ds-size-control-lg); }
+
+.ds-control:hover {
+  border-color: var(--ds-color-text-secondary);
+}
+
+.ds-control:focus-within {
+  outline: var(--ds-focus-width) solid var(--ds-color-focus-ring);
+  outline-offset: 0;
+  border-color: var(--ds-color-border-selected);
+}
+
+.ds-control.is-invalid {
+  border-color: var(--ds-color-border-danger);
+  border-width: var(--ds-border-width-thick);
+}
+
+.ds-control.is-disabled {
+  background: var(--ds-color-intent-disabled-bg);
+  border-color: var(--ds-color-border-subtle);
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ds-control__input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  min-height: inherit;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  /* 16px minimum prevents iOS zoom-on-focus */
+  font: var(--ds-typography-body-md);
+  outline: none;
+}
+
+.ds-control__input::placeholder {
+  color: var(--ds-color-text-placeholder);
+  opacity: 1;
+}
+
+.ds-control__input:disabled {
+  cursor: not-allowed;
+}
+
+.ds-control__icon {
+  color: var(--ds-color-icon-secondary);
+  flex-shrink: 0;
+}
+
+.ds-control__button {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--ds-size-icon-xl);
+  height: var(--ds-size-icon-xl);
+  margin-inline-end: calc(var(--ds-space-2xs) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: transparent;
+  color: var(--ds-color-icon-secondary);
+  cursor: pointer;
+}
+
+.ds-control__button:hover {
+  background: var(--ds-color-background-muted);
+  color: var(--ds-color-icon-primary);
+}
+
+@media (pointer: coarse) {
+  .ds-control,
+  .ds-control--sm {
+    min-height: var(--ds-size-touchTarget-min);
+  }
+  .ds-control__button {
+    width: var(--ds-size-touchTarget-min);
+    height: var(--ds-size-touchTarget-min);
+    margin-inline-end: calc(var(--ds-space-sm) * -1);
+  }
+}

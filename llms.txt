@@ -1,0 +1,28 @@
+# Lock In Design System
+
+> Cross-platform design system (React for web, React Native for iOS/Android) for personal projects: tournament apps, web games, dashboards, web stores. WCAG 2.1 AA, light and dark modes, project themes. Every token and component is available as structured JSON for AI agents.
+
+## Connect (preferred: MCP)
+- MCP over HTTP: POST {origin}/mcp (reading needs no key; editors send `Authorization: Bearer <api key>`)
+- MCP over stdio (local): `npx tsx apps/server/src/stdio.ts`
+- Tools: search_design_system, list_components, get_component, get_tokens, get_token, check_contrast, list_icons, list_docs, get_doc, get_changelog (+ update_component, update_token, update_doc for editors)
+- Resources: ds://overview, ds://tokens/{light|dark}, ds://components/{slug}, ds://docs/{slug}
+
+## REST (same data)
+- GET /api/components, /api/components/{slug}
+- GET /api/tokens?prefix=color.text, /api/tokens/{name}
+- GET /api/search?q=..., /api/contrast?fg=..&bg=..&mode=dark
+- GET /api/docs, /api/docs/{slug}
+
+## Rules for building UI with Lock In
+1. Use a Lock In component when one fits; read its spec (get_component) and follow props, accessibility and usage do/don't exactly.
+2. Style custom UI with semantic tokens only (color.text.*, color.background.*, color.surface.*, color.border.*, color.intent.*, color.status.*, space.*, typography.*). Never hard-code hex values or use base palette tokens like color.blue.600.
+3. Web: CSS variables `--ds-<token-path-with-dashes>`. Native: `const { t } = useTheme(); t.color.text.primary`.
+4. Every form control needs a visible label; never convey meaning by color alone; keep focus visible; touch targets ≥ 44px.
+5. Check any new color pairing with check_contrast (4.5:1 text, 3:1 UI).
+
+## Components
+Button, Icon, Link, Checkbox, RadioGroup (radio-button), Toggle, InputField, Search, Select, Dropdown, Tabs, Tag, Modal, DataTable
+
+## Docs
+- docs/architecture.md (diagrams), docs/getting-started.md, docs/tokens.md, docs/components.md, docs/accessibility.md, docs/theming.md, docs/mcp-server.md, docs/contributing.md

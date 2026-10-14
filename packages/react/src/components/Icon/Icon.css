@@ -1,0 +1,11 @@
+.ds-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+@media (forced-colors: active) {
+  .ds-icon {
+    color: CanvasText;
+  }
+}

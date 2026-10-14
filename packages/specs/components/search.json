@@ -1,0 +1,81 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Search",
+  "slug": "search",
+  "import": {
+    "web": "import { Search } from '@lockin/react';",
+    "native": "import { Search } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "form",
+  "purpose": "Search input wrapped in a search landmark with a leading icon, clear button, Escape-to-clear, and an optional loading spinner.",
+  "props": [
+    { "name": "label", "type": "string", "default": "Search", "required": false, "description": "Accessible label (visually hidden unless showLabel). Make it specific: 'Search players'." },
+    { "name": "showLabel", "type": "boolean", "default": false, "required": false, "description": "Show the label visually." },
+    { "name": "value", "type": "string", "required": false, "description": "Controlled query." },
+    { "name": "defaultValue", "type": "string", "default": "", "required": false, "description": "Uncontrolled initial query." },
+    { "name": "onValueChange", "type": "(value: string) => void", "required": false, "description": "Called on every change (debounce in your code for remote search)." },
+    { "name": "onSearch", "type": "(value: string) => void", "required": false, "description": "Called on Enter / submit." },
+    { "name": "onClear", "type": "() => void", "required": false, "description": "Called when cleared via button or Escape." },
+    { "name": "placeholder", "type": "string", "default": "Search…", "required": false, "description": "Example query text." },
+    { "name": "size", "type": "'sm' | 'md' | 'lg'", "default": "md", "required": false, "description": "Control height." },
+    { "name": "loading", "type": "boolean", "default": false, "required": false, "description": "Swap the search icon for a spinner." },
+    { "name": "landmarkLabel", "type": "string", "required": false, "description": "Names the role=search landmark when a page has more than one.", "platforms": ["web"] }
+  ],
+  "states": [
+    { "name": "empty", "description": "Placeholder visible; no clear button." },
+    { "name": "filled", "description": "Clear button visible." },
+    { "name": "focus", "description": "Focus ring around the control." },
+    { "name": "loading", "description": "Spinner replaces the search icon." },
+    { "name": "disabled", "description": "Disabled colors." }
+  ],
+  "tokens": [
+    { "token": "color.surface.default", "usage": "Background." },
+    { "token": "color.border.strong", "usage": "Border." },
+    { "token": "color.icon.secondary", "usage": "Search and clear icons." },
+    { "token": "radius.full", "usage": "Pill shape." },
+    { "token": "size.control.md", "usage": "Height." },
+    { "token": "typography.body.md", "usage": "Query text." }
+  ],
+  "accessibility": {
+    "role": "search landmark (<form role=search>) containing a searchbox (<input type=search>)",
+    "keyboard": [
+      { "keys": "Enter", "action": "Run onSearch." },
+      { "keys": "Escape", "action": "Clear the query (keeps focus in the field)." },
+      { "keys": "Tab", "action": "Moves to the clear button when visible." }
+    ],
+    "screenReader": [
+      "Landmark navigation finds the search region.",
+      "Clear button announced as 'Clear search, button'.",
+      "Announce result counts in a polite live region in your results area ('12 players found')."
+    ],
+    "focus": "Focus ring on the control; focus returns to the input after clearing.",
+    "touchTarget": "44px control and clear button on touch.",
+    "wcag": ["1.3.1 Info and Relationships", "2.1.1 Keyboard", "2.4.1 Bypass Blocks", "3.3.2 Labels or Instructions", "4.1.2 Name, Role, Value", "4.1.3 Status Messages"]
+  },
+  "variants": [
+    { "name": "instant", "description": "Filter as you type with onValueChange.", "useWhen": "Local lists, small datasets." },
+    { "name": "submit", "description": "Search on Enter with onSearch.", "useWhen": "Remote / expensive queries." }
+  ],
+  "usage": {
+    "do": [
+      "Give the label a specific scope ('Search products').",
+      "Announce result counts with a live region.",
+      "Debounce remote searches (~250ms)."
+    ],
+    "dont": [
+      "Don't use Search for non-search text entry — use InputField.",
+      "Don't move focus away from the input as results update."
+    ],
+    "related": [
+      { "name": "InputField", "reason": "General text entry." },
+      { "name": "DataTable", "reason": "Filter table rows." },
+      { "name": "Tag", "reason": "Show active filters as removable tags." }
+    ],
+    "example": {
+      "web": "<Search label=\"Search players\" placeholder=\"Name or team\" onValueChange={setQuery} />\n<p aria-live=\"polite\">{results.length} players found</p>",
+      "native": "<Search label=\"Search players\" value={query} onValueChange={setQuery} onSearch={runSearch} />"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@lockin/server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lock In hub: REST API, MCP server, web UI, auth and versioning.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "mcp": "tsx src/stdio.ts",
+    "keys": "tsx src/cli.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "express": "^5.3.0",
+    "marked": "^18.1.1",
+    "zod": "^4.6.7",
+    "@lockin/icons": "0.1.0",
+    "@lockin/specs": "0.1.0",
+    "@lockin/tokens": "0.1.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "shadow": {
+    "$type": "shadow",
+    "$description": "Elevation. In dark mode, pair elevation with a border (color.border.subtle) since shadows are less visible.",
+    "sm": { "$value": { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "color": "{color.neutral.900}", "alpha": 0.08 } },
+    "md": { "$value": { "offsetX": "0px", "offsetY": "4px", "blur": "12px", "spread": "-2px", "color": "{color.neutral.900}", "alpha": 0.12 } },
+    "lg": { "$value": { "offsetX": "0px", "offsetY": "12px", "blur": "24px", "spread": "-4px", "color": "{color.neutral.900}", "alpha": 0.16 } },
+    "xl": { "$value": { "offsetX": "0px", "offsetY": "24px", "blur": "48px", "spread": "-8px", "color": "{color.neutral.900}", "alpha": 0.24 } }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "$description": "Honor prefers-reduced-motion: components drop to instant when the user asks for reduced motion (WCAG 2.3.3).",
+      "instant": { "$value": "0ms" },
+      "fast": { "$value": "120ms" },
+      "normal": { "$value": "200ms" },
+      "slow": { "$value": "320ms" }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": { "$value": [0.2, 0, 0, 1] },
+      "enter": { "$value": [0, 0, 0, 1] },
+      "exit": { "$value": [0.3, 0, 1, 1] }
+    }
+  },
+  "zIndex": {
+    "$type": "number",
+    "base": { "$value": 0 },
+    "dropdown": { "$value": 1000 },
+    "sticky": { "$value": 1100 },
+    "overlay": { "$value": 1300 },
+    "modal": { "$value": 1400 },
+    "toast": { "$value": 1500 },
+    "tooltip": { "$value": 1600 }
+  }
+}

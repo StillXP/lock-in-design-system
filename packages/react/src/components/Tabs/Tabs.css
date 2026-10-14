@@ -1,0 +1,98 @@
+.ds-tabs__list {
+  display: flex;
+  gap: var(--ds-space-2xs);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border-bottom: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+}
+
+.ds-tabs__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-xs);
+  min-height: var(--ds-size-control-lg);
+  padding-inline: var(--ds-space-md);
+  border: 0;
+  background: transparent;
+  color: var(--ds-color-text-secondary);
+  font: var(--ds-typography-label-lg);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ds-tabs__tab:hover:not(:disabled) {
+  color: var(--ds-color-text-primary);
+}
+
+.ds-tabs__tab:focus-visible {
+  outline-offset: calc(var(--ds-focus-width) * -1);
+}
+
+/* Selected state uses an indicator bar + weight, not color alone */
+.ds-tabs__tab[aria-selected='true'] {
+  color: var(--ds-color-text-brand);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+.ds-tabs__tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 3px;
+  border-radius: var(--ds-radius-sm) var(--ds-radius-sm) 0 0;
+  background: var(--ds-color-border-selected);
+}
+
+.ds-tabs__tab:disabled {
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ds-tabs__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  padding-inline: var(--ds-space-2xs);
+  border-radius: var(--ds-radius-full);
+  background: var(--ds-color-status-neutral-bg);
+  color: var(--ds-color-status-neutral-text);
+  font: var(--ds-typography-label-sm);
+}
+
+.ds-tabs--fitted .ds-tabs__tab {
+  flex: 1;
+}
+
+.ds-tabs--contained .ds-tabs__list {
+  padding: var(--ds-space-2xs);
+  border: 0;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-color-background-subtle);
+}
+
+.ds-tabs--contained .ds-tabs__tab {
+  min-height: var(--ds-size-control-md);
+  border-radius: var(--ds-radius-md);
+}
+
+.ds-tabs--contained .ds-tabs__tab[aria-selected='true'] {
+  background: var(--ds-color-surface-default);
+  color: var(--ds-color-text-primary);
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.ds-tabs--contained .ds-tabs__tab[aria-selected='true']::after {
+  display: none;
+}
+
+.ds-tabs__panel {
+  padding-block: var(--ds-space-md);
+  border-radius: var(--ds-radius-sm);
+}
+
+@media (forced-colors: active) {
+  .ds-tabs__tab[aria-selected='true']::after { background: Highlight; }
+  .ds-tabs--contained .ds-tabs__tab[aria-selected='true'] { outline: 2px solid Highlight; }
+}

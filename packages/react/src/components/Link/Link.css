@@ -1,0 +1,46 @@
+.ds-link {
+  color: var(--ds-color-text-link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--ds-font-underlineOffset-default);
+  border-radius: var(--ds-radius-sm);
+  cursor: pointer;
+}
+
+.ds-link:hover {
+  color: var(--ds-color-text-linkHover);
+  text-decoration-thickness: 2px;
+}
+
+.ds-link__icon {
+  margin-inline-start: 0.2em;
+  vertical-align: -0.15em;
+}
+
+.ds-link--standalone {
+  display: inline-flex;
+  align-items: center;
+  font: var(--ds-typography-label-lg);
+  text-decoration-line: none;
+}
+
+.ds-link--standalone:hover {
+  text-decoration-line: underline;
+}
+
+.ds-link--subtle {
+  color: var(--ds-color-text-secondary);
+}
+
+.ds-link--subtle:hover {
+  color: var(--ds-color-text-primary);
+}
+
+.ds-link:visited {
+  /* Visited styling is opt-in per project; keep the link color by default. */
+  color: var(--ds-color-text-link);
+}
+
+.ds-link--subtle:visited {
+  color: var(--ds-color-text-secondary);
+}

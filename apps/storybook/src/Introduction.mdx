@@ -1,0 +1,30 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Lock In Design System
+
+A cross-platform design system for tournament apps, web games, dashboards and stores, built for **people and AI agents**, on **web and mobile**.
+
+This Storybook is the visual workbench for everything in the repo:
+
+- **Foundations / Color**: base palette (8 hues × 10 steps) and every semantic color (background, surface, text, icon, border, focus, intent, status, data viz) with light/dark values, base aliases and contrast ratios. Source: `packages/tokens/src`.
+- **Foundations / Typography**: composite text styles and font primitives. Source: `packages/tokens/src/base/typography.json`.
+- **Foundations / Spacing & sizing**: the 10-step spacing scale (4 → 128px), control heights, touch target, icon sizes, breakpoints. Source: `packages/tokens/src/base/spacing.json`.
+- **Foundations / Shape & effects**: radius, borders, focus ring, shadows, motion, z-index. Source: `packages/tokens/src/base/effects.json`.
+- **Foundations / Icons**: every icon, searchable by name or keyword. Source: `packages/icons`.
+- **Components**: all 14 React components with live controls, and the full component spec on each Docs page. Source: `packages/react`, `packages/specs`.
+
+## Toolbar
+
+- **Mode**: light, dark, or follow the OS. Every story renders on `color.background.default`, so this is an honest preview.
+- **Theme**: default (blue), **Arena** (orange) or **Arcade** (violet). Themes re-point the brand ramp only.
+- **Accessibility** panel: axe checks the current story against WCAG 2.1 A/AA rules and lists any violations.
+
+## Docs pages are the specs
+
+Each component's **Docs** page renders `packages/specs/components/<slug>.json`: variants, states, do/don't, related components, keyboard and screen reader behavior, WCAG criteria and the tokens it uses. That's the same JSON AI agents get from the hub's `get_component` tool, so humans and agents read one source of truth.
+
+## Not covered here
+
+React Native components (`@lockin/react-native`) aren't rendered in this Storybook. They share props and specs with the web components, so the Docs pages and the `React Native` example on each one still apply.

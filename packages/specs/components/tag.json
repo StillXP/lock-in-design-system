@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Tag",
+  "slug": "tag",
+  "import": {
+    "web": "import { Tag } from '@lockin/react';",
+    "native": "import { Tag } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "data-display",
+  "purpose": "Compact label for status, category or metadata (Live, Final, Sold out, Division A). Optionally removable for active filters.",
+  "props": [
+    { "name": "children", "type": "ReactNode", "required": true, "description": "Tag text (1–2 words)." },
+    { "name": "tone", "type": "'neutral' | 'brand' | 'info' | 'success' | 'warning' | 'danger'", "default": "neutral", "required": false, "description": "Semantic color. Status tones add a default icon." },
+    { "name": "variant", "type": "'subtle' | 'solid' | 'outline'", "default": "subtle", "required": false, "description": "Emphasis level." },
+    { "name": "size", "type": "'sm' | 'md'", "default": "md", "required": false, "description": "Size." },
+    { "name": "icon", "type": "IconName", "required": false, "description": "Override the leading icon." },
+    { "name": "onRemove", "type": "() => void", "required": false, "description": "Shows a remove button." },
+    { "name": "removeLabel", "type": "string", "required": false, "description": "Accessible name for the remove button (default 'Remove <text>')." }
+  ],
+  "states": [
+    { "name": "static", "description": "Non-interactive label." },
+    { "name": "removable", "description": "Has a remove button with hover and focus states." }
+  ],
+  "tokens": [
+    { "token": "color.status.success.bg", "usage": "Subtle background (per tone: status.<tone>.bg)." },
+    { "token": "color.status.success.text", "usage": "Subtle text (status.<tone>.text)." },
+    { "token": "color.status.success.solid", "usage": "Solid background (status.<tone>.solid / onSolid)." },
+    { "token": "color.status.success.border", "usage": "Outline border." },
+    { "token": "radius.full", "usage": "Pill shape." },
+    { "token": "typography.label.md", "usage": "Text (sm: label.sm)." }
+  ],
+  "accessibility": {
+    "role": "Static text (no role); remove control is a button",
+    "keyboard": [
+      { "keys": "Tab", "action": "Focus the remove button (removable tags only)." },
+      { "keys": "Enter / Space", "action": "Remove." }
+    ],
+    "screenReader": [
+      "Read as plain text in context.",
+      "Remove button announced as 'Remove <text>, button'.",
+      "After removal, move focus to the next tag or the related input."
+    ],
+    "focus": "Only the remove button receives focus.",
+    "touchTarget": "Remove button hit area is 44px on touch.",
+    "wcag": ["1.4.1 Use of Color", "1.4.3 Contrast (Minimum)", "2.1.1 Keyboard", "4.1.2 Name, Role, Value"],
+    "notes": ["All tone/variant combinations pass 4.5:1 in both modes (verified by check:contrast)."]
+  },
+  "variants": [
+    { "name": "subtle", "description": "Tinted background.", "useWhen": "Default for status in tables and cards." },
+    { "name": "solid", "description": "Strong fill.", "useWhen": "High-attention status ('LIVE')." },
+    { "name": "outline", "description": "Border only.", "useWhen": "Low-emphasis categories." }
+  ],
+  "usage": {
+    "do": [
+      "Keep text short.",
+      "Use status tones consistently (success=complete, warning=attention, danger=problem).",
+      "Use removable tags to show active filters."
+    ],
+    "dont": [
+      "Don't make tags clickable links or buttons — use Button or Link.",
+      "Don't rely on tone color alone to convey meaning."
+    ],
+    "related": [
+      { "name": "Search", "reason": "Active filters next to search." },
+      { "name": "DataTable", "reason": "Status column." }
+    ],
+    "example": {
+      "web": "<Tag tone=\"success\">Final</Tag>\n<Tag tone=\"danger\" variant=\"solid\" icon=\"alert-circle\">Live</Tag>\n<Tag onRemove={() => removeFilter('u12')}>Under 12</Tag>",
+      "native": "<Tag tone=\"success\">Final</Tag>\n<Tag onRemove={() => removeFilter('u12')}>Under 12</Tag>"
+    }
+  }
+}

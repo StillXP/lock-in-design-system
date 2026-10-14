@@ -1,0 +1,64 @@
+{
+  "space": {
+    "$type": "dimension",
+    "$description": "Spacing scale. Base unit is md (16px); every step is divisible by 4. Use for padding, margin and gap.",
+    "2xs": { "$value": "4px", "$description": "0.25× base. Icon-to-text gaps, tight inline spacing." },
+    "xs": { "$value": "8px", "$description": "0.5× base. Gaps inside compact controls, between related items." },
+    "sm": { "$value": "12px", "$description": "0.75× base. Control padding, list item gaps." },
+    "md": { "$value": "16px", "$description": "1× base unit. Default padding and gap." },
+    "lg": { "$value": "24px", "$description": "1.5× base. Card padding, form field groups." },
+    "xl": { "$value": "32px", "$description": "2× base. Section padding on mobile." },
+    "2xl": { "$value": "48px", "$description": "3× base. Gaps between page sections." },
+    "3xl": { "$value": "64px", "$description": "4× base. Section padding on desktop." },
+    "4xl": { "$value": "96px", "$description": "6× base. Hero / landing spacing." },
+    "5xl": { "$value": "128px", "$description": "8× base. Largest layout spacing." }
+  },
+  "size": {
+    "$type": "dimension",
+    "control": {
+      "$description": "Heights for buttons, inputs, selects.",
+      "sm": { "$value": "32px", "$description": "Dense desktop UIs only. Pad the hit area to 44px on touch." },
+      "md": { "$value": "40px" },
+      "lg": { "$value": "48px", "$description": "Default for touch-first / mobile layouts." }
+    },
+    "touchTarget": {
+      "min": { "$value": "44px", "$description": "Minimum interactive target on touch devices (WCAG 2.5.5 AAA / Apple HIG; exceeds 2.5.8 AA 24px)." }
+    },
+    "icon": {
+      "sm": { "$value": "16px" },
+      "md": { "$value": "20px" },
+      "lg": { "$value": "24px" },
+      "xl": { "$value": "32px" }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "none": { "$value": "0px" },
+    "sm": { "$value": "4px" },
+    "md": { "$value": "8px" },
+    "lg": { "$value": "12px" },
+    "xl": { "$value": "16px" },
+    "full": { "$value": "9999px" }
+  },
+  "border": {
+    "width": {
+      "$type": "dimension",
+      "thin": { "$value": "1px" },
+      "thick": { "$value": "2px" }
+    }
+  },
+  "focus": {
+    "$type": "dimension",
+    "width": { "$value": "2px", "$description": "Focus ring thickness (WCAG 2.4.7 / 2.4.11)." },
+    "offset": { "$value": "2px" }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Mobile-first min-width breakpoints.",
+    "sm": { "$value": "640px" },
+    "md": { "$value": "768px" },
+    "lg": { "$value": "1024px" },
+    "xl": { "$value": "1280px" },
+    "2xl": { "$value": "1536px" }
+  }
+}

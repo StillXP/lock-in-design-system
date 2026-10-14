@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lock In Design System</title>
+    <link rel="stylesheet" id="tokens-css" href="/assets/tokens/tokens.css" />
+    <link rel="stylesheet" href="/assets/tokens/typography.css" />
+    <link rel="stylesheet" href="/assets/react/styles.css" />
+    <link rel="stylesheet" href="/app.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip-link ds-focus-ring" href="#main">Skip to main content</a>
+    <header class="topbar">
+      <a href="#/" class="brand ds-focus-ring" aria-label="Lock In home">
+        <span class="brand__mark" aria-hidden="true">LI</span>
+        <span class="brand__name">Lock In</span>
+        <span class="brand__version" id="version"></span>
+      </a>
+      <form role="search" class="topbar__search" id="search-form" aria-label="Design system">
+        <label for="search-input" class="ds-visually-hidden">Search tokens, components and docs</label>
+        <div class="ds-control ds-control--md">
+          <svg class="ds-icon ds-control__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 11a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" /><path d="M20 20l-4-4" /></svg>
+          <input id="search-input" class="ds-control__input" type="search" placeholder="Search…" autocomplete="off" />
+        </div>
+      </form>
+      <div class="topbar__controls">
+        <label class="ds-visually-hidden" for="mode-select">Color mode</label>
+        <div class="ds-control ds-select ds-control--sm">
+          <select id="mode-select" class="ds-control__input ds-select__input">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+        <label class="ds-visually-hidden" for="theme-select">Project theme</label>
+        <div class="ds-control ds-select ds-control--sm">
+          <select id="theme-select" class="ds-control__input ds-select__input">
+            <option value="">Default</option>
+          </select>
+        </div>
+      </div>
+    </header>
+    <div class="layout">
+      <nav class="sidebar" aria-label="Main">
+        <ul>
+          <li><a href="#/" class="nav-link ds-focus-ring">Overview</a></li>
+          <li><a href="#/tokens" class="nav-link ds-focus-ring">Tokens</a></li>
+          <li><a href="#/components" class="nav-link ds-focus-ring">Components</a></li>
+          <li><a href="#/docs" class="nav-link ds-focus-ring">Docs</a></li>
+          <li><a href="#/changes" class="nav-link ds-focus-ring">Changes</a></li>
+          <li><a href="#/settings" class="nav-link ds-focus-ring">Settings</a></li>
+        </ul>
+      </nav>
+      <main id="main" tabindex="-1"></main>
+    </div>
+    <div id="announcer" class="ds-visually-hidden" aria-live="polite"></div>
+  </body>
+</html>

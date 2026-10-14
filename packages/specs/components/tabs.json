@@ -1,0 +1,80 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Tabs",
+  "slug": "tabs",
+  "import": {
+    "web": "import { Tabs } from '@lockin/react';",
+    "native": "import { Tabs } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "navigation",
+  "purpose": "Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.",
+  "props": [
+    { "name": "items", "type": "Array<{ id: string; label: ReactNode; content: ReactNode; icon?: IconName; badge?: ReactNode; disabled?: boolean }>", "required": true, "description": "Tabs and their panels." },
+    { "name": "value", "type": "string", "required": false, "description": "Controlled selected tab id." },
+    { "name": "defaultValue", "type": "string", "required": false, "description": "Uncontrolled initial tab (defaults to first enabled)." },
+    { "name": "onValueChange", "type": "(id: string) => void", "required": false, "description": "Selection handler." },
+    { "name": "aria-label", "type": "string", "required": false, "description": "Names the tab list when no visible heading labels it." },
+    { "name": "activation", "type": "'automatic' | 'manual'", "default": "automatic", "required": false, "description": "automatic selects on arrow; manual requires Enter/Space (use for slow panels).", "platforms": ["web"] },
+    { "name": "variant", "type": "'line' | 'contained'", "default": "line", "required": false, "description": "Underline indicator or segmented control look." },
+    { "name": "fitted", "type": "boolean", "default": false, "required": false, "description": "Tabs share the full width equally (2–4 tabs on mobile)." }
+  ],
+  "states": [
+    { "name": "selected", "description": "Brand text, semibold, 3px indicator bar (line) or raised pill (contained)." },
+    { "name": "unselected", "description": "Secondary text." },
+    { "name": "hover", "description": "Primary text." },
+    { "name": "focus-visible", "description": "Inset focus ring." },
+    { "name": "disabled", "description": "Disabled text, skipped by arrow keys." }
+  ],
+  "tokens": [
+    { "token": "color.text.brand", "usage": "Selected label (line)." },
+    { "token": "color.text.secondary", "usage": "Unselected label." },
+    { "token": "color.border.selected", "usage": "Selected indicator bar." },
+    { "token": "color.border.subtle", "usage": "Tab list baseline." },
+    { "token": "color.background.subtle", "usage": "Contained list background." },
+    { "token": "size.control.lg", "usage": "Tab height." },
+    { "token": "typography.label.lg", "usage": "Tab label." }
+  ],
+  "accessibility": {
+    "role": "tablist > tab, tabpanel",
+    "keyboard": [
+      { "keys": "Tab", "action": "Focus the selected tab, then into the panel." },
+      { "keys": "Arrow Left / Right", "action": "Previous / next tab (wraps)." },
+      { "keys": "Home / End", "action": "First / last tab." },
+      { "keys": "Enter / Space", "action": "Select focused tab (manual activation)." }
+    ],
+    "screenReader": [
+      "Tabs announced as '<label>, tab, selected, n of m'.",
+      "Panels are labelled by their tab."
+    ],
+    "focus": "Roving tabindex: only the selected tab is in the tab order. Panels are focusable so their content is reachable.",
+    "touchTarget": "48px tall tabs.",
+    "wcag": ["1.3.1 Info and Relationships", "1.4.1 Use of Color", "2.1.1 Keyboard", "2.4.3 Focus Order", "2.4.7 Focus Visible", "4.1.2 Name, Role, Value"],
+    "notes": ["Selected state uses an indicator and weight, not color alone."]
+  },
+  "variants": [
+    { "name": "line", "description": "Underline indicator.", "useWhen": "Page-level sections." },
+    { "name": "contained", "description": "Segmented control look.", "useWhen": "Switching views in a card or toolbar (List / Grid / Bracket)." }
+  ],
+  "usage": {
+    "do": [
+      "Keep labels to one or two words.",
+      "Use when users don't need to compare content across tabs.",
+      "Use badges for counts ('Disputes 3')."
+    ],
+    "dont": [
+      "Don't use Tabs for sequential steps — use a stepper / wizard.",
+      "Don't use Tabs for top-level site navigation — use links.",
+      "Don't exceed ~6 tabs; consider a Select on mobile."
+    ],
+    "related": [
+      { "name": "Link", "reason": "Navigation between pages." },
+      { "name": "RadioGroup", "reason": "Choosing a value." }
+    ],
+    "example": {
+      "web": "<Tabs\n  aria-label=\"Tournament\"\n  items={[\n    { id: 'overview', label: 'Overview', content: <Overview /> },\n    { id: 'standings', label: 'Standings', content: <Standings /> },\n    { id: 'disputes', label: 'Disputes', badge: 3, content: <Disputes /> },\n  ]}\n/>",
+      "native": "<Tabs items={tabs} value={tab} onValueChange={setTab} fitted />"
+    }
+  }
+}

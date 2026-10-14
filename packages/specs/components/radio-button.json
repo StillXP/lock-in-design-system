@@ -1,0 +1,85 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "RadioGroup",
+  "slug": "radio-button",
+  "import": {
+    "web": "import { RadioGroup, Radio } from '@lockin/react';",
+    "native": "import { RadioGroup } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "form",
+  "purpose": "Radio buttons let users pick exactly one option from a small, visible set (2–6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.",
+  "props": [
+    { "name": "legend", "type": "ReactNode", "required": true, "description": "The question the group answers. Rendered as <legend>." },
+    { "name": "hideLegend", "type": "boolean", "default": false, "required": false, "description": "Visually hide the legend." },
+    { "name": "options", "type": "Array<{ value: string; label: ReactNode; description?: ReactNode; disabled?: boolean }>", "required": false, "description": "Options shortcut. On web you may pass <Radio> children instead." },
+    { "name": "value", "type": "string", "required": false, "description": "Controlled selected value." },
+    { "name": "defaultValue", "type": "string", "required": false, "description": "Uncontrolled initial value." },
+    { "name": "onValueChange", "type": "(value: string) => void", "required": false, "description": "Selection handler." },
+    { "name": "orientation", "type": "'vertical' | 'horizontal'", "default": "vertical", "required": false, "description": "Layout. Horizontal wraps on narrow screens." },
+    { "name": "description", "type": "ReactNode", "required": false, "description": "Helper text for the group." },
+    { "name": "error", "type": "ReactNode", "required": false, "description": "Group error message." },
+    { "name": "required", "type": "boolean", "required": false, "description": "Marks the group required." },
+    { "name": "disabled", "type": "boolean", "required": false, "description": "Disable all options." },
+    { "name": "name", "type": "string", "required": false, "description": "Form field name (auto-generated if omitted).", "platforms": ["web"] }
+  ],
+  "states": [
+    { "name": "unselected", "description": "Empty circle." },
+    { "name": "selected", "description": "Brand ring with filled center dot." },
+    { "name": "hover", "description": "Border becomes border.selected." },
+    { "name": "focus-visible", "description": "Focus ring around the circle." },
+    { "name": "invalid", "description": "Danger borders and group error message." },
+    { "name": "disabled", "description": "Disabled colors." }
+  ],
+  "tokens": [
+    { "token": "color.border.strong", "usage": "Unselected circle border." },
+    { "token": "color.intent.primary.bg", "usage": "Selected ring and dot." },
+    { "token": "color.border.danger", "usage": "Invalid state." },
+    { "token": "radius.full", "usage": "Circle." },
+    { "token": "space.sm", "usage": "Gap between options." },
+    { "token": "typography.label.md", "usage": "Legend." },
+    { "token": "typography.body.md", "usage": "Option labels." }
+  ],
+  "accessibility": {
+    "role": "radiogroup (native <fieldset> of <input type=radio>) / accessibilityRole=\"radiogroup\" + \"radio\"",
+    "keyboard": [
+      { "keys": "Tab", "action": "Move focus into the group (to the selected option, or the first)." },
+      { "keys": "Arrow Up / Arrow Left", "action": "Select previous option." },
+      { "keys": "Arrow Down / Arrow Right", "action": "Select next option." },
+      { "keys": "Space", "action": "Select the focused option." }
+    ],
+    "screenReader": [
+      "Legend is announced when entering the group.",
+      "Each option announces '<label>, radio button, n of m, selected/not selected'."
+    ],
+    "focus": "Focus ring on the circle. The group is a single tab stop.",
+    "touchTarget": "Hit area 32px (44px on touch) plus the label.",
+    "wcag": ["1.3.1 Info and Relationships", "1.4.11 Non-text Contrast", "2.1.1 Keyboard", "2.4.7 Focus Visible", "3.3.1 Error Identification", "3.3.2 Labels or Instructions", "4.1.2 Name, Role, Value"]
+  },
+  "variants": [
+    { "name": "vertical", "description": "Stacked options (default, easiest to scan)." },
+    { "name": "horizontal", "description": "Inline options.", "useWhen": "2–3 short options like 'Home / Away'." }
+  ],
+  "usage": {
+    "do": [
+      "Use when all options should be visible and there are 2–6 of them.",
+      "Pre-select a sensible default when one exists.",
+      "Order options logically (frequency, size, alphabet)."
+    ],
+    "dont": [
+      "Don't use for more than ~6 options — use Select.",
+      "Don't use a single radio button; use Checkbox.",
+      "Don't trigger navigation or actions on change."
+    ],
+    "related": [
+      { "name": "Select", "reason": "Many options or limited space." },
+      { "name": "Checkbox", "reason": "Multiple selections." },
+      { "name": "Tabs", "reason": "Switching views rather than choosing a value." }
+    ],
+    "example": {
+      "web": "<RadioGroup\n  legend=\"Match format\"\n  defaultValue=\"bo3\"\n  options={[\n    { value: 'bo1', label: 'Best of 1' },\n    { value: 'bo3', label: 'Best of 3' },\n    { value: 'bo5', label: 'Best of 5' },\n  ]}\n/>",
+      "native": "<RadioGroup legend=\"Match format\" value={format} onValueChange={setFormat} options={formats} />"
+    }
+  }
+}

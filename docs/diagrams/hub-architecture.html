@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inside the hub server · Lock In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #f4f5f7;
+      --color-ink:    #1c2028;
+      --color-muted:  #4b5260;
+      --color-accent: #2563eb;
+      --font-sans:  'Geist', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', 'Noto Serif', serif;
+      --font-mono:  'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1320px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; }
+    .caption { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--color-muted); max-width: 60ch; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 1280px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Architecture · Lock In Design System</p>
+    <h1>Inside the hub server</h1>
+    <p class="caption">One store behind two front doors. REST and MCP expose the same data and the same guardrails; only the local stdio path skips key auth, because it runs as you.</p>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1280 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hub-architecture-title hub-architecture-desc">
+        <title id="hub-architecture-title">Inside the hub server</title>
+        <desc id="hub-architecture-desc">Hub server architecture: browsers, scripts and remote agents authenticate with a bearer API key that maps to a role, then reach the REST API or the MCP server; local agents connect to the MCP server over stdio. Both share one store that writes tokens, specs and docs to git-tracked files and records keys, changes and releases in SQLite.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5260"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6d28d9"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f4f5f7"/>
+
+  <rect x="24" y="104" width="208" height="344" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <rect x="36" y="108" width="44" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="58" y="117" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.14em">CLIENTS</text>
+  <rect x="280" y="104" width="704" height="344" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <rect x="292" y="108" width="120" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="352" y="117" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.14em">HUB SERVER · APPS/SERVER</text>
+  <rect x="1048" y="104" width="208" height="344" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <rect x="1060" y="108" width="76" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="1098" y="117" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.14em">CONTENT + DATA</text>
+
+  <!-- clients → auth (HTTP) -->
+  <path d="M216,164 H240 Q248,164 248,172 V252 Q248,260 256,260 H296" fill="none" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+  <path d="M216,372 H264 Q272,372 272,364 V284 Q272,276 280,276 H296" fill="none" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+  <rect x="206" y="312" width="60" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="236" y="321" fill="#6d28d9" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">BEARER KEY</text>
+  <!-- agent → MCP over local stdio (bypasses HTTP auth) -->
+  <path d="M128,400 V416 Q128,424 136,424 H592 Q600,424 600,416 V376" fill="none" stroke="#6d28d9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-link)"/>
+  <rect x="328" y="404" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="360" y="413" fill="#6d28d9" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LOCAL STDIO</text>
+  <!-- auth → REST / MCP -->
+  <path d="M456,260 H496 Q504,260 504,252 V196 Q504,188 512,188 H552" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <path d="M456,276 H508 Q516,276 516,284 V340 Q516,348 524,348 H552" fill="none" stroke="#2563eb" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+  <!-- REST / MCP → store -->
+  <path d="M712,188 H752 Q760,188 760,196 V252 Q760,260 768,260 H808" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <path d="M712,348 H764 Q772,348 772,340 V284 Q772,276 780,276 H808" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- store → files / sqlite -->
+  <path d="M968,260 H1008 Q1016,260 1016,252 V196 Q1016,188 1024,188 H1064" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <path d="M968,276 H1020 Q1028,276 1028,284 V340 Q1028,348 1036,348 H1064" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  
+  <g>
+    <rect x="40" y="136" width="176" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="40" y="136" width="176" height="56" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+    <rect x="48" y="142" width="28" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="62" y="151" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">HTTP</text>
+    
+    <text x="128" y="170" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Browser · scripts</text>
+    <text x="128" y="184" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">web UI · REST</text>
+  </g>
+  
+  <g>
+    <rect x="40" y="344" width="176" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="40" y="344" width="176" height="56" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+    <rect x="48" y="350" width="32" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="64" y="359" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">AGENT</text>
+    
+    <text x="128" y="378" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">AI agents</text>
+    <text x="128" y="392" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Claude Code · Cursor</text>
+  </g>
+  
+  <g>
+    <rect x="296" y="240" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="296" y="240" width="160" height="56" rx="6" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.5)" stroke-width="1" stroke-dasharray="4,4"/>
+    <rect x="304" y="246" width="28" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="318" y="255" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">AUTH</text>
+    
+    <text x="376" y="274" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Auth + roles</text>
+    <text x="376" y="288" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">viewer · editor · admin</text>
+  </g>
+  
+  <g>
+    <rect x="552" y="160" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="552" y="160" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="560" y="166" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="572" y="175" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">API</text>
+    
+    <text x="632" y="194" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">REST API</text>
+    <text x="632" y="208" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">/api/*</text>
+  </g>
+  
+  <g>
+    <rect x="552" y="320" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="552" y="320" width="160" height="56" rx="6" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1"/>
+    <rect x="560" y="326" width="24" height="12" rx="2" fill="none" stroke="#2563eb" stroke-width="0.8"/>
+    <text x="572" y="335" fill="#2563eb" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">MCP</text>
+    
+    <text x="632" y="354" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">MCP server</text>
+    <text x="632" y="368" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">/mcp · 15 tools</text>
+  </g>
+  
+  <g>
+    <rect x="808" y="240" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="808" y="240" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="816" y="246" width="28" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="830" y="255" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">CORE</text>
+    
+    <text x="888" y="274" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Store</text>
+    <text x="888" y="288" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">validate · version · log</text>
+  </g>
+  
+  <g>
+    <rect x="1064" y="160" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="1064" y="160" width="160" height="56" rx="6" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/>
+    <rect x="1072" y="166" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="1084" y="175" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">GIT</text>
+    
+    <text x="1144" y="194" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Source files</text>
+    <text x="1144" y="208" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">tokens · specs · docs</text>
+  </g>
+  
+  <g>
+    <rect x="1064" y="320" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="1064" y="320" width="160" height="56" rx="6" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/>
+    <rect x="1072" y="326" width="20" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="1082" y="335" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">DB</text>
+    
+    <text x="1144" y="354" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">SQLite</text>
+    <text x="1144" y="368" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">keys · changes · releases</text>
+  </g>
+
+  <line x1="32" y1="484" x2="1248" y2="484" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <text x="32" y="508" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+  <g transform="translate(104,500)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Client</text></g>
+  <g transform="translate(200,500)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.5)" stroke-width="1" stroke-dasharray="3,2"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Trust boundary</text></g>
+  <g transform="translate(340,500)"><rect x="0" y="0" width="20" height="12" rx="3" fill="#ffffff" stroke="#1c2028" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Service</text></g>
+  <g transform="translate(440,500)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Agent entry point</text></g>
+  <g transform="translate(596,500)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Storage</text></g>
+  <g transform="translate(696,500)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">External call</text></g>
+  <g transform="translate(832,500)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Local stdio</text></g>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

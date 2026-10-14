@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What happens when an agent edits a token · Lock In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #f4f5f7;
+      --color-ink:    #1c2028;
+      --color-muted:  #4b5260;
+      --color-accent: #2563eb;
+      --font-sans:  'Geist', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', 'Noto Serif', serif;
+      --font-mono:  'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1000px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; }
+    .caption { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--color-muted); max-width: 60ch; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Sequence · Lock In Design System</p>
+    <h1>What happens when an agent edits a token</h1>
+    <p class="caption">Edits are optimistic but never unsafe: the file is written, checked, and either committed to the change log or rolled back with the exact pairs that failed.</p>
+    <div class="diagram-container">
+      <svg viewBox="0 0 960 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="edit-lifecycle-title edit-lifecycle-desc">
+        <title id="edit-lifecycle-title">What happens when an agent edits a token</title>
+        <desc id="edit-lifecycle-desc">Sequence of an update_token call: the MCP server asks the store to save the token, the store writes the source JSON and re-runs resolution and contrast checks; if every pair passes it rebuilds outputs, logs the change with a diff and returns the updated token, otherwise it restores the file and returns the failing pairs as a tool error.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5260"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6d28d9"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f4f5f7"/>
+
+  <line x1="104" y1="80" x2="104" y2="600" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="296" y1="80" x2="296" y2="600" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="488" y1="80" x2="488" y2="600" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="680" y1="80" x2="680" y2="600" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="872" y1="80" x2="872" y2="600" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- alt frame -->
+  <rect x="72" y="264" width="832" height="312" rx="4" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.22)" stroke-width="1"/>
+  <rect x="72" y="264" width="40" height="16" rx="2" fill="#f4f5f7" stroke="rgba(28,32,40,0.22)" stroke-width="1"/>
+  <text x="92" y="276" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">ALT</text>
+  <text x="124" y="276" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.04em">[every contrast pair passes]</text>
+  <line x1="80" y1="436" x2="896" y2="436" stroke="rgba(28,32,40,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="84" y="452" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.04em">[else — any pair below AA]</text>
+
+  <rect x="292" y="120" width="8" height="432" fill="rgba(28,32,40,0.06)" stroke="#4b5260" stroke-width="0.8"/>
+  <rect x="484" y="152" width="8" height="368" fill="rgba(28,32,40,0.06)" stroke="#4b5260" stroke-width="0.8"/>
+
+  <path d="M108,120 H292" fill="none" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+  <rect x="166" y="100" width="68" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="200" y="109" fill="#6d28d9" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">UPDATE_TOKEN</text>
+  <path d="M300,152 H484" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="360" y="132" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="392" y="141" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SAVETOKEN()</text>
+  <path d="M492,184 H676" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="544" y="164" width="80" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="584" y="173" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">WRITE SRC JSON</text>
+  <!-- self message: resolve + check -->
+  <path d="M492,212 H520 Q528,212 528,220 V236 Q528,244 520,244 H492" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="536" y="222" width="84" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="578" y="231" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">RESOLVE + CHECK</text>
+
+  <path d="M492,316 H676" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="550" y="296" width="68" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="584" y="305" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">REBUILD DIST</text>
+  <path d="M492,348 H868" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="542" y="328" width="84" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="584" y="337" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LOG CHANGE+DIFF</text>
+  <path d="M484,380 H300" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <rect x="360" y="360" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="392" y="369" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SAVED TOKEN</text>
+  <path d="M292,412 H108" fill="none" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-accent)"/>
+  <rect x="162" y="392" width="76" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="200" y="401" fill="#2563eb" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">UPDATED TOKEN</text>
+
+  <path d="M492,488 H676" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <rect x="550" y="468" width="68" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="584" y="477" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">RESTORE FILE</text>
+  <path d="M484,520 H300" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <rect x="360" y="500" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="392" y="509" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">422 + PAIRS</text>
+  <path d="M292,552 H108" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <rect x="170" y="532" width="60" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="200" y="541" fill="#656c7a" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">TOOL ERROR</text>
+
+  
+  <g>
+    <rect x="32" y="32" width="144" height="48" rx="6" fill="#f4f5f7"/>
+    <rect x="32" y="32" width="144" height="48" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+    <rect x="40" y="38" width="32" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="56" y="47" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">AGENT</text>
+    
+    <text x="104" y="62" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">AI agent</text>
+    <text x="104" y="76" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">editor key</text>
+  </g>
+  
+  <g>
+    <rect x="224" y="32" width="144" height="48" rx="6" fill="#f4f5f7"/>
+    <rect x="224" y="32" width="144" height="48" rx="6" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1"/>
+    <rect x="232" y="38" width="24" height="12" rx="2" fill="none" stroke="#2563eb" stroke-width="0.8"/>
+    <text x="244" y="47" fill="#2563eb" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">MCP</text>
+    
+    <text x="296" y="62" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">MCP server</text>
+    <text x="296" y="76" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">update_token</text>
+  </g>
+  
+  <g>
+    <rect x="416" y="32" width="144" height="48" rx="6" fill="#f4f5f7"/>
+    <rect x="416" y="32" width="144" height="48" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="424" y="38" width="28" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="438" y="47" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">CORE</text>
+    
+    <text x="488" y="62" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Store</text>
+    <text x="488" y="76" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">store.ts</text>
+  </g>
+  
+  <g>
+    <rect x="608" y="32" width="144" height="48" rx="6" fill="#f4f5f7"/>
+    <rect x="608" y="32" width="144" height="48" rx="6" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/>
+    <rect x="616" y="38" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="628" y="47" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">GIT</text>
+    
+    <text x="680" y="62" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Token files</text>
+    <text x="680" y="76" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">src/ + dist/</text>
+  </g>
+  
+  <g>
+    <rect x="800" y="32" width="144" height="48" rx="6" fill="#f4f5f7"/>
+    <rect x="800" y="32" width="144" height="48" rx="6" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/>
+    <rect x="808" y="38" width="20" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="818" y="47" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">DB</text>
+    
+    <text x="872" y="62" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">SQLite</text>
+    <text x="872" y="76" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">changes</text>
+  </g>
+
+  <line x1="32" y1="608" x2="928" y2="608" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <text x="32" y="632" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+  <g transform="translate(104,624)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Tool call</text></g>
+  <g transform="translate(216,624)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Internal call</text></g>
+  <g transform="translate(352,624)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Return</text></g>
+  <g transform="translate(448,624)"><line x1="0" y1="6" x2="20" y2="6" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Success</text></g>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
