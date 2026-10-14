@@ -1,0 +1,131 @@
+/* Shared by Checkbox and Radio: a real native input sits on top of a styled box,
+   so semantics, keyboard support and form behavior are all native. */
+.ds-checkbox,
+.ds-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-xs);
+}
+
+.ds-checkbox__control,
+.ds-radio__control {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+}
+
+.ds-checkbox__input,
+.ds-radio__input {
+  position: absolute;
+  inset: -0.375rem; /* 32px hit area; 44px on touch below */
+  width: auto;
+  height: auto;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.ds-checkbox__input:disabled,
+.ds-radio__input:disabled {
+  cursor: not-allowed;
+}
+
+.ds-checkbox__box,
+.ds-radio__dot {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--ds-color-surface-default);
+  border: var(--ds-border-width-thick) solid var(--ds-color-border-strong);
+  color: var(--ds-color-text-onBrand);
+  transition: background-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+
+.ds-checkbox__box {
+  border-radius: var(--ds-radius-sm);
+}
+
+/* Scoped to the box so it outranks `.ds-icon { display: inline-block }`, which loads later. */
+.ds-checkbox__box .ds-checkbox__check,
+.ds-checkbox__box .ds-checkbox__dash {
+  display: none;
+  stroke-width: 3;
+}
+
+.ds-checkbox__input:checked + .ds-checkbox__box,
+.ds-checkbox__input:indeterminate + .ds-checkbox__box {
+  background: var(--ds-color-intent-primary-bg);
+  border-color: var(--ds-color-intent-primary-bg);
+}
+
+.ds-checkbox__input:checked:not(:indeterminate) + .ds-checkbox__box .ds-checkbox__check,
+.ds-checkbox__input:indeterminate + .ds-checkbox__box .ds-checkbox__dash {
+  display: block;
+}
+
+.ds-checkbox__input:hover:not(:disabled) + .ds-checkbox__box,
+.ds-radio__input:hover:not(:disabled) + .ds-radio__dot {
+  border-color: var(--ds-color-border-selected);
+}
+
+.ds-checkbox__input:focus-visible + .ds-checkbox__box,
+.ds-radio__input:focus-visible + .ds-radio__dot {
+  outline: var(--ds-focus-width) solid var(--ds-color-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+}
+
+.is-invalid .ds-checkbox__box,
+.is-invalid .ds-radio__dot {
+  border-color: var(--ds-color-border-danger);
+}
+
+.ds-checkbox__input:disabled + .ds-checkbox__box,
+.ds-radio__input:disabled + .ds-radio__dot {
+  background: var(--ds-color-intent-disabled-bg);
+  border-color: var(--ds-color-border-default);
+  color: var(--ds-color-text-disabled);
+}
+
+.ds-checkbox__text,
+.ds-radio__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs);
+}
+
+.ds-checkbox__label,
+.ds-radio__label {
+  font: var(--ds-typography-body-md);
+  color: var(--ds-color-text-primary);
+  cursor: pointer;
+}
+
+.is-disabled .ds-checkbox__label,
+.is-disabled .ds-radio__label {
+  color: var(--ds-color-text-disabled);
+  cursor: not-allowed;
+}
+
+@media (pointer: coarse) {
+  .ds-checkbox__input,
+  .ds-radio__input {
+    inset: -0.75rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .ds-checkbox__box,
+  .ds-radio__dot {
+    border-color: CanvasText;
+  }
+  .ds-checkbox__input:checked + .ds-checkbox__box,
+  .ds-radio__input:checked + .ds-radio__dot::after {
+    background: Highlight;
+  }
+}

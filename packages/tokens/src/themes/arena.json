@@ -1,0 +1,15 @@
+{
+  "name": "arena",
+  "description": "Energetic orange brand for sports / tournament apps.",
+  "brand": "orange",
+  "overrides": {
+    "color.intent.primary.bg": { "light": "{color.orange.700}", "dark": "{color.orange.400}" },
+    "color.intent.primary.bgHover": { "light": "{color.orange.800}", "dark": "{color.orange.300}" },
+    "color.intent.primary.bgActive": { "light": "{color.orange.900}", "dark": "{color.orange.200}" },
+    "color.status.brand.solid": { "light": "{color.orange.700}", "dark": "{color.orange.400}" },
+    "color.text.brand": { "light": "{color.orange.800}", "dark": "{color.orange.300}" },
+    "color.text.link": { "light": "{color.orange.800}", "dark": "{color.orange.300}" },
+    "color.text.linkHover": { "light": "{color.orange.900}", "dark": "{color.orange.200}" },
+    "color.status.brand.text": { "light": "{color.orange.800}", "dark": "{color.orange.200}" }
+  }
+}

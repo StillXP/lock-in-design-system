@@ -1,0 +1,100 @@
+.ds-toggle {
+  --_w: 2.75rem;
+  --_h: 1.5rem;
+  --_thumb: 1.125rem;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-sm);
+}
+
+.ds-toggle--sm {
+  --_w: 2.25rem;
+  --_h: 1.25rem;
+  --_thumb: 0.875rem;
+}
+
+.ds-toggle--label-start {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.ds-toggle__switch {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--_w);
+  height: var(--_h);
+  padding: 0;
+  border: var(--ds-border-width-thick) solid var(--ds-color-border-strong);
+  border-radius: var(--ds-radius-full);
+  background: var(--ds-color-background-subtle);
+  cursor: pointer;
+  transition: background-color var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+}
+
+.ds-toggle__thumb {
+  position: absolute;
+  top: 50%;
+  left: 1px;
+  display: grid;
+  place-items: center;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: var(--ds-radius-full);
+  background: var(--ds-color-text-secondary);
+  color: var(--ds-color-surface-default);
+  transform: translateY(-50%);
+  transition: left var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+}
+
+.ds-toggle__switch[aria-checked='true'] {
+  background: var(--ds-color-intent-primary-bg);
+  border-color: var(--ds-color-intent-primary-bg);
+}
+
+.ds-toggle__switch[aria-checked='true'] .ds-toggle__thumb {
+  left: calc(100% - var(--_thumb) - 1px);
+  background: var(--ds-color-text-onBrand);
+  color: var(--ds-color-intent-primary-bg);
+}
+
+.ds-toggle__switch:hover:not(:disabled) {
+  border-color: var(--ds-color-border-selected);
+}
+
+.ds-toggle__switch:disabled {
+  background: var(--ds-color-intent-disabled-bg);
+  border-color: var(--ds-color-border-default);
+  cursor: not-allowed;
+}
+
+.ds-toggle__switch:disabled .ds-toggle__thumb {
+  background: var(--ds-color-text-disabled);
+}
+
+.ds-toggle__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs);
+}
+
+.ds-toggle__label {
+  font: var(--ds-typography-body-md);
+  cursor: pointer;
+}
+
+.is-disabled .ds-toggle__label {
+  color: var(--ds-color-text-disabled);
+}
+
+@media (pointer: coarse) {
+  .ds-toggle__switch::after {
+    content: '';
+    position: absolute;
+    inset: -0.625rem -0.125rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .ds-toggle__switch { border-color: ButtonText; }
+  .ds-toggle__switch[aria-checked='true'] { background: Highlight; }
+}

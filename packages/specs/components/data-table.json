@@ -1,0 +1,99 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "DataTable",
+  "slug": "data-table",
+  "import": {
+    "web": "import { DataTable, type DataTableColumn } from '@lockin/react';",
+    "native": "import { DataTable } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "data-display",
+  "purpose": "Displays structured rows for scanning and comparison (standings, orders, leaderboards) with sorting, row selection, density, sticky headers and a stacked card layout on small screens.",
+  "props": [
+    { "name": "columns", "type": "Array<{ key: string; header: string; cell?: (row) => ReactNode; sortValue?: (row) => string | number | Date; sortable?: boolean; align?: 'start' | 'center' | 'end'; width?: string; isRowHeader?: boolean }>", "required": true, "description": "Column definitions. Mark the name column isRowHeader." },
+    { "name": "rows", "type": "T[]", "required": true, "description": "Data." },
+    { "name": "getRowId", "type": "(row: T, index: number) => string", "required": true, "description": "Stable unique id per row." },
+    { "name": "caption", "type": "string", "required": true, "description": "Table title for screen readers (hide visually with hideCaption)." },
+    { "name": "hideCaption", "type": "boolean", "default": false, "required": false, "description": "Visually hide the caption." },
+    { "name": "sort / defaultSort", "type": "{ key: string; direction: 'ascending' | 'descending' } | null", "required": false, "description": "Controlled / initial sort." },
+    { "name": "onSortChange", "type": "(sort) => void", "required": false, "description": "Sort handler." },
+    { "name": "manualSorting", "type": "boolean", "default": false, "required": false, "description": "Skip client-side sorting (server sorts)." },
+    { "name": "selectable", "type": "boolean", "default": false, "required": false, "description": "Adds row checkboxes and select-all.", "platforms": ["web"] },
+    { "name": "selectedIds / defaultSelectedIds / onSelectionChange", "type": "string[] / string[] / (ids: string[]) => void", "required": false, "description": "Selection state.", "platforms": ["web"] },
+    { "name": "getRowLabel", "type": "(row: T) => string", "required": false, "description": "Name used in row checkbox labels ('Select Team Rockets').", "platforms": ["web"] },
+    { "name": "density", "type": "'compact' | 'default' | 'comfortable'", "default": "default", "required": false, "description": "Row padding." },
+    { "name": "striped", "type": "boolean", "default": false, "required": false, "description": "Zebra rows." },
+    { "name": "stickyHeader", "type": "boolean", "default": false, "required": false, "description": "Header sticks while scrolling (table max-height 70vh).", "platforms": ["web"] },
+    { "name": "mobileLayout", "type": "'scroll' | 'stack'", "default": "scroll (web) / stack (native)", "required": false, "description": "Small-screen behavior: horizontal scroll or label/value cards." },
+    { "name": "loading", "type": "boolean", "default": false, "required": false, "description": "Loading row; aria-busy." },
+    { "name": "emptyState", "type": "ReactNode", "default": "No results", "required": false, "description": "Shown when rows is empty." }
+  ],
+  "states": [
+    { "name": "default", "description": "Rows rendered." },
+    { "name": "sorted", "description": "Active column shows arrow icon and aria-sort." },
+    { "name": "row hover", "description": "Row background highlight." },
+    { "name": "row selected", "description": "surface.selected background; aria-selected." },
+    { "name": "loading", "description": "Spinner row; aria-busy." },
+    { "name": "empty", "description": "emptyState message." }
+  ],
+  "tokens": [
+    { "token": "color.surface.default", "usage": "Table background." },
+    { "token": "color.background.subtle", "usage": "Header row and stripes." },
+    { "token": "color.border.subtle", "usage": "Row dividers." },
+    { "token": "color.border.default", "usage": "Outer border." },
+    { "token": "color.surface.selected", "usage": "Selected rows." },
+    { "token": "color.icon.brand", "usage": "Active sort icon." },
+    { "token": "typography.body.sm", "usage": "Cell text (tabular numerals)." },
+    { "token": "typography.label.md", "usage": "Header text." },
+    { "token": "space.md", "usage": "Cell padding (density adjusts)." },
+    { "token": "radius.lg", "usage": "Outer corners." }
+  ],
+  "accessibility": {
+    "role": "table (native <table> with <caption>, <th scope>) inside a focusable, labelled scroll region",
+    "keyboard": [
+      { "keys": "Tab", "action": "Focus the scroll region (arrow keys scroll it), then sort buttons and row checkboxes in order." },
+      { "keys": "Enter / Space on a header", "action": "Toggle sort ascending/descending." },
+      { "keys": "Space on a row checkbox", "action": "Toggle row selection." }
+    ],
+    "screenReader": [
+      "Caption names the table; table navigation commands work because real table markup is used.",
+      "Sortable headers expose aria-sort; sort changes are announced in a polite live region.",
+      "Row header cells give each row a name when navigating by cell."
+    ],
+    "focus": "Visible ring on the scroll region, sort buttons and checkboxes.",
+    "touchTarget": "Checkbox hit areas 44px on touch; sort buttons span the header text.",
+    "wcag": ["1.3.1 Info and Relationships", "1.3.2 Meaningful Sequence", "1.4.10 Reflow", "2.1.1 Keyboard", "2.4.7 Focus Visible", "4.1.2 Name, Role, Value", "4.1.3 Status Messages"],
+    "notes": [
+      "Don't make whole rows clickable; put a Link in the row header cell instead.",
+      "Native: rendered as a list of rows with accessibilityRole=\"header\" for the header; announce each row as a single summary label."
+    ]
+  },
+  "variants": [
+    { "name": "default", "description": "Standard table." },
+    { "name": "compact", "description": "Dense rows.", "useWhen": "Dashboards and admin tools with lots of data." },
+    { "name": "stack", "description": "Rows become label/value cards on small screens.", "useWhen": "Mobile-first views with few columns." }
+  ],
+  "usage": {
+    "do": [
+      "Right-align numeric columns (align: 'end').",
+      "Use isRowHeader for the column that identifies the row.",
+      "Keep column headers short; put units in the header ('Pts', 'Price (USD)')."
+    ],
+    "dont": [
+      "Don't use tables for layout.",
+      "Don't put more than one interactive control per cell where avoidable.",
+      "Don't truncate important data without a way to see it in full."
+    ],
+    "related": [
+      { "name": "Search", "reason": "Filter rows." },
+      { "name": "Tag", "reason": "Status cells." },
+      { "name": "Dropdown", "reason": "Row actions." },
+      { "name": "Checkbox", "reason": "Row selection." }
+    ],
+    "example": {
+      "web": "const columns: DataTableColumn<Team>[] = [\n  { key: 'rank', header: '#', align: 'end', sortable: true, width: '3rem' },\n  { key: 'name', header: 'Team', isRowHeader: true, sortable: true },\n  { key: 'played', header: 'P', align: 'end' },\n  { key: 'points', header: 'Pts', align: 'end', sortable: true },\n  { key: 'status', header: 'Status', cell: (t) => <Tag tone={t.qualified ? 'success' : 'neutral'}>{t.qualified ? 'Qualified' : 'Active'}</Tag> },\n];\n<DataTable caption=\"Group A standings\" columns={columns} rows={teams} getRowId={(t) => t.id} defaultSort={{ key: 'points', direction: 'descending' }} mobileLayout=\"stack\" />",
+      "native": "<DataTable caption=\"Group A standings\" columns={columns} rows={teams} getRowId={(t) => t.id} />"
+    }
+  }
+}

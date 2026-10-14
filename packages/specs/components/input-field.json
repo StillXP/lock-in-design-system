@@ -1,0 +1,94 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "InputField",
+  "slug": "input-field",
+  "import": {
+    "web": "import { InputField } from '@lockin/react';",
+    "native": "import { InputField } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "form",
+  "purpose": "Single-line text entry with label, hint, and error wiring built in. Supports text, email, number, password (with show/hide), tel, url.",
+  "props": [
+    { "name": "label", "type": "ReactNode", "required": true, "description": "Visible label. Placeholders are not labels." },
+    { "name": "hideLabel", "type": "boolean", "default": false, "required": false, "description": "Visually hide the label." },
+    { "name": "hint", "type": "ReactNode", "required": false, "description": "Format guidance shown above the input ('e.g. 12:30')." },
+    { "name": "error", "type": "ReactNode", "required": false, "description": "Error message; sets aria-invalid. Say how to fix it." },
+    { "name": "type", "type": "'text' | 'email' | 'password' | 'number' | 'tel' | 'url'", "default": "text", "required": false, "description": "Input type. password adds a show/hide button; on native sets keyboardType/secureTextEntry." },
+    { "name": "size", "type": "'sm' | 'md' | 'lg'", "default": "md", "required": false, "description": "Control height." },
+    { "name": "iconStart", "type": "IconName", "required": false, "description": "Leading decorative icon." },
+    { "name": "suffix", "type": "ReactNode", "required": false, "description": "Trailing unit text ('pts', 'kg', '$')." },
+    { "name": "required", "type": "boolean", "required": false, "description": "Marks required with * and aria-required." },
+    { "name": "showOptional", "type": "boolean", "default": false, "required": false, "description": "Show '(optional)' instead — use when most fields are required." },
+    { "name": "value / defaultValue", "type": "string", "required": false, "description": "Controlled / uncontrolled value." },
+    { "name": "onChange", "type": "(event) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },
+    { "name": "onChangeText", "type": "(text: string) => void", "required": false, "description": "Change handler.", "platforms": ["native"] },
+    { "name": "autoComplete", "type": "string", "required": false, "description": "Always set for personal data (email, name, tel) — WCAG 1.3.5." }
+  ],
+  "states": [
+    { "name": "default", "description": "border.strong outline." },
+    { "name": "hover", "description": "Darker border." },
+    { "name": "focus", "description": "Focus ring + border.selected." },
+    { "name": "filled", "description": "Has a value." },
+    { "name": "invalid", "description": "2px border.danger, error message with icon below." },
+    { "name": "disabled", "description": "Disabled background and text." }
+  ],
+  "tokens": [
+    { "token": "color.surface.default", "usage": "Input background." },
+    { "token": "color.border.strong", "usage": "Border (≥3:1)." },
+    { "token": "color.border.selected", "usage": "Focused border." },
+    { "token": "color.border.danger", "usage": "Invalid border." },
+    { "token": "color.text.placeholder", "usage": "Placeholder text." },
+    { "token": "color.text.danger", "usage": "Error message." },
+    { "token": "color.text.secondary", "usage": "Hint text." },
+    { "token": "size.control.md", "usage": "Height." },
+    { "token": "radius.md", "usage": "Corner radius." },
+    { "token": "typography.body.md", "usage": "Input text — 16px minimum prevents iOS zoom." },
+    { "token": "typography.label.md", "usage": "Label." }
+  ],
+  "accessibility": {
+    "role": "textbox (native <input>) / TextInput",
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Move focus." },
+      { "keys": "Enter", "action": "Submits the surrounding form." }
+    ],
+    "screenReader": [
+      "Announces label, required state, value, then hint and error via aria-describedby.",
+      "Password toggle is a separate button announced as 'Show password, toggle button'."
+    ],
+    "focus": "Focus ring on the whole control (focus-within).",
+    "touchTarget": "Control is 44px tall on touch.",
+    "wcag": ["1.3.1 Info and Relationships", "1.3.5 Identify Input Purpose", "1.4.11 Non-text Contrast", "2.4.6 Headings and Labels", "3.3.1 Error Identification", "3.3.2 Labels or Instructions", "3.3.3 Error Suggestion", "4.1.2 Name, Role, Value"],
+    "notes": [
+      "Validate on blur or submit, not on every keystroke.",
+      "On submit with errors, move focus to the first invalid field or an error summary."
+    ]
+  },
+  "variants": [
+    { "name": "default", "description": "Plain text input." },
+    { "name": "with icon", "description": "Leading icon for scannability (email, user)." },
+    { "name": "with suffix", "description": "Unit or currency label." },
+    { "name": "password", "description": "Masked with a show/hide toggle." }
+  ],
+  "usage": {
+    "do": [
+      "Always provide a visible label.",
+      "Use the right type and autoComplete so mobile shows the right keyboard and autofill.",
+      "Size the field to the expected input length."
+    ],
+    "dont": [
+      "Don't use placeholder text as the label.",
+      "Don't show errors before the user has had a chance to type.",
+      "Don't disable paste in password fields."
+    ],
+    "related": [
+      { "name": "Search", "reason": "Search-specific input with clear button and landmark." },
+      { "name": "Select", "reason": "Choosing from predefined values." }
+    ],
+    "example": {
+      "web": "<InputField label=\"Team name\" required hint=\"3–24 characters\" error={errors.team} />\n<InputField label=\"Email\" type=\"email\" autoComplete=\"email\" iconStart=\"user\" />\n<InputField label=\"Entry fee\" type=\"number\" suffix=\"USD\" showOptional />",
+      "native": "<InputField label=\"Team name\" value={name} onChangeText={setName} error={errors.team} />\n<InputField label=\"Password\" type=\"password\" autoComplete=\"password\" />"
+    }
+  }
+}

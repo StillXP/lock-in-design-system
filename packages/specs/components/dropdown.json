@@ -1,0 +1,82 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Dropdown",
+  "slug": "dropdown",
+  "import": {
+    "web": "import { Dropdown } from '@lockin/react';",
+    "native": "import { Dropdown } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "action",
+  "purpose": "Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control — for picking a value use Select.",
+  "props": [
+    { "name": "label", "type": "string", "required": true, "description": "Trigger text, or the aria-label when triggerIcon is set." },
+    { "name": "items", "type": "Array<{ id: string; label: string; icon?: IconName; onSelect?: () => void; disabled?: boolean; tone?: 'default' | 'danger' }>", "required": true, "description": "Menu actions." },
+    { "name": "triggerIcon", "type": "IconName", "required": false, "description": "Render an icon-only trigger (e.g. more-horizontal)." },
+    { "name": "triggerVariant", "type": "ButtonVariant", "default": "secondary", "required": false, "description": "Trigger button variant." },
+    { "name": "triggerSize", "type": "ButtonSize", "default": "md", "required": false, "description": "Trigger button size." },
+    { "name": "align", "type": "'start' | 'end'", "default": "start", "required": false, "description": "Align the menu to the trigger's start or end edge.", "platforms": ["web"] },
+    { "name": "disabled", "type": "boolean", "required": false, "description": "Disable the trigger." }
+  ],
+  "states": [
+    { "name": "closed", "description": "Trigger with chevron, aria-expanded=false." },
+    { "name": "open", "description": "Menu visible, focus on an item, aria-expanded=true." },
+    { "name": "item focus/hover", "description": "Item highlighted with hover background and focus ring." },
+    { "name": "item disabled", "description": "Item announced as unavailable; skipped by arrow keys." }
+  ],
+  "tokens": [
+    { "token": "color.surface.raised", "usage": "Menu background." },
+    { "token": "color.border.subtle", "usage": "Menu border." },
+    { "token": "shadow.lg", "usage": "Menu elevation." },
+    { "token": "color.intent.secondary.bgHover", "usage": "Item hover." },
+    { "token": "color.text.danger", "usage": "Destructive items." },
+    { "token": "zIndex.dropdown", "usage": "Stacking." },
+    { "token": "radius.md", "usage": "Menu radius." }
+  ],
+  "accessibility": {
+    "role": "button[aria-haspopup=menu] + menu > menuitem",
+    "keyboard": [
+      { "keys": "Enter / Space / Arrow Down", "action": "Open and focus the first item." },
+      { "keys": "Arrow Up (on trigger)", "action": "Open and focus the last item." },
+      { "keys": "Arrow Down / Up", "action": "Move between items (wraps)." },
+      { "keys": "Home / End", "action": "First / last item." },
+      { "keys": "A–Z", "action": "Jump to the next item starting with that letter." },
+      { "keys": "Enter / Space", "action": "Activate item and close." },
+      { "keys": "Escape", "action": "Close and return focus to the trigger." },
+      { "keys": "Tab", "action": "Close and move on." }
+    ],
+    "screenReader": [
+      "Trigger announced as '<label>, menu button, collapsed/expanded'.",
+      "Items announced as '<label>, menu item, n of m'."
+    ],
+    "focus": "Focus moves into the menu on open and back to the trigger on close.",
+    "touchTarget": "Items are 44px tall on touch.",
+    "wcag": ["2.1.1 Keyboard", "2.1.2 No Keyboard Trap", "2.4.3 Focus Order", "2.4.7 Focus Visible", "4.1.2 Name, Role, Value"]
+  },
+  "variants": [
+    { "name": "labelled", "description": "Text trigger with chevron ('Actions').", "useWhen": "Toolbars, page headers." },
+    { "name": "overflow", "description": "Icon-only trigger (more-horizontal).", "useWhen": "Row actions in tables and cards." }
+  ],
+  "usage": {
+    "do": [
+      "Use for 3+ secondary actions that don't fit inline.",
+      "Put destructive actions last with tone 'danger'.",
+      "Use verbs for item labels."
+    ],
+    "dont": [
+      "Don't use for selecting form values — use Select.",
+      "Don't hide the primary action of a page in a menu.",
+      "Don't nest menus."
+    ],
+    "related": [
+      { "name": "Select", "reason": "Choose a value." },
+      { "name": "Button", "reason": "Primary actions should be visible buttons." },
+      { "name": "Modal", "reason": "Confirm destructive menu actions." }
+    ],
+    "example": {
+      "web": "<Dropdown\n  label=\"Match actions\"\n  triggerIcon=\"more-horizontal\"\n  triggerVariant=\"tertiary\"\n  align=\"end\"\n  items={[\n    { id: 'edit', label: 'Edit score', icon: 'edit', onSelect: edit },\n    { id: 'reschedule', label: 'Reschedule', icon: 'calendar', onSelect: reschedule },\n    { id: 'delete', label: 'Delete match', icon: 'trash', tone: 'danger', onSelect: confirmDelete },\n  ]}\n/>",
+      "native": "<Dropdown label=\"Match actions\" triggerIcon=\"more-horizontal\" items={actions} />"
+    }
+  }
+}

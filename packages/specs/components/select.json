@@ -1,0 +1,90 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Select",
+  "slug": "select",
+  "import": {
+    "web": "import { Select } from '@lockin/react';",
+    "native": "import { Select } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.1",
+  "category": "form",
+  "purpose": "Form control for choosing one value from a list. Web uses the native <select> (platform pickers on mobile browsers); native opens an accessible bottom-sheet list.",
+  "props": [
+    { "name": "label", "type": "ReactNode", "required": true, "description": "Visible label." },
+    { "name": "hideLabel", "type": "boolean", "default": false, "required": false, "description": "Visually hide the label." },
+    { "name": "options", "type": "Array<{ value: string; label: string; disabled?: boolean } | { label: string; options: SelectOption[] }>", "required": true, "description": "Options; groups render as <optgroup> on web." },
+    { "name": "placeholder", "type": "string", "required": false, "description": "Empty first option ('Choose a team')." },
+    { "name": "value / defaultValue", "type": "string", "required": false, "description": "Controlled / uncontrolled value." },
+    { "name": "onChange", "type": "(event: ChangeEvent<HTMLSelectElement>) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },
+    { "name": "onValueChange", "type": "(value: string) => void", "required": false, "description": "Change handler.", "platforms": ["native"] },
+    { "name": "hint", "type": "ReactNode", "required": false, "description": "Helper text." },
+    { "name": "error", "type": "ReactNode", "required": false, "description": "Error message." },
+    { "name": "size", "type": "'sm' | 'md' | 'lg'", "default": "md", "required": false, "description": "Control height." },
+    { "name": "required / disabled", "type": "boolean", "required": false, "description": "Native attributes." }
+  ],
+  "states": [
+    { "name": "default", "description": "Closed with current value or placeholder." },
+    { "name": "open", "description": "List is showing. Web (Chromium 135+): styled list anchored to the control, same border width, options padded space.xs/space.sm with hover and checked styles. Other browsers and native: platform picker / sheet." },
+    { "name": "focus", "description": "Focus ring." },
+    { "name": "invalid", "description": "Danger border and error message." },
+    { "name": "disabled", "description": "Disabled colors." }
+  ],
+  "tokens": [
+    { "token": "color.surface.default", "usage": "Background." },
+    { "token": "color.border.strong", "usage": "Border." },
+    { "token": "color.icon.secondary", "usage": "Chevron." },
+    { "token": "size.control.md", "usage": "Height." },
+    { "token": "radius.md", "usage": "Corner radius." },
+    { "token": "color.surface.raised", "usage": "Open list background (styled list and native option sheet)." },
+    { "token": "space.sm", "usage": "Inline padding of the control and of each option, so option text lines up with the closed value." },
+    { "token": "border.width.thin", "usage": "Control and open list border (border.width.thick when invalid)." },
+    { "token": "color.surface.selected", "usage": "Checked option background (text: color.text.brand)." },
+    { "token": "color.intent.secondary.bgHover", "usage": "Hovered / focused option background." },
+    { "token": "shadow.md", "usage": "Open list elevation." }
+  ],
+  "accessibility": {
+    "role": "combobox/listbox (native <select>) / button that opens a radio list on native",
+    "keyboard": [
+      { "keys": "Tab", "action": "Focus." },
+      { "keys": "Space / Enter / Alt+Arrow Down", "action": "Open the list." },
+      { "keys": "Arrow Up / Down", "action": "Change selection." },
+      { "keys": "Type a character", "action": "Jump to matching option." },
+      { "keys": "Escape", "action": "Close without changing." }
+    ],
+    "screenReader": [
+      "Announces label, current value, 'popup button' / 'combo box', and position in list."
+    ],
+    "focus": "Focus ring on the control.",
+    "touchTarget": "44px on touch.",
+    "wcag": ["1.3.1 Info and Relationships", "2.1.1 Keyboard", "3.2.2 On Input", "3.3.1 Error Identification", "3.3.2 Labels or Instructions", "4.1.2 Name, Role, Value"],
+    "notes": [
+      "Never navigate or submit on change (3.2.2)."
+    ]
+  },
+  "variants": [
+    { "name": "default", "description": "Single list." },
+    { "name": "grouped", "description": "Options organized under group labels (e.g. teams by division)." }
+  ],
+  "usage": {
+    "do": [
+      "Use for 6+ options or when space is tight.",
+      "Order options logically; put the most common first if there's no natural order.",
+      "Use a placeholder when there is no sensible default."
+    ],
+    "dont": [
+      "Don't use for actions — use Dropdown.",
+      "Don't use for 2–5 options when space allows — use RadioGroup.",
+      "Don't auto-submit on change."
+    ],
+    "related": [
+      { "name": "Dropdown", "reason": "Menu of actions." },
+      { "name": "RadioGroup", "reason": "Few, visible options." },
+      { "name": "Search", "reason": "Very long lists may need type-ahead search." }
+    ],
+    "example": {
+      "web": "<Select\n  label=\"Division\"\n  placeholder=\"Choose a division\"\n  options={[\n    { value: 'u12', label: 'Under 12' },\n    { value: 'u14', label: 'Under 14' },\n    { value: 'open', label: 'Open' },\n  ]}\n  required\n/>",
+      "native": "<Select label=\"Division\" placeholder=\"Choose a division\" value={division} onValueChange={setDivision} options={divisions} />"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+/* Field + control chrome lives in styles/base.css (.ds-field, .ds-control). */
+.ds-input__suffix {
+  flex-shrink: 0;
+  color: var(--ds-color-text-secondary);
+  font: var(--ds-typography-body-sm);
+}

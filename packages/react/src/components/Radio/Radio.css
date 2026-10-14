@@ -1,0 +1,51 @@
+/* Box/input/hit-area styles are shared with Checkbox.css */
+.ds-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-xs);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.ds-radio-group legend {
+  padding: 0;
+  margin-bottom: var(--ds-space-2xs);
+}
+
+.ds-radio-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-sm);
+}
+
+.ds-radio-group--horizontal .ds-radio-group__options {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--ds-space-sm) var(--ds-space-lg);
+}
+
+.ds-radio__dot {
+  border-radius: var(--ds-radius-full);
+}
+
+.ds-radio__dot::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--ds-radius-full);
+  background: transparent;
+}
+
+.ds-radio__input:checked + .ds-radio__dot {
+  border-color: var(--ds-color-intent-primary-bg);
+}
+
+.ds-radio__input:checked + .ds-radio__dot::after {
+  background: var(--ds-color-intent-primary-bg);
+}
+
+.ds-radio__input:checked:disabled + .ds-radio__dot::after {
+  background: var(--ds-color-text-disabled);
+}

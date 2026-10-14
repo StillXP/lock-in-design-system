@@ -1,0 +1,118 @@
+.ds-select {
+  position: relative;
+  padding: 0;
+  /* The open list anchors to the whole control, not just the inner <select>. */
+  anchor-name: --ds-select-control;
+  anchor-scope: --ds-select-control;
+}
+
+.ds-select__input {
+  appearance: none;
+  padding-inline: var(--ds-space-sm) calc(var(--ds-space-sm) + var(--ds-size-icon-md) + var(--ds-space-xs));
+  cursor: pointer;
+}
+
+/* Option padding matches the control's inline padding so text lines up with the closed value.
+   Honored by Firefox and by customizable select below; other native pickers ignore it. */
+.ds-select__input option {
+  padding: var(--ds-space-xs) var(--ds-space-sm);
+  background: var(--ds-color-surface-raised);
+  color: var(--ds-color-text-primary);
+}
+
+.ds-select__chevron {
+  position: absolute;
+  right: var(--ds-space-sm);
+  pointer-events: none;
+}
+
+/* Customizable select (Chromium 135+): style the open list while keeping the native
+   <select> semantics, keyboard support and form behavior. Elsewhere the platform picker is used. */
+@supports (appearance: base-select) {
+  .ds-select__input,
+  .ds-select__input::picker(select) {
+    appearance: base-select;
+  }
+
+  .ds-select__input {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    border: 0;
+    background: transparent;
+    color: inherit;
+  }
+
+  /* We draw our own chevron. */
+  .ds-select__input::picker-icon {
+    display: none;
+  }
+
+  .ds-select__input::picker(select) {
+    position-anchor: --ds-select-control;
+    min-inline-size: anchor-size(inline);
+    margin-block: var(--ds-space-2xs);
+    padding: var(--ds-space-2xs);
+    background: var(--ds-color-surface-raised);
+    /* Same border as the control it opens from. */
+    border: var(--ds-border-width-thin) solid var(--ds-color-border-strong);
+    border-radius: var(--ds-radius-md);
+    box-shadow: var(--ds-shadow-md);
+    color: var(--ds-color-text-primary);
+  }
+
+  .ds-control.is-invalid .ds-select__input::picker(select) {
+    border-width: var(--ds-border-width-thick);
+  }
+
+  .ds-select__input option {
+    display: flex;
+    align-items: center;
+    gap: var(--ds-space-xs);
+    min-block-size: var(--ds-size-control-md);
+    border-radius: var(--ds-radius-sm);
+    background: transparent;
+    font: var(--ds-typography-body-md);
+    cursor: pointer;
+  }
+
+  .ds-select__input option:hover,
+  .ds-select__input option:focus-visible {
+    background: var(--ds-color-intent-secondary-bgHover);
+    outline: none;
+  }
+
+  .ds-select__input option:checked {
+    background: var(--ds-color-surface-selected);
+    color: var(--ds-color-text-brand);
+  }
+
+  .ds-select__input option:disabled {
+    color: var(--ds-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .ds-select__input option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+  }
+
+  /* Group heading; options reset their own font and color. */
+  .ds-select__input optgroup {
+    padding-block-start: var(--ds-space-xs);
+    font: var(--ds-typography-label-sm);
+    color: var(--ds-color-text-secondary);
+  }
+
+  @media (pointer: coarse) {
+    .ds-select__input option {
+      min-block-size: var(--ds-size-touchTarget-min);
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .ds-select__input::picker(select) {
+    border-color: CanvasText;
+  }
+}

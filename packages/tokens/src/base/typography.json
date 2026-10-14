@@ -1,0 +1,101 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+        "$description": "Default UI and body text.",
+        "$extensions": { "ds.native": "System" }
+      },
+      "display": {
+        "$value": ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        "$description": "Headings and display text. Swap per project theme for personality (e.g. a sporty or arcade face).",
+        "$extensions": { "ds.native": "System" }
+      },
+      "mono": {
+        "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+        "$description": "Code, tabular numbers, scores and timers.",
+        "$extensions": { "ds.native": "Menlo" }
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Font sizes. Emitted as rem on web so text scales with user preferences (WCAG 1.4.4).",
+      "xs": { "$value": "12px" },
+      "sm": { "$value": "14px" },
+      "md": { "$value": "16px", "$description": "Base body size. Never go below 16px for form input text (prevents iOS zoom)." },
+      "lg": { "$value": "18px" },
+      "xl": { "$value": "20px" },
+      "2xl": { "$value": "24px" },
+      "3xl": { "$value": "30px" },
+      "4xl": { "$value": "36px" },
+      "5xl": { "$value": "48px" },
+      "6xl": { "$value": "60px" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": { "$value": 300 },
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "bold": { "$value": 700 }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "$description": "Unitless multipliers. Body copy should use normal (1.5) or more (WCAG 1.4.12).",
+      "none": { "$value": 1 },
+      "tight": { "$value": 1.2 },
+      "snug": { "$value": 1.35 },
+      "normal": { "$value": 1.5 },
+      "relaxed": { "$value": 1.7 }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "tight": { "$value": "-0.02em", "$description": "Large display/heading text only." },
+      "normal": { "$value": "0em" },
+      "wide": { "$value": "0.02em" },
+      "wider": { "$value": "0.06em", "$description": "Uppercase labels and overlines." }
+    },
+    "decoration": {
+      "$type": "string",
+      "none": { "$value": "none" },
+      "underline": { "$value": "underline", "$description": "Default for inline links (links must not rely on color alone — WCAG 1.4.1)." },
+      "lineThrough": { "$value": "line-through", "$description": "Struck-through prices, completed items." }
+    },
+    "underlineOffset": {
+      "$type": "dimension",
+      "default": { "$value": "0.15em" }
+    },
+    "transform": {
+      "$type": "string",
+      "none": { "$value": "none" },
+      "uppercase": { "$value": "uppercase" },
+      "capitalize": { "$value": "capitalize" }
+    }
+  },
+  "typography": {
+    "$type": "typography",
+    "$description": "Composite text styles. Prefer these over assembling individual font tokens.",
+    "display": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.5xl}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.lineHeight.tight}", "letterSpacing": "{font.letterSpacing.tight}" } },
+    "heading": {
+      "xl": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.4xl}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.lineHeight.tight}", "letterSpacing": "{font.letterSpacing.tight}" } },
+      "lg": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.lineHeight.tight}", "letterSpacing": "{font.letterSpacing.tight}" } },
+      "md": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "sm": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "xs": { "$value": { "fontFamily": "{font.family.display}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.normal}" } }
+    },
+    "body": {
+      "lg": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.lineHeight.relaxed}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "md": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.lineHeight.normal}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "sm": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.lineHeight.normal}", "letterSpacing": "{font.letterSpacing.normal}" } }
+    },
+    "label": {
+      "lg": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "md": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.normal}" } },
+      "sm": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.lineHeight.snug}", "letterSpacing": "{font.letterSpacing.wide}" } }
+    },
+    "caption": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.lineHeight.normal}", "letterSpacing": "{font.letterSpacing.normal}" } },
+    "overline": { "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.lineHeight.normal}", "letterSpacing": "{font.letterSpacing.wider}" } },
+    "code": { "$value": { "fontFamily": "{font.family.mono}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.lineHeight.normal}", "letterSpacing": "{font.letterSpacing.normal}" } }
+  }
+}

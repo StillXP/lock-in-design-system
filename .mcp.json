@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "lockin": {
+      "command": "npx",
+      "args": ["tsx", "apps/server/src/stdio.ts"],
+      "env": { "DS_STDIO_ROLE": "editor" }
+    }
+  }
+}

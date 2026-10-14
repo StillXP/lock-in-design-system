@@ -1,0 +1,47 @@
+{
+  "$description": "Foreground/background pairs that must meet WCAG 2.1 AA in every mode and every theme. 4.5 = normal text (1.4.3), 3 = large text / UI components / focus indicators (1.4.11). Run: npm run check:contrast",
+  "pairs": [
+    { "fg": "color.text.primary", "bg": ["color.background.default", "color.background.subtle", "color.background.muted", "color.surface.default", "color.surface.sunken", "color.surface.selected"], "min": 4.5 },
+    { "fg": "color.text.secondary", "bg": ["color.background.default", "color.background.subtle", "color.surface.default", "color.surface.sunken", "color.surface.selected"], "min": 4.5 },
+    { "fg": "color.text.tertiary", "bg": ["color.background.default", "color.background.subtle", "color.surface.default", "color.surface.sunken"], "min": 4.5 },
+    { "fg": "color.text.inverse", "bg": ["color.background.inverse"], "min": 4.5 },
+    { "fg": "color.text.link", "bg": ["color.background.default", "color.background.subtle", "color.surface.default"], "min": 4.5 },
+    { "fg": "color.text.linkHover", "bg": ["color.background.default", "color.surface.default"], "min": 4.5 },
+    { "fg": "color.text.brand", "bg": ["color.background.default", "color.surface.default", "color.intent.tertiary.bgHover"], "min": 4.5 },
+    { "fg": "color.text.danger", "bg": ["color.background.default", "color.surface.default"], "min": 4.5 },
+    { "fg": "color.text.success", "bg": ["color.background.default", "color.surface.default"], "min": 4.5 },
+    { "fg": "color.text.warning", "bg": ["color.background.default", "color.surface.default"], "min": 4.5 },
+    { "fg": "color.text.info", "bg": ["color.background.default", "color.surface.default"], "min": 4.5 },
+
+    { "fg": "color.intent.primary.text", "bg": ["color.intent.primary.bg", "color.intent.primary.bgHover", "color.intent.primary.bgActive"], "min": 4.5 },
+    { "fg": "color.intent.secondary.text", "bg": ["color.intent.secondary.bg", "color.intent.secondary.bgHover", "color.intent.secondary.bgActive"], "min": 4.5 },
+    { "fg": "color.intent.danger.text", "bg": ["color.intent.danger.bg", "color.intent.danger.bgHover", "color.intent.danger.bgActive"], "min": 4.5 },
+    { "fg": "color.intent.tertiary.text", "bg": ["color.intent.tertiary.bgHover", "color.intent.tertiary.bgActive"], "min": 4.5 },
+
+    { "fg": "color.status.neutral.text", "bg": ["color.status.neutral.bg"], "min": 4.5 },
+    { "fg": "color.status.brand.text", "bg": ["color.status.brand.bg"], "min": 4.5 },
+    { "fg": "color.status.info.text", "bg": ["color.status.info.bg"], "min": 4.5 },
+    { "fg": "color.status.success.text", "bg": ["color.status.success.bg"], "min": 4.5 },
+    { "fg": "color.status.warning.text", "bg": ["color.status.warning.bg"], "min": 4.5 },
+    { "fg": "color.status.danger.text", "bg": ["color.status.danger.bg"], "min": 4.5 },
+    { "fg": "color.status.neutral.onSolid", "bg": ["color.status.neutral.solid"], "min": 4.5 },
+    { "fg": "color.status.brand.onSolid", "bg": ["color.status.brand.solid"], "min": 4.5 },
+    { "fg": "color.status.info.onSolid", "bg": ["color.status.info.solid"], "min": 4.5 },
+    { "fg": "color.status.success.onSolid", "bg": ["color.status.success.solid"], "min": 4.5 },
+    { "fg": "color.status.warning.onSolid", "bg": ["color.status.warning.solid"], "min": 4.5 },
+    { "fg": "color.status.danger.onSolid", "bg": ["color.status.danger.solid"], "min": 4.5 },
+
+    { "fg": "color.border.strong", "bg": ["color.background.default", "color.surface.default", "color.background.subtle"], "min": 3 },
+    { "fg": "color.border.selected", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.border.danger", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.focus.ring", "bg": ["color.background.default", "color.background.subtle", "color.surface.default"], "min": 3 },
+    { "fg": "color.intent.primary.bg", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.primary", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.secondary", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.brand", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.danger", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.success", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.warning", "bg": ["color.background.default", "color.surface.default"], "min": 3 },
+    { "fg": "color.icon.info", "bg": ["color.background.default", "color.surface.default"], "min": 3 }
+  ]
+}

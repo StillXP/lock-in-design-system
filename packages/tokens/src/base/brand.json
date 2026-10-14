@@ -1,0 +1,18 @@
+{
+  "color": {
+    "brand": {
+      "$type": "color",
+      "$description": "Brand alias palette. Points at one base hue (blue by default). Project themes in src/themes/ swap the hue; semantic tokens reference brand, so the whole system re-skins without touching components.",
+      "50": { "$value": "{color.blue.50}" },
+      "100": { "$value": "{color.blue.100}" },
+      "200": { "$value": "{color.blue.200}" },
+      "300": { "$value": "{color.blue.300}" },
+      "400": { "$value": "{color.blue.400}" },
+      "500": { "$value": "{color.blue.500}" },
+      "600": { "$value": "{color.blue.600}" },
+      "700": { "$value": "{color.blue.700}" },
+      "800": { "$value": "{color.blue.800}" },
+      "900": { "$value": "{color.blue.900}" }
+    }
+  }
+}

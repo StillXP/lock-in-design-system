@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Toggle",
+  "slug": "toggle",
+  "import": {
+    "web": "import { Toggle } from '@lockin/react';",
+    "native": "import { Toggle } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "form",
+  "purpose": "A switch that turns a single setting on or off with immediate effect (dark mode, notifications, sound). Uses the ARIA switch pattern on web and the platform Switch on native.",
+  "props": [
+    { "name": "label", "type": "ReactNode", "required": true, "description": "What the switch controls. Phrase as the 'on' state ('Sound effects')." },
+    { "name": "hideLabel", "type": "boolean", "default": false, "required": false, "description": "Visually hide the label." },
+    { "name": "description", "type": "ReactNode", "required": false, "description": "Supporting text." },
+    { "name": "checked", "type": "boolean", "required": false, "description": "Controlled state." },
+    { "name": "defaultChecked", "type": "boolean", "default": false, "required": false, "description": "Uncontrolled initial state." },
+    { "name": "onCheckedChange", "type": "(checked: boolean) => void", "required": false, "description": "Called with the new state." },
+    { "name": "size", "type": "'sm' | 'md'", "default": "md", "required": false, "description": "Switch size.", "platforms": ["web"] },
+    { "name": "labelPosition", "type": "'start' | 'end'", "default": "end", "required": false, "description": "start puts the label first and the switch at the far end (settings lists)." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disable the switch." }
+  ],
+  "states": [
+    { "name": "off", "description": "Neutral track, thumb at start with a dash glyph." },
+    { "name": "on", "description": "Brand track, thumb at end with a check glyph." },
+    { "name": "hover", "description": "Border becomes border.selected." },
+    { "name": "focus-visible", "description": "Focus ring around the track." },
+    { "name": "disabled", "description": "Disabled colors." }
+  ],
+  "tokens": [
+    { "token": "color.intent.primary.bg", "usage": "On track." },
+    { "token": "color.background.subtle", "usage": "Off track." },
+    { "token": "color.border.strong", "usage": "Off track border (≥3:1)." },
+    { "token": "color.text.secondary", "usage": "Off thumb." },
+    { "token": "color.text.onBrand", "usage": "On thumb." },
+    { "token": "radius.full", "usage": "Track and thumb." },
+    { "token": "motion.duration.normal", "usage": "Thumb slide (instant with reduced motion)." }
+  ],
+  "accessibility": {
+    "role": "switch (<button role=switch aria-checked>) / native Switch with accessibilityRole=\"switch\"",
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Move focus." },
+      { "keys": "Space / Enter", "action": "Toggle." }
+    ],
+    "screenReader": ["Announced as '<label>, switch, on/off'."],
+    "focus": "Focus ring around the track.",
+    "touchTarget": "Track plus an invisible extension to 44px tall on touch; clicking the label toggles too.",
+    "wcag": ["1.4.1 Use of Color", "1.4.11 Non-text Contrast", "2.1.1 Keyboard", "2.4.7 Focus Visible", "4.1.2 Name, Role, Value"],
+    "notes": ["State is shown by thumb position and glyph, not only color (1.4.1)."]
+  },
+  "variants": [
+    { "name": "label end", "description": "Switch then label (default)." },
+    { "name": "label start", "description": "Label then switch, spaced apart.", "useWhen": "Settings screens / lists." }
+  ],
+  "usage": {
+    "do": [
+      "Apply the change immediately when toggled.",
+      "Keep labels short and stable — don't change the label text when toggled."
+    ],
+    "dont": [
+      "Don't use inside a form that needs a Submit button — use Checkbox.",
+      "Don't use for choices that aren't on/off (e.g. 'Grid / List') — use Tabs or RadioGroup."
+    ],
+    "related": [
+      { "name": "Checkbox", "reason": "Form selections submitted later." },
+      { "name": "RadioGroup", "reason": "More than two states." }
+    ],
+    "example": {
+      "web": "<Toggle label=\"Sound effects\" defaultChecked onCheckedChange={setSound} />\n<Toggle label=\"Dark mode\" labelPosition=\"start\" checked={dark} onCheckedChange={(on) => setColorMode(on ? 'dark' : 'light')} />",
+      "native": "<Toggle label=\"Sound effects\" checked={sound} onCheckedChange={setSound} />"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "color": {
+    "$type": "color",
+    "background": {
+      "$description": "Page and region backgrounds.",
+      "default": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" }, "$description": "App/page background." },
+      "subtle": { "$value": { "light": "{color.neutral.100}", "dark": "{color.neutral.800}" }, "$description": "Alternate sections, table header rows, striped rows." },
+      "muted": { "$value": { "light": "{color.neutral.200}", "dark": "{color.neutral.700}" }, "$description": "Hover fills on neutral surfaces. Do not put tertiary text on it." },
+      "inverse": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.50}" }, "$description": "High-emphasis inverted regions (tooltips, snackbars)." },
+      "overlay": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.900}" }, "$extensions": { "ds.alpha": { "light": 0.5, "dark": 0.7 } }, "$description": "Scrim behind modals." }
+    },
+    "surface": {
+      "$description": "Containers that sit on a background: cards, modals, menus.",
+      "default": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.800}" }, "$description": "Cards, panels, table bodies." },
+      "raised": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.800}" }, "$description": "Modals, menus, popovers. Pair with shadow + border.subtle." },
+      "sunken": { "$value": { "light": "{color.neutral.100}", "dark": "{color.neutral.900}" }, "$description": "Wells, code blocks, inset areas." },
+      "selected": { "$value": { "light": "{color.brand.50}", "dark": "{color.brand.900}" }, "$description": "Selected rows, active list items." }
+    },
+    "text": {
+      "primary": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.50}" }, "$description": "Body text and headings." },
+      "secondary": { "$value": { "light": "{color.neutral.600}", "dark": "{color.neutral.300}" }, "$description": "Supporting text, descriptions, hints." },
+      "tertiary": { "$value": { "light": "{color.neutral.500}", "dark": "{color.neutral.400}" }, "$description": "Least-emphasis readable text (meta, timestamps). Still ≥ 4.5:1 on default backgrounds and surfaces." },
+      "placeholder": { "$value": "{color.text.tertiary}", "$description": "Input placeholder. Never use a placeholder as the only label." },
+      "disabled": { "$value": { "light": "{color.neutral.400}", "dark": "{color.neutral.500}" }, "$description": "Disabled text. Exempt from contrast minimums (WCAG 1.4.3) — always pair with a non-color cue." },
+      "inverse": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" }, "$description": "Text on background.inverse." },
+      "onBrand": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" }, "$description": "Text/icons on brand-filled backgrounds (primary buttons)." },
+      "link": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.300}" }, "$description": "Inline links. Always underlined as well." },
+      "linkHover": { "$value": { "light": "{color.brand.800}", "dark": "{color.brand.200}" } },
+      "brand": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.300}" }, "$description": "Brand-colored text (tertiary buttons, active tabs)." },
+      "danger": { "$value": { "light": "{color.red.700}", "dark": "{color.red.300}" }, "$description": "Error messages." },
+      "success": { "$value": { "light": "{color.green.700}", "dark": "{color.green.300}" } },
+      "warning": { "$value": { "light": "{color.yellow.800}", "dark": "{color.yellow.300}" } },
+      "info": { "$value": { "light": "{color.blue.700}", "dark": "{color.blue.300}" } }
+    },
+    "icon": {
+      "primary": { "$value": "{color.text.primary}" },
+      "secondary": { "$value": "{color.text.secondary}" },
+      "disabled": { "$value": "{color.text.disabled}" },
+      "inverse": { "$value": "{color.text.inverse}" },
+      "onBrand": { "$value": "{color.text.onBrand}" },
+      "brand": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.400}" } },
+      "danger": { "$value": { "light": "{color.red.600}", "dark": "{color.red.400}" } },
+      "success": { "$value": { "light": "{color.green.700}", "dark": "{color.green.400}" } },
+      "warning": { "$value": { "light": "{color.yellow.700}", "dark": "{color.yellow.400}" } },
+      "info": { "$value": { "light": "{color.blue.600}", "dark": "{color.blue.400}" } }
+    },
+    "border": {
+      "subtle": { "$value": { "light": "{color.neutral.200}", "dark": "{color.neutral.700}" }, "$description": "Decorative dividers. Not sufficient to identify a control on its own." },
+      "default": { "$value": { "light": "{color.neutral.300}", "dark": "{color.neutral.600}" }, "$description": "Card and container outlines." },
+      "strong": { "$value": { "light": "{color.neutral.500}", "dark": "{color.neutral.400}" }, "$description": "Form control boundaries. ≥ 3:1 against adjacent colors (WCAG 1.4.11)." },
+      "selected": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.400}" } },
+      "danger": { "$value": { "light": "{color.red.600}", "dark": "{color.red.400}" } },
+      "success": { "$value": { "light": "{color.green.600}", "dark": "{color.green.400}" } },
+      "warning": { "$value": { "light": "{color.yellow.700}", "dark": "{color.yellow.400}" } },
+      "info": { "$value": { "light": "{color.blue.600}", "dark": "{color.blue.400}" } }
+    },
+    "focus": {
+      "ring": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.300}" }, "$description": "Keyboard focus indicator. ≥ 3:1 against background (WCAG 2.4.7, 1.4.11)." },
+      "ringOffset": { "$value": "{color.background.default}" }
+    },
+    "intent": {
+      "$description": "Interactive emphasis levels for actions (buttons, toggles, selected controls).",
+      "primary": {
+        "bg": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.400}" } },
+        "bgHover": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.300}" } },
+        "bgActive": { "$value": { "light": "{color.brand.800}", "dark": "{color.brand.200}" } },
+        "text": { "$value": "{color.text.onBrand}" }
+      },
+      "secondary": {
+        "bg": { "$value": "{color.surface.default}" },
+        "bgHover": { "$value": { "light": "{color.neutral.100}", "dark": "{color.neutral.700}" } },
+        "bgActive": { "$value": { "light": "{color.neutral.200}", "dark": "{color.neutral.600}" } },
+        "border": { "$value": "{color.border.strong}" },
+        "text": { "$value": "{color.text.primary}" }
+      },
+      "tertiary": {
+        "bg": { "$value": "transparent" },
+        "bgHover": { "$value": { "light": "{color.brand.50}", "dark": "{color.neutral.700}" } },
+        "bgActive": { "$value": { "light": "{color.brand.100}", "dark": "{color.neutral.600}" } },
+        "text": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.200}" } }
+      },
+      "danger": {
+        "bg": { "$value": { "light": "{color.red.600}", "dark": "{color.red.400}" } },
+        "bgHover": { "$value": { "light": "{color.red.700}", "dark": "{color.red.300}" } },
+        "bgActive": { "$value": { "light": "{color.red.800}", "dark": "{color.red.200}" } },
+        "text": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" } }
+      },
+      "disabled": {
+        "bg": { "$value": { "light": "{color.neutral.200}", "dark": "{color.neutral.700}" } },
+        "text": { "$value": "{color.text.disabled}" }
+      }
+    },
+    "status": {
+      "$description": "Feedback colors for messages, tags and validation. Never convey status by color alone — pair with an icon or text (WCAG 1.4.1).",
+      "neutral": {
+        "bg": { "$value": { "light": "{color.neutral.100}", "dark": "{color.neutral.800}" } },
+        "border": { "$value": "{color.border.default}" },
+        "text": { "$value": { "light": "{color.neutral.700}", "dark": "{color.neutral.200}" } },
+        "solid": { "$value": { "light": "{color.neutral.700}", "dark": "{color.neutral.300}" } },
+        "onSolid": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" } }
+      },
+      "brand": {
+        "bg": { "$value": { "light": "{color.brand.50}", "dark": "{color.brand.900}" } },
+        "border": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.400}" } },
+        "text": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.200}" } },
+        "solid": { "$value": { "light": "{color.brand.600}", "dark": "{color.brand.400}" } },
+        "onSolid": { "$value": "{color.text.onBrand}" }
+      },
+      "info": {
+        "bg": { "$value": { "light": "{color.blue.50}", "dark": "{color.blue.900}" } },
+        "border": { "$value": "{color.border.info}" },
+        "text": { "$value": { "light": "{color.blue.700}", "dark": "{color.blue.200}" } },
+        "solid": { "$value": { "light": "{color.blue.600}", "dark": "{color.blue.400}" } },
+        "onSolid": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" } }
+      },
+      "success": {
+        "bg": { "$value": { "light": "{color.green.50}", "dark": "{color.green.900}" } },
+        "border": { "$value": "{color.border.success}" },
+        "text": { "$value": { "light": "{color.green.700}", "dark": "{color.green.200}" } },
+        "solid": { "$value": { "light": "{color.green.700}", "dark": "{color.green.400}" } },
+        "onSolid": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" } }
+      },
+      "warning": {
+        "bg": { "$value": { "light": "{color.yellow.50}", "dark": "{color.yellow.900}" } },
+        "border": { "$value": "{color.border.warning}" },
+        "text": { "$value": { "light": "{color.yellow.800}", "dark": "{color.yellow.200}" } },
+        "solid": { "$value": { "light": "{color.yellow.400}", "dark": "{color.yellow.400}" } },
+        "onSolid": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.900}" } }
+      },
+      "danger": {
+        "bg": { "$value": { "light": "{color.red.50}", "dark": "{color.red.900}" } },
+        "border": { "$value": "{color.border.danger}" },
+        "text": { "$value": { "light": "{color.red.700}", "dark": "{color.red.200}" } },
+        "solid": { "$value": { "light": "{color.red.600}", "dark": "{color.red.400}" } },
+        "onSolid": { "$value": { "light": "{color.neutral.50}", "dark": "{color.neutral.900}" } }
+      }
+    },
+    "dataviz": {
+      "$description": "Categorical series colors for dashboards. Use in order; add patterns/labels so series aren't identified by color alone.",
+      "1": { "$value": { "light": "{color.blue.600}", "dark": "{color.blue.400}" } },
+      "2": { "$value": { "light": "{color.orange.600}", "dark": "{color.orange.400}" } },
+      "3": { "$value": { "light": "{color.green.600}", "dark": "{color.green.400}" } },
+      "4": { "$value": { "light": "{color.violet.600}", "dark": "{color.violet.400}" } },
+      "5": { "$value": { "light": "{color.red.600}", "dark": "{color.red.400}" } },
+      "6": { "$value": { "light": "{color.yellow.600}", "dark": "{color.yellow.400}" } },
+      "7": { "$value": { "light": "{color.indigo.400}", "dark": "{color.indigo.300}" } },
+      "8": { "$value": { "light": "{color.neutral.500}", "dark": "{color.neutral.400}" } }
+    }
+  }
+}

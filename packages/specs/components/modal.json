@@ -1,0 +1,81 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Modal",
+  "slug": "modal",
+  "import": {
+    "web": "import { Modal } from '@lockin/react';",
+    "native": "import { Modal } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "overlay",
+  "purpose": "Dialog that interrupts the current task for a focused decision or short form (confirm delete, edit score). Becomes a bottom sheet on small screens.",
+  "props": [
+    { "name": "open", "type": "boolean", "required": true, "description": "Whether the modal is shown. The parent owns this state." },
+    { "name": "onClose", "type": "() => void", "required": true, "description": "Called on Escape, close button, backdrop click (or Android back)." },
+    { "name": "title", "type": "ReactNode", "required": true, "description": "Heading and accessible name." },
+    { "name": "description", "type": "ReactNode", "required": false, "description": "Supporting text, linked via aria-describedby." },
+    { "name": "children", "type": "ReactNode", "required": false, "description": "Body content (scrolls if long)." },
+    { "name": "footer", "type": "ReactNode", "required": false, "description": "Action buttons; primary last." },
+    { "name": "size", "type": "'sm' | 'md' | 'lg' | 'fullscreen'", "default": "md", "required": false, "description": "Width 384 / 512 / 768px or fullscreen." },
+    { "name": "role", "type": "'dialog' | 'alertdialog'", "default": "dialog", "required": false, "description": "alertdialog for urgent confirmations; disables backdrop-click close by default." },
+    { "name": "closeOnBackdropClick", "type": "boolean", "default": "true for dialog, false for alertdialog", "required": false, "description": "Close when clicking outside." },
+    { "name": "hideCloseButton", "type": "boolean", "default": false, "required": false, "description": "Hide the X button (ensure another way to close)." },
+    { "name": "initialFocusRef", "type": "RefObject<HTMLElement>", "required": false, "description": "Element to focus on open (default: first focusable).", "platforms": ["web"] },
+    { "name": "closeLabel", "type": "string", "default": "Close", "required": false, "description": "Accessible name of the X button." }
+  ],
+  "states": [
+    { "name": "closed", "description": "Not rendered to the accessibility tree." },
+    { "name": "open", "description": "Backdrop scrim, page inert, focus inside, scroll locked." }
+  ],
+  "tokens": [
+    { "token": "color.surface.raised", "usage": "Dialog background." },
+    { "token": "color.background.overlay", "usage": "Backdrop scrim." },
+    { "token": "shadow.xl", "usage": "Elevation." },
+    { "token": "radius.lg", "usage": "Corners (radius.xl top corners for bottom sheet)." },
+    { "token": "space.lg", "usage": "Padding." },
+    { "token": "typography.heading.sm", "usage": "Title." },
+    { "token": "zIndex.modal", "usage": "Stacking (native)." },
+    { "token": "motion.duration.normal", "usage": "Enter animation (none with reduced motion)." }
+  ],
+  "accessibility": {
+    "role": "dialog / alertdialog (native <dialog> opened with showModal()) / RN Modal with accessibilityViewIsModal",
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Cycle through focusable elements inside the dialog only." },
+      { "keys": "Escape", "action": "Close (calls onClose)." }
+    ],
+    "screenReader": [
+      "Announces title (and description) on open.",
+      "Content outside is inert and hidden from assistive tech."
+    ],
+    "focus": "Focus moves into the dialog on open and returns to the triggering element on close.",
+    "touchTarget": "Close button ≥44px on touch.",
+    "wcag": ["1.3.1 Info and Relationships", "2.1.1 Keyboard", "2.1.2 No Keyboard Trap", "2.4.3 Focus Order", "2.4.7 Focus Visible", "4.1.2 Name, Role, Value"],
+    "notes": ["Don't open modals automatically on page load (IBM 3.2.1 On Focus / unexpected context change)."]
+  },
+  "variants": [
+    { "name": "dialog", "description": "Standard modal with form or content." },
+    { "name": "alertdialog", "description": "Confirmation requiring an explicit choice.", "useWhen": "Destructive or irreversible actions." },
+    { "name": "fullscreen", "description": "Takes the whole viewport.", "useWhen": "Complex editors on mobile." }
+  ],
+  "usage": {
+    "do": [
+      "Use a clear title that states the question or task ('Delete Team Rockets?').",
+      "Label buttons with the outcome ('Delete team' / 'Keep team'), not 'Yes/No'.",
+      "Keep content short; use a page for long flows."
+    ],
+    "dont": [
+      "Don't stack modals on top of modals.",
+      "Don't use for non-critical info — use inline messages.",
+      "Don't hide the close affordance without another clear way out."
+    ],
+    "related": [
+      { "name": "Button", "reason": "Footer actions." },
+      { "name": "Dropdown", "reason": "Often triggers confirmations." }
+    ],
+    "example": {
+      "web": "<Modal\n  open={open}\n  onClose={() => setOpen(false)}\n  role=\"alertdialog\"\n  title=\"Delete Team Rockets?\"\n  description=\"Their match history will be removed. This can't be undone.\"\n  footer={<>\n    <Button variant=\"secondary\" onClick={() => setOpen(false)}>Keep team</Button>\n    <Button variant=\"danger\" onClick={deleteTeam}>Delete team</Button>\n  </>}\n/>",
+      "native": "<Modal open={open} onClose={() => setOpen(false)} title=\"Delete Team Rockets?\" footer={<Button variant=\"danger\" onPress={deleteTeam}>Delete team</Button>} />"
+    }
+  }
+}

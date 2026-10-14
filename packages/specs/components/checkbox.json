@@ -1,0 +1,87 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Checkbox",
+  "slug": "checkbox",
+  "import": {
+    "web": "import { Checkbox } from '@lockin/react';",
+    "native": "import { Checkbox } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "form",
+  "purpose": "Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.",
+  "props": [
+    { "name": "label", "type": "ReactNode", "required": true, "description": "Visible label. Required even when hidden." },
+    { "name": "hideLabel", "type": "boolean", "default": false, "required": false, "description": "Visually hide the label (e.g. table row selection) while keeping it for screen readers." },
+    { "name": "description", "type": "ReactNode", "required": false, "description": "Supporting text, linked via aria-describedby." },
+    { "name": "error", "type": "ReactNode", "required": false, "description": "Error message; sets aria-invalid." },
+    { "name": "checked", "type": "boolean", "required": false, "description": "Controlled checked state." },
+    { "name": "defaultChecked", "type": "boolean", "required": false, "description": "Uncontrolled initial state." },
+    { "name": "indeterminate", "type": "boolean", "default": false, "required": false, "description": "Mixed state for a parent 'select all' checkbox." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disable the checkbox." },
+    { "name": "onChange", "type": "(event: ChangeEvent<HTMLInputElement>) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },
+    { "name": "onCheckedChange", "type": "(checked: boolean) => void", "required": false, "description": "Change handler.", "platforms": ["native"] },
+    { "name": "name / value / required", "type": "string / string / boolean", "required": false, "description": "Native form attributes.", "platforms": ["web"] }
+  ],
+  "states": [
+    { "name": "unchecked", "description": "Empty box with border.strong." },
+    { "name": "checked", "description": "Filled intent.primary.bg with a check mark." },
+    { "name": "indeterminate", "description": "Filled with a dash." },
+    { "name": "hover", "description": "Border becomes border.selected." },
+    { "name": "focus-visible", "description": "Focus ring around the box." },
+    { "name": "invalid", "description": "border.danger and error message with icon." },
+    { "name": "disabled", "description": "Disabled colors, not-allowed cursor." }
+  ],
+  "tokens": [
+    { "token": "color.border.strong", "usage": "Unchecked box border (≥3:1)." },
+    { "token": "color.intent.primary.bg", "usage": "Checked fill." },
+    { "token": "color.text.onBrand", "usage": "Check mark color." },
+    { "token": "color.border.danger", "usage": "Invalid border." },
+    { "token": "color.text.danger", "usage": "Error text." },
+    { "token": "color.intent.disabled.bg", "usage": "Disabled fill." },
+    { "token": "radius.sm", "usage": "Box corner radius." },
+    { "token": "space.xs", "usage": "Gap between box and label." },
+    { "token": "typography.body.md", "usage": "Label text." }
+  ],
+  "accessibility": {
+    "role": "checkbox (native <input type=checkbox>) / accessibilityRole=\"checkbox\"",
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Move focus." },
+      { "keys": "Space", "action": "Toggle checked." }
+    ],
+    "screenReader": [
+      "Announced as '<label>, checkbox, checked/not checked/mixed'.",
+      "Description and error are read after the label via aria-describedby."
+    ],
+    "focus": "Focus ring drawn on the visual box when the hidden native input has :focus-visible.",
+    "touchTarget": "Hit area extends to 32px (44px on touch); clicking the label also toggles.",
+    "wcag": ["1.3.1 Info and Relationships", "1.4.11 Non-text Contrast", "2.1.1 Keyboard", "2.4.7 Focus Visible", "2.5.5 Target Size", "3.3.1 Error Identification", "3.3.2 Labels or Instructions", "4.1.2 Name, Role, Value"],
+    "notes": ["Group related checkboxes in a <fieldset> with a <legend> describing the question."]
+  },
+  "variants": [
+    { "name": "default", "description": "Checkbox with visible label." },
+    { "name": "with description", "description": "Adds helper text below the label." },
+    { "name": "hidden label", "description": "Used in data tables for row selection." }
+  ],
+  "usage": {
+    "do": [
+      "Use for multiple independent choices.",
+      "Write labels as positive statements ('Send me match reminders').",
+      "Use indeterminate for a parent that controls a list."
+    ],
+    "dont": [
+      "Don't use a checkbox for settings that apply instantly — use Toggle.",
+      "Don't use for mutually exclusive options — use RadioGroup.",
+      "Don't rely on the checkbox alone to indicate errors; show a message."
+    ],
+    "related": [
+      { "name": "Toggle", "reason": "Instant on/off settings." },
+      { "name": "RadioGroup", "reason": "Single choice from a set." },
+      { "name": "DataTable", "reason": "Row selection uses Checkbox with hideLabel." }
+    ],
+    "example": {
+      "web": "<Checkbox label=\"Send me match reminders\" description=\"We'll email you 1 hour before kickoff.\" defaultChecked />\n<Checkbox label=\"I accept the rules\" required error={errors.rules} />",
+      "native": "<Checkbox label=\"Send me match reminders\" checked={remind} onCheckedChange={setRemind} />"
+    }
+  }
+}

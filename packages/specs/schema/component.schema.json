@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lockin.design/schema/component.schema.json",
+  "title": "Lock In component spec",
+  "description": "Machine-readable description of a design system component. One file per component in packages/specs/components/. Written for both humans and AI agents: every field is plain JSON with no markup.",
+  "type": "object",
+  "required": ["name", "slug", "import", "status", "version", "category", "purpose", "props", "states", "tokens", "accessibility", "variants", "usage"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "description": "Component export name, PascalCase." },
+    "slug": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "URL/file identifier." },
+    "import": {
+      "type": "object",
+      "description": "Copy-paste import statements per platform.",
+      "required": ["web", "native"],
+      "properties": {
+        "web": { "type": "string" },
+        "native": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "status": { "enum": ["experimental", "beta", "stable", "deprecated"] },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semver of this component's API." },
+    "category": { "enum": ["action", "navigation", "form", "data-display", "feedback", "overlay", "media"] },
+    "purpose": { "type": "string", "description": "One or two sentences: what it is and when to reach for it." },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "required", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string", "description": "TypeScript type." },
+          "default": { "description": "Default value, if any." },
+          "required": { "type": "boolean" },
+          "description": { "type": "string" },
+          "platforms": { "type": "array", "items": { "enum": ["web", "native"] }, "description": "Omit when available on both." }
+        }
+      }
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "additionalProperties": false,
+        "properties": { "name": { "type": "string" }, "description": { "type": "string" } }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "description": "Design tokens the component consumes. Names are token paths (see GET /api/tokens).",
+      "items": {
+        "type": "object",
+        "required": ["token", "usage"],
+        "additionalProperties": false,
+        "properties": { "token": { "type": "string" }, "usage": { "type": "string" } }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "required": ["role", "keyboard", "screenReader", "focus", "wcag"],
+      "additionalProperties": false,
+      "properties": {
+        "role": { "type": "string", "description": "ARIA role / native element (web) and accessibilityRole (native)." },
+        "keyboard": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["keys", "action"],
+            "additionalProperties": false,
+            "properties": { "keys": { "type": "string" }, "action": { "type": "string" } }
+          }
+        },
+        "screenReader": { "type": "array", "items": { "type": "string" } },
+        "focus": { "type": "string" },
+        "touchTarget": { "type": "string" },
+        "wcag": { "type": "array", "items": { "type": "string" }, "description": "WCAG 2.1 success criteria (also IBM Accessibility requirement IDs)." },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "useWhen": { "type": "string" }
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "required": ["do", "dont", "related", "example"],
+      "additionalProperties": false,
+      "properties": {
+        "do": { "type": "array", "items": { "type": "string" } },
+        "dont": { "type": "array", "items": { "type": "string" } },
+        "related": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "reason"],
+            "additionalProperties": false,
+            "properties": { "name": { "type": "string" }, "reason": { "type": "string" } }
+          }
+        },
+        "example": {
+          "type": "object",
+          "required": ["web", "native"],
+          "additionalProperties": false,
+          "properties": { "web": { "type": "string" }, "native": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Link",
+  "slug": "link",
+  "import": {
+    "web": "import { Link } from '@lockin/react';",
+    "native": "import { Link } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "navigation",
+  "purpose": "Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.",
+  "props": [
+    { "name": "href", "type": "string", "required": true, "description": "Destination. On native, opened with Linking.openURL unless onPress is given." },
+    { "name": "children", "type": "ReactNode", "required": true, "description": "Link text. Must describe the destination ('View bracket', not 'Click here')." },
+    { "name": "variant", "type": "'inline' | 'standalone' | 'subtle'", "default": "inline", "required": false, "description": "inline in prose; standalone on its own line with a chevron; subtle for low-emphasis meta links." },
+    { "name": "external", "type": "boolean", "default": false, "required": false, "description": "Opens a new tab/browser, adds rel=noopener noreferrer, an external icon and an SR hint." },
+    { "name": "externalLabel", "type": "string", "default": "(opens in a new tab)", "required": false, "description": "Hint announced for external links." },
+    { "name": "as", "type": "ElementType", "required": false, "description": "Router link component (Next.js Link, React Router Link). Must render an <a>.", "platforms": ["web"] },
+    { "name": "onPress", "type": "() => void", "required": false, "description": "In-app navigation handler (e.g. router.push). Overrides href.", "platforms": ["native"] }
+  ],
+  "states": [
+    { "name": "default", "description": "color.text.link with underline." },
+    { "name": "hover", "description": "color.text.linkHover; underline thickens to 2px." },
+    { "name": "focus-visible", "description": "Focus ring around the link." },
+    { "name": "visited", "description": "Same as default (opt-in per project)." }
+  ],
+  "tokens": [
+    { "token": "color.text.link", "usage": "Link color." },
+    { "token": "color.text.linkHover", "usage": "Hover color." },
+    { "token": "color.text.secondary", "usage": "Subtle variant." },
+    { "token": "font.underlineOffset.default", "usage": "Underline offset." },
+    { "token": "typography.label.lg", "usage": "Standalone variant text." },
+    { "token": "color.focus.ring", "usage": "Focus outline." }
+  ],
+  "accessibility": {
+    "role": "link (native <a href>) / accessibilityRole=\"link\"",
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Move focus." },
+      { "keys": "Enter", "action": "Follow the link." }
+    ],
+    "screenReader": [
+      "Announced as '<text>, link'.",
+      "External links append '(opens in a new tab)'."
+    ],
+    "focus": "Visible focus ring; underline remains.",
+    "touchTarget": "Inline links in prose are exempt from target size; standalone links should have ≥44px line height on touch.",
+    "wcag": ["1.4.1 Use of Color", "1.4.3 Contrast (Minimum)", "2.4.4 Link Purpose (In Context)", "2.4.7 Focus Visible", "3.2.5 Change on Request", "4.1.2 Name, Role, Value"],
+    "notes": ["Always warn users when a link opens a new window (IBM 3.2.5 / G201)."]
+  },
+  "variants": [
+    { "name": "inline", "description": "Underlined link within text.", "useWhen": "Links inside paragraphs and help text." },
+    { "name": "standalone", "description": "Bolder, no underline until hover, trailing chevron.", "useWhen": "'View all matches' at the end of a card." },
+    { "name": "subtle", "description": "Secondary text color, underlined.", "useWhen": "Footers, legal text, metadata." }
+  ],
+  "usage": {
+    "do": [
+      "Write link text that makes sense out of context.",
+      "Use Link for anything that changes the URL or screen.",
+      "Mark external links with external."
+    ],
+    "dont": [
+      "Don't use 'click here' or 'read more' without context.",
+      "Don't style a Link like a Button for in-page actions — use Button.",
+      "Don't remove the underline from inline links."
+    ],
+    "related": [
+      { "name": "Button", "reason": "Actions that don't navigate." },
+      { "name": "Tabs", "reason": "Switching views within the same page." }
+    ],
+    "example": {
+      "web": "<p>Read the <Link href=\"/rules\">tournament rules</Link> before registering.</p>\n<Link href=\"https://fifa.com\" external>Official rules</Link>\n<Link as={NextLink} href=\"/brackets\" variant=\"standalone\">View brackets</Link>",
+      "native": "<Link href=\"https://fifa.com\" external>Official rules</Link>\n<Link href=\"/brackets\" variant=\"standalone\" onPress={() => router.push('/brackets')}>View brackets</Link>"
+    }
+  }
+}

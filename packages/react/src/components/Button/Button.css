@@ -1,0 +1,105 @@
+.ds-button {
+  --_bg: var(--ds-color-intent-primary-bg);
+  --_bg-hover: var(--ds-color-intent-primary-bgHover);
+  --_bg-active: var(--ds-color-intent-primary-bgActive);
+  --_fg: var(--ds-color-intent-primary-text);
+  --_border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-xs);
+  min-height: var(--ds-size-control-md);
+  padding-inline: var(--ds-space-md);
+  border: var(--ds-border-width-thin) solid var(--_border);
+  border-radius: var(--ds-radius-md);
+  background: var(--_bg);
+  color: var(--_fg);
+  font: var(--ds-typography-label-lg);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard),
+    transform var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+
+.ds-button:hover { background: var(--_bg-hover); }
+.ds-button:active { background: var(--_bg-active); }
+
+.ds-button--secondary {
+  --_bg: var(--ds-color-intent-secondary-bg);
+  --_bg-hover: var(--ds-color-intent-secondary-bgHover);
+  --_bg-active: var(--ds-color-intent-secondary-bgActive);
+  --_fg: var(--ds-color-intent-secondary-text);
+  --_border: var(--ds-color-intent-secondary-border);
+}
+
+.ds-button--tertiary {
+  --_bg: var(--ds-color-intent-tertiary-bg);
+  --_bg-hover: var(--ds-color-intent-tertiary-bgHover);
+  --_bg-active: var(--ds-color-intent-tertiary-bgActive);
+  --_fg: var(--ds-color-intent-tertiary-text);
+}
+
+.ds-button--danger {
+  --_bg: var(--ds-color-intent-danger-bg);
+  --_bg-hover: var(--ds-color-intent-danger-bgHover);
+  --_bg-active: var(--ds-color-intent-danger-bgActive);
+  --_fg: var(--ds-color-intent-danger-text);
+}
+
+.ds-button--sm {
+  min-height: var(--ds-size-control-sm);
+  padding-inline: var(--ds-space-sm);
+  font: var(--ds-typography-label-md);
+}
+
+.ds-button--lg {
+  min-height: var(--ds-size-control-lg);
+  padding-inline: var(--ds-space-lg);
+}
+
+.ds-button--icon-only {
+  padding: 0;
+  aspect-ratio: 1;
+}
+
+.ds-button--full {
+  display: flex;
+  width: 100%;
+}
+
+.ds-button:disabled,
+.ds-button[aria-disabled='true']:not(.is-loading) {
+  --_bg: var(--ds-color-intent-disabled-bg);
+  --_bg-hover: var(--ds-color-intent-disabled-bg);
+  --_bg-active: var(--ds-color-intent-disabled-bg);
+  --_fg: var(--ds-color-intent-disabled-text);
+  --_border: transparent;
+  cursor: not-allowed;
+}
+
+.ds-button.is-loading {
+  cursor: progress;
+}
+
+/* Expand the hit area to 44×44 on touch without changing visuals. */
+@media (pointer: coarse) {
+  .ds-button::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: max(100%, var(--ds-size-touchTarget-min));
+    height: max(100%, var(--ds-size-touchTarget-min));
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (forced-colors: active) {
+  .ds-button {
+    border-color: ButtonText;
+  }
+}

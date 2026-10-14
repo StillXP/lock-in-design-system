@@ -1,0 +1,45 @@
+{
+  "name": "@lockin/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens (color, typography, spacing, effects) for web and React Native, with light/dark modes and project themes.",
+  "type": "module",
+  "main": "./dist/js/index.js",
+  "types": "./dist/js/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/js/index.d.ts",
+      "default": "./dist/js/index.js"
+    },
+    "./native": {
+      "types": "./dist/native/index.d.ts",
+      "default": "./dist/native/index.js"
+    },
+    "./css": "./dist/css/tokens.css",
+    "./css/typography": "./dist/css/typography.css",
+    "./css/themes/*": "./dist/css/themes/*.css",
+    "./json/*": "./dist/json/*.json",
+    "./lib/resolve": {
+      "types": "./lib/resolve.d.ts",
+      "default": "./lib/resolve.mjs"
+    },
+    "./src/*": "./src/*",
+    "./build": {
+      "types": "./scripts/build.d.ts",
+      "default": "./scripts/build.mjs"
+    },
+    "./check-contrast": {
+      "types": "./scripts/check-contrast.d.ts",
+      "default": "./scripts/check-contrast.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "lib",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs && node scripts/check-contrast.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Icon",
+  "slug": "icon",
+  "import": {
+    "web": "import { Icon } from '@lockin/react';",
+    "native": "import { Icon } from '@lockin/react-native';"
+  },
+  "status": "beta",
+  "version": "0.1.0",
+  "category": "media",
+  "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
+  "props": [
+    { "name": "name", "type": "IconName", "required": true, "description": "Icon id. List with GET /api/icons or the MCP tool list_icons." },
+    { "name": "size", "type": "'sm' | 'md' | 'lg' | 'xl' | number", "default": "md", "required": false, "description": "16/20/24/32px, or a pixel number." },
+    { "name": "color", "type": "'currentColor' | 'primary' | 'secondary' | 'disabled' | 'inverse' | 'onBrand' | 'brand' | 'danger' | 'success' | 'warning' | 'info'", "default": "currentColor", "required": false, "description": "Semantic icon color (color.icon.*). Defaults to the surrounding text color." },
+    { "name": "label", "type": "string", "required": false, "description": "Accessible name. Provide only when the icon stands alone and conveys meaning." },
+    { "name": "tint", "type": "string", "required": false, "description": "Raw color override, used to match a parent's text color (React Native has no currentColor inheritance).", "platforms": ["native"] }
+  ],
+  "states": [
+    { "name": "decorative", "description": "No label: aria-hidden=true / not accessible." },
+    { "name": "informative", "description": "With label: role=img + aria-label / accessibilityRole=image." }
+  ],
+  "tokens": [
+    { "token": "size.icon.md", "usage": "Default size (sm/lg/xl for others)." },
+    { "token": "color.icon.primary", "usage": "Color options map to color.icon.* tokens." },
+    { "token": "color.icon.secondary", "usage": "Supporting icons inside inputs and controls." }
+  ],
+  "accessibility": {
+    "role": "img when labelled, otherwise hidden (aria-hidden)",
+    "keyboard": [],
+    "screenReader": [
+      "Decorative icons are skipped.",
+      "Labelled icons announce '<label>, image'."
+    ],
+    "focus": "Icons are never focusable themselves; wrap in Button or Link for interaction.",
+    "wcag": ["1.1.1 Non-text Content", "1.4.1 Use of Color", "1.4.11 Non-text Contrast"],
+    "notes": [
+      "Informative icons need ≥3:1 contrast against their background; all color.icon.* tokens meet this on default backgrounds.",
+      "In Windows High Contrast mode icons inherit CanvasText."
+    ]
+  },
+  "variants": [
+    { "name": "decorative", "description": "Paired with visible text that already conveys the meaning.", "useWhen": "Icons in buttons with labels, list bullets." },
+    { "name": "informative", "description": "Stands alone and must be named.", "useWhen": "A status icon in a table cell with no text." }
+  ],
+  "usage": {
+    "do": [
+      "Pair icons with text whenever possible.",
+      "Use status icons (check-circle, alert-triangle, alert-circle, info) alongside status colors.",
+      "Use currentColor so icons follow text color and theme changes."
+    ],
+    "dont": [
+      "Don't make an Icon clickable — use Button iconOnly.",
+      "Don't label an icon that sits next to text saying the same thing (double announcement).",
+      "Don't hard-code hex colors on icons."
+    ],
+    "related": [
+      { "name": "Button", "reason": "Interactive icons (iconOnly)." },
+      { "name": "Tag", "reason": "Status label with an icon." }
+    ],
+    "example": {
+      "web": "<Icon name=\"trophy\" color=\"brand\" />\n<Icon name=\"alert-circle\" color=\"danger\" label=\"Error\" />",
+      "native": "<Icon name=\"trophy\" color=\"brand\" />\n<Icon name=\"alert-circle\" color=\"danger\" label=\"Error\" />"
+    }
+  }
+}
