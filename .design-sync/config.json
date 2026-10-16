@@ -1,0 +1,27 @@
+{
+  "projectId": "34bddf0e-8232-4b69-a706-0de186e81877",
+  "shape": "storybook",
+  "storybookConfigDir": "apps/storybook/.storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "pkg": "@lockin/react",
+  "globalName": "LockIn",
+  "buildCmd": "node .design-sync/gen-docs.mjs && npm run build -w @lockin/tokens -w @lockin/icons -w @lockin/react",
+  "titleMap": {
+    "Color": null,
+    "Shape&effects": null,
+    "Icons": null,
+    "Spacing&sizing": null,
+    "Typography": null
+  },
+  "extraEntries": [
+    "../../.design-sync/provider.mjs"
+  ],
+  "provider": {
+    "component": "DsRoot"
+  },
+  "libOverrides": {
+    "story-imports.mjs": "Expand Vite import.meta.glob (apps/storybook blocks/data.ts spec loader) into static JSON imports so story modules compile outside Vite"
+  },
+  "docsDir": "../../.design-sync/docs",
+  "readmeHeader": ".design-sync/conventions.md"
+}
