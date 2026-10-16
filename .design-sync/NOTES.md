@@ -13,7 +13,7 @@ Rebuild + verify: `node .ds-sync/resync.mjs --config .design-sync/config.json --
 
 ## Known warnings
 
-- `[FONT_MISSING]` Inter (`--ds-font-family-sans`) and JetBrains Mono (`--ds-font-family-mono`): the tokens name them but no @font-face or font file exists anywhere in the repo, in Storybook or in the build. Both compare panels fall back to the same system fonts, so the oracle can't see it. Decided with the user to sync as is; fix = add the fonts to the design system (repo + Storybook) and re-sync.
+- Fonts: Inter and JetBrains Mono now ship from `@lockin/tokens` (`src/fonts/`, @font-face inlined in `tokens.css`, urls `../fonts/<file>`). The converter copies `tokens/tokens.css` as is, so `cfg.extraFonts` lists the four `.woff2` files (package-relative `../tokens/src/fonts/...`) to land them in the bundle's `fonts/`, where `../fonts/<file>` resolves. If a font file is added or renamed, update `extraFonts` or the sync reports `[FONT_DANGLING]`. Rebuild `.design-sync/sb-reference` when fonts change so both compare panels use them.
 - `[FONT_MISSING]` also lists `underline` and `line-through`: false positives from the `--ds-font-decoration-*` tokens. Ignore.
 
 ## Re-sync risks
@@ -24,3 +24,10 @@ Rebuild + verify: `node .ds-sync/resync.mjs --config .design-sync/config.json --
 - Modal, Dropdown and Select stories only render closed triggers, so the open dialog, menu and listbox were never visually compared. Their behavior was not verified here.
 - Story cap: compare captures 6 stories per component; the tail stories (Button 4, DataTable 3, Checkbox 2, InputField 2, RadioGroup 1, Toggle 1) were not individually graded. Raise with `--max-stories 10` if they carry distinct variants.
 - Previews run React 19.3 (bundled via esbuild, no UMD); themes (`arena`, `arcade`) and dark mode are not covered by any preview or grade.
+
+## Groups and housekeeping
+
+- Project folders come from the story title prefix: `Atoms/`, `Molecules/`, `Organisms/` (spec `level`) become `components/atoms|molecules|organisms/<Name>/`. Moving a component between levels renames its story title and folder, re-verifies it once and the reconcile step deletes the old folder. The 2026-10-16 re-sync did this for all 14 (56 old files deleted).
+- `gen-docs.mjs` writes `Atomic level: <level>.` into each prompt.md, and `conventions.md` lists the levels by name. Update both lists when a component is added or moved.
+- Windows: if the driver dies with `EBUSY ... rmdir ds-bundle/_screenshots/compare/raw`, it leaves `ds-bundle/` half deleted and the next run refuses it with `[OUT_UNSAFE]`. `rm -rf ds-bundle` (generated, gitignored; grades live in `.design-sync/.cache/compare/`) and re-run. Avoid leaving a shell cwd or image viewer open inside `ds-bundle/`.
+- The anchor to feed `--remote` comes from `DesignSync get_file _ds_sync.json`, saved to `.design-sync/.cache/remote-sync.json` (gitignored).
