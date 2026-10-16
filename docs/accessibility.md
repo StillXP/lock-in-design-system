@@ -2,9 +2,9 @@
 
 > Lock In targets WCAG 2.1 Level AA, aligned with the IBM Accessibility Requirements. What the system guarantees, what you are still responsible for, and how to test.
 
-**References**
+References:
 - W3C WCAG 2.1 quick reference: https://www.w3.org/WAI/WCAG21/quickref/
-- IBM Accessibility Requirements: https://www.ibm.com/able/requirements/requirements/ — IBM's checklist adopts WCAG 2.1 AA (plus EN 301 549 and US Section 508 items), so requirement numbers below match both.
+- IBM Accessibility Requirements: https://www.ibm.com/able/requirements/requirements/ (IBM's checklist adopts WCAG 2.1 AA, plus EN 301 549 and US Section 508 items, so requirement numbers below match both)
 - WAI-ARIA Authoring Practices (patterns for Tabs, Menu Button, Dialog, Switch): https://www.w3.org/WAI/ARIA/apg/
 
 ## What the system guarantees
@@ -32,18 +32,18 @@
 
 The system can't know your content. On every screen:
 
-1. **Page structure** — one `<h1>`, headings in order, landmarks (`<header>`, `<nav>`, `<main>`, `<footer>`). (1.3.1, 2.4.6)
-2. **Page title & language** — a unique `<title>` and `<html lang="en">`. (2.4.2, 3.1.1)
-3. **Skip link** — "Skip to main content" as the first focusable element. (2.4.1)
-4. **Alt text** — meaningful images get `alt`; decorative images get `alt=""`. Icons are decorative unless given `label`. (1.1.1)
-5. **Link and button text** — describes the destination/action out of context ("View Group A standings", not "Click here"). (2.4.4)
-6. **Input purpose** — set `autoComplete` on personal-data fields (`email`, `name`, `tel`, `street-address`). (1.3.5)
-7. **Error summary** — on submit, move focus to the first invalid field or an error summary. (3.3.1)
-8. **Live updates** — announce async results ("12 matches found", "Score saved") with `aria-live="polite"` / `accessibilityLiveRegion`. Scores updating in real time should not announce every tick. (4.1.3)
-9. **Timeouts** — games and checkouts with time limits must let users extend or turn them off. (2.2.1)
-10. **Flashing** — nothing flashes more than 3 times per second (watch game effects and confetti). (2.3.1)
-11. **Custom colors** — any color pairing not in `contrast-pairs.json` must be checked (`GET /api/contrast` or MCP `check_contrast`). Data-viz series also need labels or patterns.
-12. **Consistent navigation** — same navigation in the same order across pages. (3.2.3, 3.2.4)
+1. Page structure: one `<h1>`, headings in order, landmarks (`<header>`, `<nav>`, `<main>`, `<footer>`). (1.3.1, 2.4.6)
+2. Page title and language: a unique `<title>` and `<html lang="en">`. (2.4.2, 3.1.1)
+3. Skip link: "Skip to main content" as the first focusable element. (2.4.1)
+4. Alt text: meaningful images get `alt`; decorative images get `alt=""`. Icons are decorative unless given `label`. (1.1.1)
+5. Link and button text: describe the destination or action out of context ("View Group A standings", not "Click here"). (2.4.4)
+6. Input purpose: set `autoComplete` on personal-data fields (`email`, `name`, `tel`, `street-address`). (1.3.5)
+7. Error summary: on submit, move focus to the first invalid field or an error summary. (3.3.1)
+8. Live updates: announce async results ("12 matches found", "Score saved") with `aria-live="polite"` / `accessibilityLiveRegion`. Scores updating in real time should not announce every tick. (4.1.3)
+9. Timeouts: games and checkouts with time limits must let users extend or turn them off. (2.2.1)
+10. Flashing: nothing flashes more than 3 times per second (watch game effects and confetti). (2.3.1)
+11. Custom colors: any color pairing not in `contrast-pairs.json` must be checked (`GET /api/contrast` or MCP `check_contrast`). Data-viz series also need labels or patterns.
+12. Consistent navigation: same navigation in the same order across pages. (3.2.3, 3.2.4)
 
 ## Implementation rules
 
@@ -58,17 +58,17 @@ The system can't know your content. On every screen:
 
 Run before shipping a screen:
 
-- [ ] **Keyboard only**: Tab through everything. Every control reachable, operable, focus always visible, nothing trapped, order logical.
-- [ ] **Screen reader**: NVDA + Firefox or JAWS + Chrome (Windows), VoiceOver + Safari (macOS/iOS), TalkBack (Android). Names, roles and states announced correctly.
-- [ ] **Zoom to 200%** and a **320px-wide viewport**: no loss of content, no horizontal scroll except data tables.
-- [ ] **Dark mode** and **every theme you use**.
-- [ ] **Windows High Contrast** (forced colors).
-- [ ] **Reduced motion** on.
-- [ ] **Automated**: axe DevTools or IBM Equal Access Accessibility Checker (browser extension) — fix all violations, review "needs review" items.
-- [ ] **Mobile**: iOS Accessibility Inspector / Android Accessibility Scanner; dynamic type at the largest size.
+- [ ] Keyboard only: Tab through everything. Every control reachable, operable, focus always visible, nothing trapped, order logical.
+- [ ] Screen reader: NVDA + Firefox or JAWS + Chrome (Windows), VoiceOver + Safari (macOS/iOS), TalkBack (Android). Names, roles and states announced correctly.
+- [ ] Zoom to 200% and a 320px-wide viewport: no loss of content, no horizontal scroll except data tables.
+- [ ] Dark mode and every theme you use.
+- [ ] Windows High Contrast (forced colors).
+- [ ] Reduced motion on.
+- [ ] Automated: axe DevTools or IBM Equal Access Accessibility Checker (browser extension). Fix all violations and review "needs review" items.
+- [ ] Mobile: iOS Accessibility Inspector / Android Accessibility Scanner; dynamic type at the largest size.
 
 Automated tools catch roughly a third of issues. The manual checks above are not optional.
 
 ## Reporting issues
 
-Found an accessibility gap? Fix it in the spec or token mapping right away — accessibility bugs take priority over new features.
+Found an accessibility gap? Fix it in the spec or token mapping right away. Accessibility bugs take priority over new features.

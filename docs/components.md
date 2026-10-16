@@ -19,7 +19,7 @@
 | Modal | overlay | Focused decision or short task |
 | Icon | media | Show a glyph from the icon set |
 
-The full spec for each lives in `packages/specs/components/<slug>.json` and is served at `GET /api/components/<slug>` and via the MCP tool `get_component`. The web UI renders the same files, with a **Live example** of each component: a **Code** tab (its Storybook stories, embedded and following the hub's color mode and theme) and a **Design** tab (Figma's view-only embed of the spec's `figma` node), and so does each component's **Docs** page in Storybook (`npm run storybook`), alongside live, editable stories.
+The full spec for each lives in `packages/specs/components/<slug>.json` and is served at `GET /api/components/<slug>` and via the MCP tool `get_component`. The web UI renders the same files, with a Live example of each component: a Code tab (its Storybook stories, embedded and following the hub's color mode and theme) and a Design tab (Figma's view-only embed of the spec's `figma` node). Each component's Docs page in Storybook (`npm run storybook`) renders the spec too, alongside live, editable stories.
 
 ## Spec format (for humans and AI)
 
@@ -42,11 +42,11 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 }
 ```
 
-`npm run validate -w @lockin/specs` checks every spec against the schema **and** that every referenced token exists.
+`npm run validate -w @lockin/specs` checks every spec against the schema and that every referenced token exists.
 
 ## Shared conventions
 
-**Same API on both platforms.** Prop names match between `@lockin/react` and `@lockin/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:
+Same API on both platforms. Prop names match between `@lockin/react` and `@lockin/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:
 
 | Concept | Web | Native |
 | --- | --- | --- |
@@ -54,17 +54,17 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 | Text change | `onChange` (event) | `onChangeText` / `onValueChange` |
 | Accessible name | `aria-label` | `accessibilityLabel` |
 
-**Controlled or uncontrolled.** Every stateful component accepts `value` + `on…Change` (controlled) *or* `default…` (uncontrolled): `Tabs value/defaultValue/onValueChange`, `Toggle checked/defaultChecked/onCheckedChange`, `DataTable sort/defaultSort/onSortChange`.
+Controlled or uncontrolled. Every stateful component accepts `value` + `on…Change` (controlled) or `default…` (uncontrolled): `Tabs value/defaultValue/onValueChange`, `Toggle checked/defaultChecked/onCheckedChange`, `DataTable sort/defaultSort/onSortChange`.
 
-**Labels are required.** Form controls take a required `label` and a `hideLabel` escape hatch that hides it visually but keeps it for screen readers. Placeholders are never labels.
+Labels are required. Form controls take a required `label` and a `hideLabel` escape hatch that hides it visually but keeps it for screen readers. Placeholders are never labels.
 
-**Errors.** Form controls take `error` (message). It sets `aria-invalid`, links the message with `aria-describedby`, adds an icon, and turns the border red — never color alone.
+Errors. Form controls take `error` (message). It sets `aria-invalid`, links the message with `aria-describedby`, adds an icon, and turns the border red, so color is never the only signal.
 
-**Sizes.** `sm` (32px), `md` (40px, default), `lg` (48px). On touch devices every control's hit area is at least 44×44px regardless of visual size.
+Sizes. `sm` (32px), `md` (40px, default), `lg` (48px). On touch devices every control's hit area is at least 44×44px regardless of visual size.
 
-**Icons.** Components take icon *names* (`iconStart="plus"`), not elements, so the same code works on both platforms. See `GET /api/icons`.
+Icons. Components take icon names (`iconStart="plus"`), not elements, so the same code works on both platforms. See `GET /api/icons`.
 
-**Forwarded refs and rest props (web).** Leaf components forward refs and spread remaining native attributes (`name`, `autoComplete`, `data-*`) onto the underlying element.
+Forwarded refs and rest props (web). Leaf components forward refs and spread remaining native attributes (`name`, `autoComplete`, `data-*`) onto the underlying element.
 
 ## Choosing between similar components
 
@@ -74,7 +74,7 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 | To go somewhere | Link | Button |
 | A list of actions behind a trigger | Dropdown | Select |
 | To pick a form value from many | Select | Dropdown |
-| To pick one of 2–6 visible options | RadioGroup | Select |
+| To pick one of 2 to 6 visible options | RadioGroup | Select |
 | An instant on/off setting | Toggle | Checkbox |
 | A form choice submitted later | Checkbox | Toggle |
 | To switch views of the same thing | Tabs | RadioGroup |
