@@ -1,6 +1,6 @@
 # Tokens
 
-> Color, typography, spacing and effect tokens — base vs. semantic layers, light/dark modes, and how to use them on each platform.
+> Color, typography, spacing and effect tokens: base vs. semantic layers, light/dark modes, and how to use them on each platform.
 
 Tokens are named design decisions. Source files live in `packages/tokens/src/` in [DTCG](https://www.designtokens.org/) format (`$value`, `$type`, `$description`). One build turns them into CSS, JS/TS, React Native and JSON.
 
@@ -16,9 +16,9 @@ color.blue.600   ─────►    color.intent.primary.bg   ─────
 color.neutral.900 ────►    color.text.primary        ─────►     every text
 ```
 
-- **Base** — the raw palette and scales. Never use base colors directly in UI.
-- **Semantic** — what a value is *for*. Every semantic color has a `light` and `dark` value, both referencing the base palette. This is the layer you use.
-- **Brand alias** — `color.brand.*` points at one base hue (blue by default). Themes swap it.
+- Base: the raw palette and scales. Never use base colors directly in UI.
+- Semantic: what a value is for. Every semantic color has a `light` and `dark` value, both referencing the base palette. This is the layer you use.
+- Brand alias: `color.brand.*` points at one base hue (blue by default). Themes swap it.
 
 ## Color
 
@@ -29,7 +29,7 @@ Eight hues with ten steps each: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900
 | Hue | Notes |
 | --- | --- |
 | `red`, `orange`, `yellow`, `green`, `blue`, `indigo`, `violet` | 50 = lightest tint, 900 = darkest shade |
-| `neutral` | 50 = white `#FFFFFF` → 900 = black `#000000` |
+| `neutral` | 50 = white `#FFFFFF` to 900 = black `#000000` |
 
 ### Semantic palette
 
@@ -39,20 +39,20 @@ Eight hues with ten steps each: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900
 | `color.surface.*` | `default`, `raised`, `sunken`, `selected` | Cards, menus, modals, wells, selected rows |
 | `color.text.*` | `primary`, `secondary`, `tertiary`, `placeholder`, `disabled`, `inverse`, `onBrand`, `link`, `linkHover`, `brand`, `danger`, `success`, `warning`, `info` | All text |
 | `color.icon.*` | `primary`, `secondary`, `disabled`, `inverse`, `onBrand`, `brand`, `danger`, `success`, `warning`, `info` | Icons (≥ 3:1 contrast) |
-| `color.border.*` | `subtle`, `default`, `strong`, `selected`, `danger`, `success`, `warning`, `info` | Dividers (subtle), containers (default), **form controls (strong)** |
+| `color.border.*` | `subtle`, `default`, `strong`, `selected`, `danger`, `success`, `warning`, `info` | Dividers (subtle), containers (default), form controls (strong) |
 | `color.focus.*` | `ring`, `ringOffset` | Keyboard focus indicator |
 | `color.intent.*` | `primary`, `secondary`, `tertiary`, `danger`, `disabled` × `bg`, `bgHover`, `bgActive`, `text`, `border` | Interactive elements by emphasis |
 | `color.status.*` | `neutral`, `brand`, `info`, `success`, `warning`, `danger` × `bg`, `border`, `text`, `solid`, `onSolid` | Messages, tags, validation |
-| `color.dataviz.*` | `1`–`8` | Chart series, in order |
+| `color.dataviz.*` | `1` to `8` | Chart series, in order |
 
-**Contrast is enforced.** `packages/tokens/src/contrast-pairs.json` lists every foreground/background pairing the system promises. `npm run check:contrast` checks all of them in light and dark for every theme (currently 486 checks). The hub server refuses token edits that break any pair.
+Contrast is enforced. `packages/tokens/src/contrast-pairs.json` lists every foreground/background pairing the system promises. `npm run check:contrast` checks all of them in light and dark for every theme (currently 486 checks). The hub server refuses token edits that break any pair.
 
 ### Choosing a color
 
-1. Is it text? → `color.text.*`. Icon? → `color.icon.*`.
-2. Is it the boundary of an input or control? → `color.border.strong` (3:1). A decorative divider? → `color.border.subtle`.
-3. Is it something you click? → `color.intent.*`.
-4. Is it communicating status? → `color.status.*` **plus** an icon or text label.
+1. Text uses `color.text.*`; icons use `color.icon.*`.
+2. The boundary of an input or control uses `color.border.strong` (3:1); a decorative divider uses `color.border.subtle`.
+3. Something you click uses `color.intent.*`.
+4. Status uses `color.status.*` plus an icon or text label.
 
 ## Typography
 
@@ -67,7 +67,7 @@ Eight hues with ten steps each: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900
 | `font.underlineOffset` | `default` 0.15em |
 | `font.transform` | `none` · `uppercase` · `capitalize` |
 
-**Composite styles** (`typography.*`) bundle family, size, weight, line height and letter spacing. Prefer these:
+Composite styles (`typography.*`) bundle family, size, weight, line height and letter spacing. Prefer these:
 
 `display` · `heading.xl/lg/md/sm/xs` · `body.lg/md/sm` · `label.lg/md/sm` · `caption` · `overline` · `code`
 
@@ -88,14 +88,14 @@ Rules: body text uses `body.md` (16px) or larger; never set form input text belo
 
 ## Spacing
 
-Base unit is **16px (`space.md`)**. Ten steps, all divisible by 4:
+Base unit is 16px (`space.md`). Ten steps, all divisible by 4:
 
 | Token | px | × base | Typical use |
 | --- | --- | --- | --- |
 | `space.2xs` | 4 | 0.25 | Icon ↔ text gap |
 | `space.xs` | 8 | 0.5 | Gaps in compact controls |
 | `space.sm` | 12 | 0.75 | Control padding, list gaps |
-| `space.md` | **16** | **1** | Default padding / gap |
+| `space.md` | 16 | 1 | Default padding / gap |
 | `space.lg` | 24 | 1.5 | Card padding, field groups |
 | `space.xl` | 32 | 2 | Mobile section padding |
 | `space.2xl` | 48 | 3 | Between page sections |
@@ -109,7 +109,7 @@ Base unit is **16px (`space.md`)**. Ten steps, all divisible by 4:
 - `radius.none/sm/md/lg/xl/full`
 - `border.width.thin/thick`, `focus.width`, `focus.offset`
 - `shadow.sm/md/lg/xl` (web: `box-shadow`; native: `shadowColor/Offset/Opacity/Radius` + `elevation`)
-- `motion.duration.instant/fast/normal/slow`, `motion.easing.standard/enter/exit` — durations collapse to 0ms under `prefers-reduced-motion`
+- `motion.duration.instant/fast/normal/slow`, `motion.easing.standard/enter/exit`. Durations collapse to 0ms under `prefers-reduced-motion`
 - `zIndex.dropdown/sticky/overlay/modal/toast/tooltip`
 - `breakpoint.sm/md/lg/xl/2xl` (640/768/1024/1280/1536, mobile-first)
 
@@ -127,7 +127,7 @@ CSS variable names are the token path with dots replaced by dashes: `color.text.
 
 ## Do / don't
 
-- ✅ `color: var(--ds-color-text-secondary)` — ❌ `color: #4B5260`
-- ✅ `color.intent.danger.bg` for a delete button — ❌ `color.red.600`
-- ✅ `gap: var(--ds-space-sm)` — ❌ `gap: 13px`
-- ✅ Add a new semantic token when a need repeats — ❌ one-off overrides in components
+- Use `color: var(--ds-color-text-secondary)`, not `color: #4B5260`.
+- Use `color.intent.danger.bg` for a delete button, not `color.red.600`.
+- Use `gap: var(--ds-space-sm)`, not `gap: 13px`.
+- Add a new semantic token when a need repeats instead of making one-off overrides in components.

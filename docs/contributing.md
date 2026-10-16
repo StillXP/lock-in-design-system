@@ -23,17 +23,17 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 1. Edit `packages/tokens/src/...` (or use the hub / `update_token`).
 2. Semantic colors must reference base tokens and provide `light` and `dark`.
 3. If the token is a new text/UI pairing, add it to `src/contrast-pairs.json`.
-4. `npm run build -w @lockin/tokens` — must print "all contrast checks passed".
+4. `npm run build -w @lockin/tokens`. It must print "all contrast checks passed".
 5. New token groups show up in Storybook automatically if they fall under an existing prefix; otherwise add them to a story in `apps/storybook/src/stories/foundations/`.
 
 ## Adding a component
 
-1. **Spec first.** Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field — especially `accessibility` and `usage`. Run `npm run validate -w @lockin/specs`.
-2. **Web.** `packages/react/src/components/<Name>/<Name>.tsx` + `<Name>.css`. Export from `src/index.ts`. Only `--ds-*` variables in CSS.
-3. **Native.** `packages/react-native/src/components/<Name>.tsx` with the same props. Export from `src/index.ts`.
-4. **Stories.** Add `apps/storybook/src/stories/components/<Name>.stories.tsx` (copy a similar one). Keep `title: 'Components/<Name>'` literal and spread `specMeta('<slug>')` so the Docs page renders the spec. One story per variant and per notable state.
-5. **Docs.** Add a row to `docs/components.md`.
-6. **Build & typecheck.** `npm run build` and `npm run check`. Open `npm run storybook` and check the story in light, dark and both themes, with the Accessibility panel clean.
+1. Spec first. Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field, especially `accessibility` and `usage`. Run `npm run validate -w @lockin/specs`.
+2. Web. `packages/react/src/components/<Name>/<Name>.tsx` + `<Name>.css`. Export from `src/index.ts`. Only `--ds-*` variables in CSS.
+3. Native. `packages/react-native/src/components/<Name>.tsx` with the same props. Export from `src/index.ts`.
+4. Stories. Add `apps/storybook/src/stories/components/<Name>.stories.tsx` (copy a similar one). Keep `title: 'Components/<Name>'` literal and spread `specMeta('<slug>')` so the Docs page renders the spec. One story per variant and per notable state.
+5. Docs. Add a row to `docs/components.md`.
+6. Build and typecheck. `npm run build` and `npm run check`. Open `npm run storybook` and check the story in light, dark and both themes, with the Accessibility panel clean.
 
 ## Definition of done
 
@@ -49,5 +49,5 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 ## Versions
 
 - Components: semver per spec, auto-bumped by the hub (see [MCP server & API](./mcp-server.md#versioning--change-tracking)). If you edit a spec by hand, bump `version` yourself using the same rules.
-- System: `design-system.json`. Cut a release from the hub (`POST /api/releases`, admin) — it snapshots everything and updates `CHANGELOG.md`.
+- System: `design-system.json`. Cut a release from the hub (`POST /api/releases`, admin). It snapshots everything and updates `CHANGELOG.md`.
 - Status lifecycle: `experimental → beta → stable → deprecated`. Deprecations stay for at least one minor release with a note in `usage.dont` pointing to the replacement.

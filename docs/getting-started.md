@@ -31,10 +31,10 @@ The token build also runs the contrast checker; it fails if any semantic color p
 
 The packages aren't published to npm yet. Pick one:
 
-- **Local link (fastest while iterating):** in your project, `npm install ../path/to/design-system/packages/react ../path/to/design-system/packages/tokens`
-- **Git dependency / GitHub Packages:** publish the `packages/*` folders to a private registry and install by version.
+- Local link (fastest while iterating): in your project, `npm install ../path/to/design-system/packages/react ../path/to/design-system/packages/tokens`
+- Git dependency / GitHub Packages: publish the `packages/*` folders to a private registry and install by version.
 
-### Web (React — Vite, Next.js, etc.)
+### Web (React: Vite, Next.js, etc.)
 
 ```tsx
 // main.tsx — import tokens first, then component styles
@@ -56,7 +56,7 @@ export function JoinForm() {
 
 `@lockin/react` targets bundlers (Vite, Next.js, webpack, Metro). It's ESM with extensionless internal imports.
 
-**Color mode.** Dark mode follows the OS by default (`prefers-color-scheme`). To let users choose:
+Color mode. Dark mode follows the OS by default (`prefers-color-scheme`). To let users choose:
 
 ```ts
 setColorMode('dark');   // or 'light' | 'system' — saved to localStorage
@@ -70,7 +70,7 @@ To avoid a flash of the wrong theme, add this to `<head>` before your CSS:
 </script>
 ```
 
-**Styling your own UI.** Use the CSS variables, never raw hex values:
+Styling your own UI. Use the CSS variables, never raw hex values:
 
 ```css
 .scoreboard {
@@ -135,7 +135,7 @@ Agents then call `search_design_system`, `get_component`, `get_tokens` and `chec
 
 ## Next
 
-- [Tokens](./tokens.md) — what each token is for
-- [Components](./components.md) — conventions shared by every component
-- [Theming](./theming.md) — re-skin per project without losing consistency
-- [Accessibility](./accessibility.md) — the rules every screen must meet
+- [Tokens](./tokens.md): what each token is for
+- [Components](./components.md): conventions shared by every component
+- [Theming](./theming.md): re-skin per project without losing consistency
+- [Accessibility](./accessibility.md): the rules every screen must meet
