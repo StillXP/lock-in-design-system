@@ -1,12 +1,12 @@
 # Lock In Design System
 
-A cross-platform design system for personal projects — tournament apps, web games, dashboards, web stores — built so **people and AI agents** can both use it, on **web and mobile**.
+A cross-platform design system for personal projects (tournament apps, web games, dashboards, web stores), built for both people and AI agents, on web and mobile.
 
-- **Tokens**: 8-hue × 10-step base palette, semantic colors with light + dark values, typography, a 10-step spacing scale (4 → 128px, base 16), radius, shadow, motion. Output for CSS, JS/TS, React Native and JSON.
-- **14 components**, each for React (web) and React Native (iOS/Android) with the same props: Button, Icon, Link, Checkbox, RadioGroup, Toggle, InputField, Search, Select, Dropdown, Tabs, Tag, Modal, DataTable.
-- **AI-readable specs**: one JSON file per component — name, import, status, version, purpose, props, states, tokens, accessibility, variants, usage (do / don't / related / example).
-- **Accessibility**: WCAG 2.1 AA / IBM requirements. 486 contrast checks run on every token build and on every edit through the hub.
-- **Hub server**: REST API, MCP server (HTTP + stdio), web UI, API-key auth with roles, versioning + change tracking + releases, and public read access.
+- Tokens: an 8-hue × 10-step base palette, semantic colors with light and dark values, typography, a 10-step spacing scale (4 to 128px, base 16), radius, shadow and motion. Output for CSS, JS/TS, React Native and JSON.
+- 14 components, each for React (web) and React Native (iOS/Android) with the same props: Button, Icon, Link, Checkbox, RadioGroup, Toggle, InputField, Search, Select, Dropdown, Tabs, Tag, Modal, DataTable.
+- AI-readable specs: one JSON file per component covering name, import, status, version, purpose, props, states, tokens, accessibility, variants and usage (do / don't / related / example).
+- Accessibility: WCAG 2.1 AA / IBM requirements. 486 contrast checks run on every token build and on every edit through the hub.
+- Hub server: REST API, MCP server (HTTP and stdio), web UI, API-key auth with roles, versioning, change tracking, releases and public read access.
 
 ## Quick start
 
@@ -38,14 +38,14 @@ Requires Node ≥ 22.13.
 
 Open in a browser (self-contained HTML, in `docs/diagrams/`):
 
-- [How the packages fit together](docs/diagrams/package-map.html) — dependency graph
-- [From token JSON to every platform](docs/diagrams/token-pipeline.html) — token build + contrast gate
-- [Inside the hub server](docs/diagrams/hub-architecture.html) — REST, MCP, auth, storage
-- [What happens when an agent edits a token](docs/diagrams/edit-lifecycle.html) — sequence with rollback
+- [How the packages fit together](docs/diagrams/package-map.html): dependency graph
+- [From token JSON to every platform](docs/diagrams/token-pipeline.html): token build and contrast gate
+- [Inside the hub server](docs/diagrams/hub-architecture.html): REST, MCP, auth, storage
+- [What happens when an agent edits a token](docs/diagrams/edit-lifecycle.html): sequence with rollback
 
 ## Docs
 
-- [Architecture](docs/architecture.md) — diagrams of packages, token pipeline, hub, edit lifecycle
+- [Architecture](docs/architecture.md): diagrams of packages, token pipeline, hub, edit lifecycle
 - [Getting started](docs/getting-started.md)
 - [Tokens](docs/tokens.md)
 - [Components](docs/components.md)
@@ -56,6 +56,6 @@ Open in a browser (self-contained HTML, in `docs/diagrams/`):
 
 ## Roadmap
 
-- Figma: token sync (Variables) and Code Connect mappings — specs and DTCG tokens are already structured for it.
+- Figma: token sync (Variables) and Code Connect mappings. Specs and DTCG tokens are already structured for it.
 - Publish packages to a registry.
-- Visual regression + automated axe test runs in CI for the Storybook stories (the a11y panel already checks each story interactively).
+- Visual regression and automated axe test runs in CI for the Storybook stories. The a11y panel already checks each story interactively.
