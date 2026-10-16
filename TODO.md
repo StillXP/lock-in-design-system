@@ -1,10 +1,16 @@
 # TODO
 
-Things we come across while working that are worth handling later. Add new ones at the top of the right section; delete an item once it's done.
+Things we come across while working that are worth handling later. Add new ones at the top of the right section; delete an item once it's done (git history is the record of finished work).
+
+## Now
+
+What we're working on this session. Keep it to 1 to 3 items; move things in from the sections below and back out if they stall.
+
+- [ ] Fonts on React Native. Web now ships Inter and JetBrains Mono, but the native tokens still use the system font (`ds.native: System`). Decide whether to load them with `expo-font`; the font files are in `packages/tokens/src/fonts/`.
+- [ ] Commit the web font work (tokens build script, server changes, `.design-sync/` notes) once the build and server tests pass.
 
 ## Design system
 
-- [ ] Fonts on React Native. Web now ships Inter and JetBrains Mono, but the native tokens still use the system font (`ds.native: System`). Decide whether to load them with `expo-font`; the font files are in `packages/tokens/src/fonts/`.
 - [ ] Cover open states in stories. Modal, Dropdown and Select stories only render the closed trigger, so the open dialog, menu and listbox are never visually checked (in Storybook or the sync).
 - [ ] Add dark mode and the `arena` / `arcade` themes to the Storybook previews, so they can be compared and synced too.
 
@@ -16,10 +22,10 @@ Things we come across while working that are worth handling later. Add new ones 
 
 ## Docs and repo
 
-- [ ] Reconnect the Figma MCP server (it disconnected during this session) before any Figma work.
 
 ## Roadmap (from README)
 
-- [ ] Figma: token sync (Variables) and Code Connect mappings.
+- [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @lockin/tokens`, rules in `docs/figma-sync.md`.
+- [ ] Figma: Code Connect mappings.
 - [ ] Publish packages to a registry.
 - [ ] Visual regression and automated axe runs in CI for the Storybook stories.
