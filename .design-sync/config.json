@@ -23,5 +23,11 @@
     "story-imports.mjs": "Expand Vite import.meta.glob (apps/storybook blocks/data.ts spec loader) into static JSON imports so story modules compile outside Vite"
   },
   "docsDir": "../../.design-sync/docs",
-  "readmeHeader": ".design-sync/conventions.md"
+  "readmeHeader": ".design-sync/conventions.md",
+  "extraFonts": [
+    "../tokens/src/fonts/inter-latin-wght-normal.woff2",
+    "../tokens/src/fonts/inter-latin-ext-wght-normal.woff2",
+    "../tokens/src/fonts/jetbrains-mono-latin-wght-normal.woff2",
+    "../tokens/src/fonts/jetbrains-mono-latin-ext-wght-normal.woff2"
+  ]
 }

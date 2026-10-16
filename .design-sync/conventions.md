@@ -38,8 +38,18 @@ Style glue (layout, spacing, your own surfaces) with the semantic `--ds-*` varia
 
 Prefer a component over custom markup. Components take icon names as strings (`iconStart="plus"`), form controls require a `label` (`hideLabel` hides it visually only), and every control keeps a 44px touch target.
 
+## Atomic levels
+
+Components are grouped by atomic design level, and each `.prompt.md` states its level. Build from the bottom up.
+
+- Atoms: Button, Icon, Link, Checkbox, Toggle, Tag. Single controls and elements.
+- Molecules: InputField, Search, Select, RadioGroup, Dropdown, Tabs. Fields, menus and groups made of atoms.
+- Organisms: DataTable, Modal. Self-contained sections made of molecules and atoms.
+
+There are no templates or pages. Compose screens yourself from organisms, molecules and atoms.
+
 ## Where to read
 
 - `tokens/tokens.css` and `tokens/typography.css`: every variable and the dark overrides.
 - `_ds_bundle.css`: the real component styles.
-- `components/components/<Name>/<Name>.prompt.md`: props, a JSX example, do and don't for each component.
+- `components/<atoms|molecules|organisms>/<Name>/<Name>.prompt.md`: props, a JSX example, do and don't for each component.
