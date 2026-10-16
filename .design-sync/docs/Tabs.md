@@ -1,5 +1,7 @@
 Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `line`: Underline indicator. Use when: Page-level sections.

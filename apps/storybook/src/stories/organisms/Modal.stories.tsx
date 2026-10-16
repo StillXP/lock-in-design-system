@@ -32,7 +32,7 @@ function ModalDemo({ trigger = 'Open modal', ...args }: ModalArgs & { trigger?: 
 }
 
 const meta = {
-  title: 'Components/Modal',
+  title: 'Organisms/Modal',
   ...specMeta('modal'),
   component: Modal,
   args: {

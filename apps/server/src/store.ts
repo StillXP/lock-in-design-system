@@ -34,6 +34,9 @@ type Spec = Record<string, any>;
 const readJson = (file: string) => JSON.parse(readFileSync(file, 'utf8'));
 const writeJson = (file: string, data: unknown) => writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
 
+/** Atomic design level (spec `level`) to the Storybook sidebar group its stories live under. */
+const LEVEL_TITLES = { atom: 'Atoms', molecule: 'Molecules', organism: 'Organisms' } as const;
+
 export function bumpVersion(version: string, bump: Bump): string {
   const [maj, min, pat] = version.split('.').map(Number);
   if (bump === 'major') return `${maj + 1}.0.0`;
@@ -232,11 +235,12 @@ export class DesignSystemStore {
   }
 
   /**
-   * Stories for a component in the static Storybook build (title `Components/<spec name>`), in file order.
+   * Stories for a component in the static Storybook build (title `<Atoms|Molecules|Organisms>/<spec name>`, from the spec's level), in file order.
    * Empty when Storybook hasn't been built, so the web UI can hide the live example.
    */
   componentStories(nameOrSlug: string): { id: string; name: string }[] {
-    const title = `Components/${this.component(nameOrSlug).name}`;
+    const spec = this.component(nameOrSlug);
+    const title = `${LEVEL_TITLES[spec.level as keyof typeof LEVEL_TITLES]}/${spec.name}`;
     const index = join(config.paths.storybook, 'index.json');
     if (!existsSync(index)) return [];
     const entries = Object.values((readJson(index) as { entries: Record<string, { type: string; id: string; name: string; title: string }> }).entries);
@@ -331,6 +335,7 @@ export class DesignSystemStore {
           [c.slug, 8],
           [c.purpose, 4],
           [c.category, 3],
+          [c.level, 3],
           [c.props.map((p: Spec) => p.name).join(' '), 2],
           [c.variants.map((v: Spec) => `${v.name} ${v.useWhen ?? ''}`).join(' '), 2],
           [[...c.usage.do, ...c.usage.dont].join(' '), 1],

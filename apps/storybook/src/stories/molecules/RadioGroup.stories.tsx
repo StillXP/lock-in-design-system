@@ -10,7 +10,7 @@ const options = [
 ];
 
 const meta = {
-  title: 'Components/RadioGroup',
+  title: 'Molecules/RadioGroup',
   ...specMeta('radio-button'),
   component: RadioGroup,
   args: { legend: 'Match format', defaultValue: 'bo3', options, onValueChange: fn() },

@@ -1,5 +1,7 @@
 Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control — for picking a value use Select.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `labelled`: Text trigger with chevron ('Actions'). Use when: Toolbars, page headers.

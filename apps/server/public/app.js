@@ -205,17 +205,26 @@ async function tokensView(params) {
   });
 }
 
+/** Atomic design levels, smallest first. Mirrors the spec `level` enum and docs/components.md. */
+const LEVELS = [
+  ['atom', 'Atoms', 'Single controls and elements. They stand on their own.'],
+  ['molecule', 'Molecules', 'A few atoms working as one unit, such as a labelled field or a control with a menu.'],
+  ['organism', 'Organisms', 'Self-contained sections of an interface, built from molecules and atoms.'],
+];
+
 async function componentsView() {
   const list = await api('/components');
-  setSubnav('components', list);
+  const byLevel = LEVELS.map(([level, title, blurb]) => ({ title, blurb, items: list.filter((c) => c.level === level) }));
+  setSubnav('components', byLevel.flatMap((g) => g.items));
+  const card = (c) =>
+    `<a class="card ds-focus-ring" href="#/components/${esc(c.slug)}"><span class="card__title">${esc(c.name)}</span><span class="row">${tag(c.status, TONE[c.status])} ${tag(`v${c.version}`)} ${tag(c.category)}</span><span class="muted">${esc(c.purpose)}</span></a>`;
   render(
     'Components',
-    `<h1>Components</h1><p class="lead">${list.length} components, each available for web (<code>@lockin/react</code>) and mobile (<code>@lockin/react-native</code>) with a machine-readable spec.</p>
-    <div class="grid">${list
-      .map(
-        (c) => `<a class="card ds-focus-ring" href="#/components/${esc(c.slug)}"><span class="card__title">${esc(c.name)}</span><span class="row">${tag(c.status, TONE[c.status])} ${tag(`v${c.version}`)} ${tag(c.category)}</span><span class="muted">${esc(c.purpose)}</span></a>`,
-      )
-      .join('')}</div>`,
+    `<h1>Components</h1><p class="lead">${list.length} components in three atomic levels, each available for web (<code>@lockin/react</code>) and mobile (<code>@lockin/react-native</code>) with a machine-readable spec.</p>
+    ${byLevel
+      .filter((g) => g.items.length)
+      .map((g) => `<h2>${g.title}</h2><p class="muted">${g.blurb}</p><div class="grid">${g.items.map(card).join('')}</div>`)
+      .join('')}`,
   );
 }
 
@@ -237,7 +246,7 @@ async function componentView(slug) {
     c.name,
     `<p><a class="ds-link ds-link--subtle" href="#/components">Components</a></p>
     <h1>${esc(c.name)}</h1>
-    <p class="row">${tag(c.status, TONE[c.status])} ${tag(`v${c.version}`)} ${tag(c.category)}</p>
+    <p class="row">${tag(c.status, TONE[c.status])} ${tag(`v${c.version}`)} ${tag(c.level)} ${tag(c.category)}</p>
     <p class="lead">${esc(c.purpose)}</p>
     ${liveExample(c, stories)}
     <h2>Import</h2>${code(`// Web\n${c.import.web}\n// React Native\n${c.import.native}`)}

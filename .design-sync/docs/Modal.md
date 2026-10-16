@@ -1,5 +1,7 @@
 Dialog that interrupts the current task for a focused decision or short form (confirm delete, edit score). Becomes a bottom sheet on small screens.
 
+Atomic level: organism.
+
 ## Variants
 
 - `dialog`: Standard modal with form or content.

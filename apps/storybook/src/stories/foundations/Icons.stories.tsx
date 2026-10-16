@@ -15,7 +15,7 @@ const meta: Meta<GalleryArgs> = {
     docs: {
       description: {
         component:
-          'Every icon in `@lockin/icons`: 24×24 grid, 2px round strokes, shared by web and native. Render with `<Icon name="…" />`; see Components/Icon for labelling rules.',
+          'Every icon in `@lockin/icons`: 24×24 grid, 2px round strokes, shared by web and native. Render with `<Icon name="…" />`; see Atoms/Icon for labelling rules.',
       },
     },
   },

@@ -4,7 +4,7 @@ import { iconNames } from '@lockin/icons';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Icon',
+  title: 'Atoms/Icon',
   ...specMeta('icon'),
   component: Icon,
   args: { name: 'trophy', size: 'lg', color: 'brand' },

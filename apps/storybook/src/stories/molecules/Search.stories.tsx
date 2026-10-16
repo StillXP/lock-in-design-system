@@ -5,7 +5,7 @@ import { Search } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Search',
+  title: 'Molecules/Search',
   ...specMeta('search'),
   component: Search,
   args: { label: 'Search players', placeholder: 'Name or team', onValueChange: fn(), onSearch: fn(), onClear: fn() },

@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "10:167" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "navigation",
+  "level": "molecule",
   "purpose": "Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.",
   "props": [
     { "name": "items", "type": "Array<{ id: string; label: ReactNode; content: ReactNode; icon?: IconName; badge?: ReactNode; disabled?: boolean }>", "required": true, "description": "Tabs and their panels." },

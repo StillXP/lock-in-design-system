@@ -1,5 +1,7 @@
 Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.
 
+Atomic level: atom.
+
 ## Variants
 
 - `inline`: Underlined link within text. Use when: Links inside paragraphs and help text.

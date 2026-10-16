@@ -4,7 +4,7 @@
   "title": "Lock In component spec",
   "description": "Machine-readable description of a design system component. One file per component in packages/specs/components/. Written for both humans and AI agents: every field is plain JSON with no markup.",
   "type": "object",
-  "required": ["name", "slug", "import", "status", "version", "category", "purpose", "props", "states", "tokens", "accessibility", "variants", "usage"],
+  "required": ["name", "slug", "import", "status", "version", "category", "level", "purpose", "props", "states", "tokens", "accessibility", "variants", "usage"],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
@@ -33,6 +33,7 @@
     "status": { "enum": ["experimental", "beta", "stable", "deprecated"] },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semver of this component's API." },
     "category": { "enum": ["action", "navigation", "form", "data-display", "feedback", "overlay", "media"] },
+    "level": { "enum": ["atom", "molecule", "organism"], "description": "Atomic design level. atom: a single control or element (Button, Tag). molecule: a few atoms working as one unit, such as a labelled field or a control with a menu (InputField, Tabs). organism: a self-contained section of an interface built from molecules and atoms (DataTable, Modal)." },
     "purpose": { "type": "string", "description": "One or two sentences: what it is and when to reach for it." },
     "props": {
       "type": "array",

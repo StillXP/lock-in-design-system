@@ -10,7 +10,7 @@ const divisions = [
 ];
 
 const meta = {
-  title: 'Components/Select',
+  title: 'Molecules/Select',
   ...specMeta('select'),
   component: Select,
   args: { label: 'Division', placeholder: 'Choose a division', options: divisions, onChange: fn() },

@@ -21,12 +21,13 @@ Read `llms.txt` for the condensed version.
 | Component spec | `packages/specs/components/<slug>.json` | `npm run validate -w @lockin/specs` |
 | Web component | `packages/react/src/components/<Name>/` | `npm run build -w @lockin/react` |
 | Native component | `packages/react-native/src/components/<Name>.tsx` | `npm run typecheck -w @lockin/react-native` |
-| Stories | `apps/storybook/src/stories/**` | `npm run typecheck -w @lockin/storybook && npm run build -w @lockin/storybook` |
+| Stories | `apps/storybook/src/stories/{atoms,molecules,organisms}/` (components), `foundations/` | `npm run typecheck -w @lockin/storybook && npm run build -w @lockin/storybook` |
 | Hub server | `apps/server/src/` | `npm run typecheck -w @lockin/server && npm test -w @lockin/server` |
 | Docs | `docs/*.md` | — |
 
 Rules:
 - Keep web and native props in sync and update the spec in the same change. Update the component's stories too.
+- Every component spec has a `level` (`atom`, `molecule` or `organism`; see `docs/components.md`). Its stories are titled `<Atoms|Molecules|Organisms>/<Name>` and filed in the matching `stories/` folder. A server test enforces this.
 - Never lower a contrast pair; if the checker fails, fix the token mapping, not the check.
 - Component CSS may only reference `--ds-*` variables.
 - Bump the spec `version` when editing specs by hand (major: removed/changed props; minor: additions; patch: other).

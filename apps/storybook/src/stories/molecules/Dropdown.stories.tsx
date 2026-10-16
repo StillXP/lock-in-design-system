@@ -4,7 +4,7 @@ import { Dropdown } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Dropdown',
+  title: 'Molecules/Dropdown',
   ...specMeta('dropdown'),
   component: Dropdown,
   args: {

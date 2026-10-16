@@ -3,7 +3,7 @@
 A cross-platform design system for personal projects (tournament apps, web games, dashboards, web stores), built for both people and AI agents, on web and mobile.
 
 - Tokens: an 8-hue × 10-step base palette, semantic colors with light and dark values, typography, a 10-step spacing scale (4 to 128px, base 16), radius, shadow and motion. Output for CSS, JS/TS, React Native and JSON.
-- 14 components, each for React (web) and React Native (iOS/Android) with the same props: Button, Icon, Link, Checkbox, RadioGroup, Toggle, InputField, Search, Select, Dropdown, Tabs, Tag, Modal, DataTable.
+- 14 components, each for React (web) and React Native (iOS/Android) with the same props, organized by atomic level. Atoms: Button, Icon, Link, Checkbox, Toggle, Tag. Molecules: InputField, Search, Select, RadioGroup, Dropdown, Tabs. Organisms: DataTable, Modal.
 - AI-readable specs: one JSON file per component covering name, import, status, version, purpose, props, states, tokens, accessibility, variants and usage (do / don't / related / example).
 - Accessibility: WCAG 2.1 AA / IBM requirements. 486 contrast checks run on every token build and on every edit through the hub.
 - Hub server: REST API, MCP server (HTTP and stdio), web UI, API-key auth with roles, versioning, change tracking, releases and public read access.
@@ -30,7 +30,7 @@ Requires Node ≥ 22.13.
 | `packages/react` | Web components |
 | `packages/react-native` | Mobile components |
 | `apps/server` | Hub: REST + MCP + web UI + auth + versioning |
-| `apps/storybook` | Storybook: component stories with spec-driven docs, foundations (color, type, spacing, effects), icons, axe checks |
+| `apps/storybook` | Storybook: foundations (color, type, spacing, effects), icons, then component stories by level (atoms, molecules, organisms) with spec-driven docs and axe checks |
 | `docs/` | Guides (also served by the hub) |
 | `llms.txt`, `AGENTS.md` | Entry points for AI agents |
 

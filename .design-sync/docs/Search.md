@@ -1,5 +1,7 @@
 Search input wrapped in a search landmark with a leading icon, clear button, Escape-to-clear, and an optional loading spinner.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `instant`: Filter as you type with onValueChange. Use when: Local lists, small datasets.

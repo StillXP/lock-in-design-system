@@ -51,10 +51,10 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
     'list_components',
     {
       title: 'List components',
-      description: 'All components with status, version, category, purpose and import statements.',
+      description: 'All components with status, version, category, atomic level (atom, molecule or organism), purpose and import statements.',
       annotations: readOnly,
     },
-    () => run(() => store.components().map(({ name, slug, status, version, category, purpose, import: imp }) => ({ name, slug, status, version, category, purpose, import: imp }))),
+    () => run(() => store.components().map(({ name, slug, status, version, category, level, purpose, import: imp }) => ({ name, slug, status, version, category, level, purpose, import: imp }))),
   );
 
   server.registerTool(

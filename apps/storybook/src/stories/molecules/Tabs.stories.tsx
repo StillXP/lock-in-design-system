@@ -11,7 +11,7 @@ const items = [
 ];
 
 const meta = {
-  title: 'Components/Tabs',
+  title: 'Molecules/Tabs',
   ...specMeta('tabs'),
   component: Tabs,
   args: { 'aria-label': 'Tournament', items, onValueChange: fn() },

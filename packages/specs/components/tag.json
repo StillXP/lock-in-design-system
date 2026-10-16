@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:893" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "data-display",
+  "level": "atom",
   "purpose": "Compact label for status, category or metadata (Live, Final, Sold out, Division A). Optionally removable for active filters.",
   "props": [
     { "name": "children", "type": "ReactNode", "required": true, "description": "Tag text (1–2 words)." },

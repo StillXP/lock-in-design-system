@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "action",
+  "level": "atom",
   "purpose": "Triggers an action in the current view (submit, save, open a modal). For navigation to another page or URL, use Link.",
   "props": [
     { "name": "variant", "type": "'primary' | 'secondary' | 'tertiary' | 'danger'", "default": "primary", "required": false, "description": "Visual emphasis. Use one primary per view." },

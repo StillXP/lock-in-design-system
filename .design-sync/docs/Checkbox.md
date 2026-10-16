@@ -1,5 +1,7 @@
 Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.
 
+Atomic level: atom.
+
 ## Variants
 
 - `default`: Checkbox with visible label.

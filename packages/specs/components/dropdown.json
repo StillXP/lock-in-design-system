@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "11:180" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "action",
+  "level": "molecule",
   "purpose": "Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control — for picking a value use Select.",
   "props": [
     { "name": "label", "type": "string", "required": true, "description": "Trigger text, or the aria-label when triggerIcon is set." },

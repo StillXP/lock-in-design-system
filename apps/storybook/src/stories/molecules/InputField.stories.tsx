@@ -5,7 +5,7 @@ import { iconNames } from '@lockin/icons';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/InputField',
+  title: 'Molecules/InputField',
   ...specMeta('input-field'),
   component: InputField,
   args: { label: 'Team name', onChange: fn() },

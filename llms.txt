@@ -21,8 +21,11 @@
 4. Every form control needs a visible label; never convey meaning by color alone; keep focus visible; touch targets ≥ 44px.
 5. Check any new color pairing with check_contrast (4.5:1 text, 3:1 UI).
 
-## Components
-Button, Icon, Link, Checkbox, RadioGroup (radio-button), Toggle, InputField, Search, Select, Dropdown, Tabs, Tag, Modal, DataTable
+## Components (by atomic level; every spec has a `level`)
+- Atoms: Button, Icon, Link, Checkbox, Toggle, Tag
+- Molecules: InputField, Search, Select, RadioGroup (radio-button), Dropdown, Tabs
+- Organisms: DataTable, Modal
+- Templates and pages are not part of the system; build them in your project from organisms, molecules and atoms.
 
 ## Docs
 - docs/architecture.md (diagrams), docs/getting-started.md, docs/tokens.md, docs/components.md, docs/accessibility.md, docs/theming.md, docs/mcp-server.md, docs/contributing.md

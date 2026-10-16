@@ -10,14 +10,13 @@ Things we come across while working that are worth handling later. Add new ones 
 
 ## Claude Design sync (`.design-sync/`)
 
-- [ ] Commit `.design-sync/` (config, notes, conventions, docs generator, provider, overrides) and the `.gitignore` change. Not committed yet.
+- [ ] Re-sync after the atomic-level split. Story titles and ids changed (`Components/Button` to `Atoms/Button`), so rebuild the reference Storybook (`.design-sync/sb-reference`), run the re-sync command in `.design-sync/NOTES.md`, and expect every component to be re-verified once. The project folders will become `atoms`, `molecules` and `organisms`; the old `components/components/...` files are removed by the reconcile step.
 - [ ] Re-sync after any component, spec, token or story change: see the command at the top of `.design-sync/NOTES.md`.
 - [ ] Raise the story cap (`--max-stories 10`) if the tail stories carry distinct variants. Ungraded today: Button 4, DataTable 3, Checkbox 2, InputField 2, RadioGroup 1, Toggle 1.
 - [ ] Optional: make `apps/storybook/src/blocks/data.ts` work without Vite's `import.meta.glob`. That would remove the need for the story-imports fork in `.design-sync/overrides/`.
 
 ## Docs and repo
 
-- [ ] Review and commit the humanized `docs/*.md` edits (8 files, not committed yet).
 - [ ] Reconnect the Figma MCP server (it disconnected during this session) before any Figma work.
 
 ## Roadmap (from README)

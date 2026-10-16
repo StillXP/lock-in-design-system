@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:400" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "form",
+  "level": "molecule",
   "purpose": "Radio buttons let users pick exactly one option from a small, visible set (2–6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.",
   "props": [
     { "name": "legend", "type": "ReactNode", "required": true, "description": "The question the group answers. Rendered as <legend>." },

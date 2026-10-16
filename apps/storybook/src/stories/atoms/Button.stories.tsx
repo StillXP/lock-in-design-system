@@ -5,7 +5,7 @@ import { iconNames } from '@lockin/icons';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Button',
+  title: 'Atoms/Button',
   ...specMeta('button'),
   component: Button,
   args: { children: 'New match', onClick: fn() },

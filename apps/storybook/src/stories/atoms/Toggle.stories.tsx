@@ -5,7 +5,7 @@ import { Toggle } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Toggle',
+  title: 'Atoms/Toggle',
   ...specMeta('toggle'),
   component: Toggle,
   args: { label: 'Sound effects', onCheckedChange: fn() },

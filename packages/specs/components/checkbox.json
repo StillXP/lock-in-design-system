@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:202" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "form",
+  "level": "atom",
   "purpose": "Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.",
   "props": [
     { "name": "label", "type": "ReactNode", "required": true, "description": "Visible label. Required even when hidden." },
