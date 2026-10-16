@@ -17,7 +17,7 @@ export function createApp(store: DesignSystemStore, db: Db, opts: { publicRead?:
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'no-referrer',
       'X-Frame-Options': 'DENY',
-      'Content-Security-Policy': "default-src 'self'; style-src 'self'; img-src 'self' data:; script-src 'self'; connect-src 'self'; frame-src 'self'",
+      'Content-Security-Policy': "default-src 'self'; style-src 'self'; img-src 'self' data:; script-src 'self'; connect-src 'self'; frame-src 'self' https://embed.figma.com https://www.figma.com",
     });
     next();
   });

@@ -133,5 +133,5 @@ Prompt: `build_with_lockin` (task, platform).
 - Binds to localhost by default. To expose it, run behind a TLS reverse proxy (Caddy, nginx) — keys are bearer tokens and must not travel over plain HTTP.
 - With public read on, everything readable — tokens, specs, docs, change history and releases — is visible to anyone who can reach the server. Writes, releases and key management always need a key.
 - Docs markdown has raw HTML escaped when rendered; the web UI escapes all content it inserts.
-- Responses set a strict Content-Security-Policy, `nosniff`, `DENY` framing and `no-referrer`. The exception is `/storybook`: Storybook needs inline scripts, and the hub frames it, so it gets a looser CSP and same-origin framing only. Like the other static assets, it's served without a key even when public read is off.
+- Responses set a strict Content-Security-Policy, `nosniff`, `DENY` framing and `no-referrer`. The exception is `/storybook`: Storybook needs inline scripts, and the hub frames it, so it gets a looser CSP and same-origin framing only. Like the other static assets, it's served without a key even when public read is off. The hub may also frame `embed.figma.com` / `www.figma.com` for the Design tab (view-only Figma embeds).
 - The SQLite file in `DS_DATA_DIR` holds key hashes, change history and releases — it's git-ignored; back it up separately.

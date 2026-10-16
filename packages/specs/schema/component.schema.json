@@ -20,6 +20,16 @@
       },
       "additionalProperties": false
     },
+    "figma": {
+      "type": "object",
+      "description": "Where the component lives in the Lock In Figma library. The hub embeds this node as the component's design view; https://www.figma.com/design/<fileKey>?node-id=<nodeId with ':' as '-'> opens it.",
+      "required": ["fileKey", "nodeId"],
+      "properties": {
+        "fileKey": { "type": "string", "pattern": "^[0-9A-Za-z]{22,128}$" },
+        "nodeId": { "type": "string", "pattern": "^\\d+:\\d+$", "description": "Component set (or frame) node ID, e.g. \"5:422\"." }
+      },
+      "additionalProperties": false
+    },
     "status": { "enum": ["experimental", "beta", "stable", "deprecated"] },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semver of this component's API." },
     "category": { "enum": ["action", "navigation", "form", "data-display", "feedback", "overlay", "media"] },

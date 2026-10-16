@@ -6,8 +6,9 @@
     "web": "import { Search } from '@lockin/react';",
     "native": "import { Search } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "8:137" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "form",
   "purpose": "Search input wrapped in a search landmark with a leading icon, clear button, Escape-to-clear, and an optional loading spinner.",
   "props": [

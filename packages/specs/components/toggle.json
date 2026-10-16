@@ -6,8 +6,9 @@
     "web": "import { Toggle } from '@lockin/react';",
     "native": "import { Toggle } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:529" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "form",
   "purpose": "A switch that turns a single setting on or off with immediate effect (dark mode, notifications, sound). Uses the ARIA switch pattern on web and the platform Switch on native.",
   "props": [
