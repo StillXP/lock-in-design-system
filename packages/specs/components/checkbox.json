@@ -6,8 +6,9 @@
     "web": "import { Checkbox } from '@lockin/react';",
     "native": "import { Checkbox } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:202" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "form",
   "purpose": "Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.",
   "props": [

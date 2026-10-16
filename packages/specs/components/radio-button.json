@@ -6,8 +6,9 @@
     "web": "import { RadioGroup, Radio } from '@lockin/react';",
     "native": "import { RadioGroup } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:400" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "form",
   "purpose": "Radio buttons let users pick exactly one option from a small, visible set (2–6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.",
   "props": [

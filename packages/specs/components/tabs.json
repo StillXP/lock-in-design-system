@@ -6,8 +6,9 @@
     "web": "import { Tabs } from '@lockin/react';",
     "native": "import { Tabs } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "10:167" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "navigation",
   "purpose": "Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.",
   "props": [

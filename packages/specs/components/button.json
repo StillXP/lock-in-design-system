@@ -6,8 +6,9 @@
     "web": "import { Button } from '@lockin/react';",
     "native": "import { Button } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "action",
   "purpose": "Triggers an action in the current view (submit, save, open a modal). For navigation to another page or URL, use Link.",
   "props": [

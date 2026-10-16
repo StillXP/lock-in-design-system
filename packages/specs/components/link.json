@@ -6,8 +6,9 @@
     "web": "import { Link } from '@lockin/react';",
     "native": "import { Link } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:604" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "navigation",
   "purpose": "Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.",
   "props": [

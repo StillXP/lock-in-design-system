@@ -122,9 +122,10 @@ describe('versioning and change tracking', () => {
     const next = { ...spec, props: [...spec.props, { name: 'pulse', type: 'boolean', required: false, description: 'Animate for live status.' }] };
     const { status, body } = await api('PUT', '/api/components/tag', keys.editor, { spec: next, summary: 'Add pulse' });
     assert.equal(status, 200);
-    assert.equal(body.version, '0.2.0');
+    const [maj, min] = spec.version.split('.').map(Number);
+    assert.equal(body.version, `${maj}.${min + 1}.0`);
     const history = await api('GET', '/api/components/tag/history', keys.viewer);
-    assert.equal(history.body[0].versionTo, '0.2.0');
+    assert.equal(history.body[0].versionTo, body.version);
     assert.equal(history.body[0].actor, 'test-editor');
     assert.ok(history.body[0].diff.some((d: { path: string }) => d.path.startsWith('props.')));
   });
@@ -174,6 +175,12 @@ describe('live examples', () => {
     const titles = readdirSync(dir).flatMap((f) => [...readFileSync(join(dir, f), 'utf8').matchAll(/title: '(Components\/[^']+)'/g)].map((m) => m[1]));
     for (const c of store.components()) assert.ok(titles.includes(`Components/${c.name}`), `No stories titled "Components/${c.name}"`);
   });
+  test('every component spec links its Figma library node', () => {
+    for (const c of store.components()) {
+      assert.ok(c.figma, `${c.name} has no figma link`);
+      assert.equal(c.figma.fileKey, store.component('button').figma.fileKey, `${c.name} points at a different Figma file`);
+    }
+  });
   test('stories come from the Storybook build index, embeddable by the hub only', async () => {
     assert.deepEqual((await api('GET', '/api/components/button/stories', keys.viewer)).body, []);
     const sb = join(root, 'apps/storybook/storybook-static');
@@ -201,7 +208,7 @@ describe('live examples', () => {
     assert.match(frame.headers.get('content-security-policy') ?? '', /frame-ancestors 'self'/);
     const hub = await fetch(`${base}/`);
     assert.equal(hub.headers.get('x-frame-options'), 'DENY');
-    assert.match(hub.headers.get('content-security-policy') ?? '', /frame-src 'self'/);
+    assert.match(hub.headers.get('content-security-policy') ?? '', /frame-src 'self' https:\/\/embed\.figma\.com/);
   });
 });
 

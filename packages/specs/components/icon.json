@@ -6,8 +6,9 @@
     "web": "import { Icon } from '@lockin/react';",
     "native": "import { Icon } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "4:2" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "media",
   "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
   "props": [

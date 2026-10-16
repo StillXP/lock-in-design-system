@@ -6,8 +6,9 @@
     "web": "import { InputField } from '@lockin/react';",
     "native": "import { InputField } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "7:380" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "form",
   "purpose": "Single-line text entry with label, hint, and error wiring built in. Supports text, email, number, password (with show/hide), tel, url.",
   "props": [

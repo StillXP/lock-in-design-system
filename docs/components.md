@@ -19,7 +19,7 @@
 | Modal | overlay | Focused decision or short task |
 | Icon | media | Show a glyph from the icon set |
 
-The full spec for each lives in `packages/specs/components/<slug>.json` and is served at `GET /api/components/<slug>` and via the MCP tool `get_component`. The web UI renders the same files, with a **Live example** of each component (its Storybook stories, embedded and following the hub's color mode and theme), and so does each component's **Docs** page in Storybook (`npm run storybook`), alongside live, editable stories.
+The full spec for each lives in `packages/specs/components/<slug>.json` and is served at `GET /api/components/<slug>` and via the MCP tool `get_component`. The web UI renders the same files, with a **Live example** of each component: a **Code** tab (its Storybook stories, embedded and following the hub's color mode and theme) and a **Design** tab (Figma's view-only embed of the spec's `figma` node), and so does each component's **Docs** page in Storybook (`npm run storybook`), alongside live, editable stories.
 
 ## Spec format (for humans and AI)
 
@@ -29,6 +29,7 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 {
   "name": "Button",
   "import": { "web": "import { Button } from '@lockin/react';", "native": "…" },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" }, // optional: the component set in the Figma library
   "status": "beta",            // experimental | beta | stable | deprecated
   "version": "0.1.0",          // semver of this component's API
   "purpose": "…",

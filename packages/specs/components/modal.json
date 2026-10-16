@@ -6,8 +6,9 @@
     "web": "import { Modal } from '@lockin/react';",
     "native": "import { Modal } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "13:254" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "overlay",
   "purpose": "Dialog that interrupts the current task for a focused decision or short form (confirm delete, edit score). Becomes a bottom sheet on small screens.",
   "props": [

@@ -79,6 +79,15 @@ body {
   color: var(--ds-color-text-brand);
   box-shadow: inset 3px 0 0 var(--ds-color-border-selected);
 }
+/* Section of the current page (e.g. Components while viewing Button). */
+.nav-link[aria-current='true'] { color: var(--ds-color-text-primary); }
+.sidebar .subnav {
+  margin: var(--ds-space-2xs) 0 var(--ds-space-xs) var(--ds-space-sm);
+  padding-left: var(--ds-space-xs);
+  border-left: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+}
+.sidebar .subnav[hidden] { display: none; }
+.nav-link--sub { padding: var(--ds-space-2xs) var(--ds-space-sm); font: var(--ds-typography-label-md); }
 
 main {
   min-width: 0;
@@ -210,12 +219,17 @@ pre {
 /* Overlays (Modal) render into the frame's viewport, so give them room. */
 .live[data-category='overlay'] .live__frame { min-height: 28rem; }
 .live__footer { margin: 0; }
+/* Figma scales the node to fit; give wide component sets room. */
+.live__frame--figma { height: 32rem; }
+.ds-tabs__panel .live { padding-top: var(--ds-space-md); }
 
 @media (max-width: 767px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { border-right: 0; border-bottom: var(--ds-border-width-thin) solid var(--ds-color-border-subtle); padding: var(--ds-space-xs) var(--ds-space-md); }
   .sidebar ul { flex-direction: row; overflow-x: auto; }
   .nav-link { white-space: nowrap; }
+  /* The section pages list every item; a nested row would crowd the horizontal nav. */
+  .sidebar .subnav { display: none; }
   main { padding: var(--ds-space-lg) var(--ds-space-md) var(--ds-space-2xl); }
   .palette { grid-template-columns: 4rem repeat(10, minmax(1.5rem, 1fr)); }
 }

@@ -207,6 +207,7 @@ async function tokensView(params) {
 
 async function componentsView() {
   const list = await api('/components');
+  setSubnav('components', list);
   render(
     'Components',
     `<h1>Components</h1><p class="lead">${list.length} components, each available for web (<code>@lockin/react</code>) and mobile (<code>@lockin/react-native</code>) with a machine-readable spec.</p>
@@ -270,13 +271,19 @@ function storyUrl(id) {
   return `/storybook/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=${encodeURIComponent(globals)}`;
 }
 
-function liveExample(c, stories) {
+/** Figma's view-only embed of the component's node in the library file (no footer or page picker). */
+function figmaUrl(figma) {
+  const mode = localStorage.getItem('ds-color-mode') ?? 'system';
+  const params = new URLSearchParams({ 'node-id': figma.nodeId.replace(':', '-'), 'embed-host': 'lockin', footer: 'false', 'page-selector': 'false', theme: mode });
+  return `https://embed.figma.com/design/${encodeURIComponent(figma.fileKey)}?${params}`;
+}
+
+function codeExample(c, stories) {
   if (!stories.length) {
-    return `<h2>Live example</h2><p class="muted">No live example: build Storybook with <code>npm run build:storybook</code> to embed ${esc(c.name)}'s stories here.</p>`;
+    return `<p class="muted">No live example: build Storybook with <code>npm run build:storybook</code> to embed ${esc(c.name)}'s stories here.</p>`;
   }
   const [first] = stories;
-  return `<h2>Live example</h2>
-    <div class="live" data-category="${esc(c.category)}">
+  return `<div class="live" data-category="${esc(c.category)}">
       ${stories.length > 1 ? `<div class="live__stories" role="group" aria-label="${esc(c.name)} examples">${stories
         .map((s, i) => btn(s.name, { variant: i === 0 ? 'secondary' : 'tertiary', size: 'sm', attrs: `data-story="${esc(s.id)}" data-name="${esc(s.name)}" aria-pressed="${i === 0}"` }))
         .join('')}</div>` : ''}
@@ -285,7 +292,55 @@ function liveExample(c, stories) {
     </div>`;
 }
 
+/** Code (Storybook) and, when the spec links a Figma node, Design tabs, using Lock In's Tabs markup. */
+function liveExample(c, stories) {
+  if (!c.figma) return `<h2>Live example</h2>${codeExample(c, stories)}`;
+  const tabs = [
+    ['code', 'Code', codeExample(c, stories)],
+    [
+      'design',
+      'Design',
+      // The src is set on first open: Figma embeds are heavy.
+      `<div class="live"><iframe class="live__frame live__frame--figma" id="figma-frame" data-file-key="${esc(c.figma.fileKey)}" data-node-id="${esc(c.figma.nodeId)}" title="${esc(`${c.name} design in Figma (view only)`)}" allowfullscreen></iframe>
+        <p class="live__footer muted">View only, from the Lock In Figma library.</p></div>`,
+    ],
+  ];
+  return `<h2 id="live-heading">Live example</h2>
+    <div class="ds-tabs ds-tabs--line">
+      <div role="tablist" class="ds-tabs__list" aria-orientation="horizontal" aria-labelledby="live-heading">${tabs
+        .map(([id, label], i) => `<button type="button" role="tab" id="live-tab-${id}" aria-controls="live-panel-${id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" class="ds-tabs__tab ds-focus-ring" data-tab="${id}"><span>${label}</span></button>`)
+        .join('')}</div>
+      ${tabs.map(([id, , content], i) => `<div role="tabpanel" id="live-panel-${id}" aria-labelledby="live-tab-${id}" class="ds-tabs__panel ds-focus-ring" tabindex="0" ${i === 0 ? '' : 'hidden'}>${content}</div>`).join('')}
+    </div>`;
+}
+
+function bindLiveTabs(c) {
+  const tabs = $$('[role="tab"][data-tab]', main);
+  const select = (tab) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      $(`#${t.getAttribute('aria-controls')}`).hidden = !on;
+    });
+    const figma = $('#figma-frame');
+    if (tab.dataset.tab === 'design' && figma && !figma.src) figma.src = figmaUrl(c.figma);
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    // Automatic activation with arrow keys / Home / End, as in the Tabs component.
+    t.addEventListener('keydown', (e) => {
+      const next = { ArrowRight: tabs[(i + 1) % tabs.length], ArrowLeft: tabs[(i - 1 + tabs.length) % tabs.length], Home: tabs[0], End: tabs[tabs.length - 1] }[e.key];
+      if (!next) return;
+      e.preventDefault();
+      next.focus();
+      select(next);
+    });
+  });
+}
+
 function bindLiveExample(c) {
+  bindLiveTabs(c);
   const frame = $('#live-frame');
   if (!frame) return;
   // Grow the frame to fit the story (same origin, so we can measure it). Grow-only within a story,
@@ -325,10 +380,14 @@ function bindLiveExample(c) {
 function refreshLiveExample() {
   const frame = $('#live-frame');
   if (frame) frame.src = storyUrl(frame.dataset.story);
+  // Only the embed's UI theme follows; Figma can't switch variable modes from the URL.
+  const figma = $('#figma-frame');
+  if (figma?.src) figma.src = figmaUrl(figma.dataset);
 }
 
 async function docsView() {
   const docs = await api('/docs');
+  setSubnav('docs', docs);
   render('Docs', `<h1>Docs</h1><p class="lead">Guides for using and extending Lock In.</p><div class="grid">${docs.map((d) => `<a class="card ds-focus-ring" href="#/docs/${esc(d.slug)}"><span class="card__title">${esc(d.title)}</span><span class="muted">${esc(d.summary)}</span></a>`).join('')}</div>`);
 }
 
@@ -417,6 +476,32 @@ async function searchView(params) {
   );
 }
 
+// ---------- sidebar ----------
+
+/** Fill a section's sub-navigation (components, docs) from its list. */
+function setSubnav(section, items) {
+  $(`#subnav-${section}`).innerHTML = items
+    .map((i) => `<li><a href="#/${section}/${esc(i.slug)}" class="nav-link nav-link--sub ds-focus-ring">${esc(i.name ?? i.title)}</a></li>`)
+    .join('');
+  updateNav(location.hash.replace(/^#/, '').split('?')[0]);
+}
+
+/** The current page's link gets aria-current="page"; its section stays marked and shows its sub-links. */
+function updateNav(path) {
+  const page = path === '' ? '/' : path;
+  $$('.nav-link').forEach((a) => {
+    const target = a.getAttribute('href').slice(1);
+    const inSection = target !== '/' && page.startsWith(`${target}/`);
+    if (target === page) a.setAttribute('aria-current', 'page');
+    else if (inSection) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
+  $$('.subnav').forEach((ul) => {
+    const target = ul.previousElementSibling.getAttribute('href').slice(1);
+    ul.hidden = !(page === target || page.startsWith(`${target}/`));
+  });
+}
+
 // ---------- router ----------
 
 const routes = [
@@ -435,12 +520,7 @@ async function route() {
   if (!state.me) return;
   const [path, query = ''] = location.hash.replace(/^#/, '').split('?');
   const params = new URLSearchParams(query);
-  $$('.nav-link').forEach((a) => {
-    const target = a.getAttribute('href').slice(1);
-    const active = target === '/' ? path === '/' || path === '' : path.startsWith(target);
-    a.toggleAttribute('aria-current', active);
-    if (active) a.setAttribute('aria-current', 'page');
-  });
+  updateNav(path);
   for (const [re, view] of routes) {
     const m = path.match(re);
     if (!m) continue;
@@ -463,7 +543,9 @@ async function boot() {
     state.me = null;
     return loginView(state.key ? 'That API key was not accepted.' : '');
   }
-  const [health, themes] = await Promise.all([fetch('/api/health').then((r) => r.json()), api('/themes')]);
+  const [health, themes, components, docs] = await Promise.all([fetch('/api/health').then((r) => r.json()), api('/themes'), api('/components'), api('/docs')]);
+  setSubnav('components', components);
+  setSubnav('docs', docs);
   $('#version').textContent = `v${health.version}`;
   const themeSelect = $('#theme-select');
   themeSelect.innerHTML = `<option value="">Default</option>${themes.map((t) => `<option value="${esc(t.name)}">${esc(t.name)} — ${esc(t.brand)}</option>`).join('')}`;

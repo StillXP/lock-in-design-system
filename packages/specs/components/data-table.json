@@ -6,8 +6,9 @@
     "web": "import { DataTable, type DataTableColumn } from '@lockin/react';",
     "native": "import { DataTable } from '@lockin/react-native';"
   },
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "12:809" },
   "status": "beta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "data-display",
   "purpose": "Displays structured rows for scanning and comparison (standings, orders, leaderboards) with sorting, row selection, density, sticky headers and a stacked card layout on small screens.",
   "props": [
