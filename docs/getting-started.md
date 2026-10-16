@@ -56,6 +56,8 @@ export function JoinForm() {
 
 `@lockin/react` targets bundlers (Vite, Next.js, webpack, Metro). It's ESM with extensionless internal imports.
 
+Fonts. `@lockin/tokens/css` also loads Inter and JetBrains Mono (variable fonts bundled in the package), so there is no font setup. Your bundler needs to resolve `url()` assets in CSS, which Vite, Next.js and webpack do. See [Tokens](./tokens.md#fonts).
+
 Color mode. Dark mode follows the OS by default (`prefers-color-scheme`). To let users choose:
 
 ```ts

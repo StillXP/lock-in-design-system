@@ -17,6 +17,7 @@
     "./css": "./dist/css/tokens.css",
     "./css/typography": "./dist/css/typography.css",
     "./css/themes/*": "./dist/css/themes/*.css",
+    "./fonts/*": "./dist/fonts/*",
     "./json/*": "./dist/json/*.json",
     "./lib/resolve": {
       "types": "./lib/resolve.d.ts",
