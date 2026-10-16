@@ -41,6 +41,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.mjs && node scripts/check-contrast.mjs",
-    "check:contrast": "node scripts/check-contrast.mjs"
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "figma": "node scripts/figma-export.mjs"
   }
 }

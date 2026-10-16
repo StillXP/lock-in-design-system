@@ -18,6 +18,7 @@ Read `llms.txt` for the condensed version.
 | Task | Where | Verify with |
 | --- | --- | --- |
 | Tokens | `packages/tokens/src/**` (DTCG JSON; semantic colors need `light` + `dark` referencing base) | `npm run build -w @lockin/tokens` (includes contrast check) |
+| Figma variables | `packages/tokens/scripts/figma-export.mjs`; rules in `docs/figma-sync.md` | `npm run figma -w @lockin/tokens` |
 | Component spec | `packages/specs/components/<slug>.json` | `npm run validate -w @lockin/specs` |
 | Web component | `packages/react/src/components/<Name>/` | `npm run build -w @lockin/react` |
 | Native component | `packages/react-native/src/components/<Name>.tsx` | `npm run typecheck -w @lockin/react-native` |
@@ -32,3 +33,4 @@ Rules:
 - Component CSS may only reference `--ds-*` variables.
 - Bump the spec `version` when editing specs by hand (major: removed/changed props; minor: additions; patch: other).
 - Run `npm run build` and the server tests before finishing.
+- `TODO.md` is the project backlog. Check its "Now" section at the start of a session, add follow-ups you find along the way, and delete items once done.
