@@ -1,5 +1,7 @@
 Single-line text entry with label, hint, and error wiring built in. Supports text, email, number, password (with show/hide), tel, url.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `default`: Plain text input.

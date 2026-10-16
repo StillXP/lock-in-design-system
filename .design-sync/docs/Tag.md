@@ -1,5 +1,7 @@
 Compact label for status, category or metadata (Live, Final, Sold out, Division A). Optionally removable for active filters.
 
+Atomic level: atom.
+
 ## Variants
 
 - `subtle`: Tinted background. Use when: Default for status in tables and cards.

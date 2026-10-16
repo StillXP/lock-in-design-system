@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:529" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "form",
+  "level": "atom",
   "purpose": "A switch that turns a single setting on or off with immediate effect (dark mode, notifications, sound). Uses the ARIA switch pattern on web and the platform Switch on native.",
   "props": [
     { "name": "label", "type": "ReactNode", "required": true, "description": "What the switch controls. Phrase as the 'on' state ('Sound effects')." },

@@ -45,7 +45,7 @@ const columns: DataTableColumn<Team>[] = [
 const TeamTable = DataTable as (props: DataTableProps<Team>) => ReturnType<typeof DataTable>;
 
 const meta = {
-  title: 'Components/DataTable',
+  title: 'Organisms/DataTable',
   ...specMeta('data-table'),
   component: TeamTable,
   args: {

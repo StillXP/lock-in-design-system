@@ -1,5 +1,7 @@
 Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.
 
+Atomic level: atom.
+
 ## Variants
 
 - `decorative`: Paired with visible text that already conveys the meaning. Use when: Icons in buttons with labels, list bullets.

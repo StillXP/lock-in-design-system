@@ -8,7 +8,7 @@ const tones = ['neutral', 'brand', 'info', 'success', 'warning', 'danger'] as co
 const variants = ['subtle', 'solid', 'outline'] as const;
 
 const meta = {
-  title: 'Components/Tag',
+  title: 'Atoms/Tag',
   ...specMeta('tag'),
   component: Tag,
   args: { children: 'Final', tone: 'success' },

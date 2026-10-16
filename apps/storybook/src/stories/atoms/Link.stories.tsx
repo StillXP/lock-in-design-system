@@ -3,7 +3,7 @@ import { Link } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Link',
+  title: 'Atoms/Link',
   ...specMeta('link'),
   component: Link,
   args: { href: '#rules', children: 'tournament rules' },

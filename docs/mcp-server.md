@@ -65,11 +65,11 @@ Read-only agents need no key while public read is on. Give agents that edit the 
 | `PUT /api/tokens/:name` | editor | `{ value, description?, type?, layer?, summary? }`; rejected (422) if contrast breaks |
 | `GET /api/themes` | viewer | Theme configs |
 | `GET /api/contrast?fg=&bg=&mode=&theme=` | viewer | Token names or hex |
-| `GET /api/components[?full=true]` | viewer | Summaries or full specs |
+| `GET /api/components[?full=true]` | viewer | Summaries (name, status, version, category, `level`, purpose, import) or full specs |
 | `GET /api/components/:name` | viewer | Full spec (name or slug) |
 | `PUT /api/components/:slug` | editor | `{ spec, bump?, summary? }`; validated, auto-versioned |
 | `GET /api/components/:name/history` | viewer | Change log with diffs |
-| `GET /api/components/:name/stories` | viewer | Storybook stories (`id`, `name`) for the live example; `[]` if Storybook isn't built |
+| `GET /api/components/:name/stories` | viewer | Storybook stories (`id`, `name`) for the live example, found under `<Level>/<Name>` from the spec's level; `[]` if Storybook isn't built |
 | `GET /api/icons?query=` | viewer | Icon names/keywords |
 | `GET /api/docs` · `GET /api/docs/:slug?format=html` | viewer | Docs |
 | `PUT /api/docs/:slug` | editor | `{ content, summary? }` |
@@ -103,7 +103,7 @@ claude mcp add --transport http lockin https://ds.example.com/mcp --header "Auth
 | Tool | Role | Purpose |
 | --- | --- | --- |
 | `search_design_system` | viewer | Find components, tokens, docs, icons |
-| `list_components` / `get_component` | viewer | Specs |
+| `list_components` / `get_component` | viewer | Specs; the list includes each component's atomic level (atom, molecule, organism) |
 | `get_tokens` / `get_token` | viewer | Resolved tokens (filter by prefix/type/layer/theme) |
 | `check_contrast` | viewer | WCAG ratio for tokens or hex |
 | `list_icons` | viewer | Icon names |

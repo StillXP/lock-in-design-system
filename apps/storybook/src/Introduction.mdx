@@ -13,7 +13,11 @@ This Storybook is the visual workbench for everything in the repo:
 - **Foundations / Spacing & sizing**: the 10-step spacing scale (4 → 128px), control heights, touch target, icon sizes, breakpoints. Source: `packages/tokens/src/base/spacing.json`.
 - **Foundations / Shape & effects**: radius, borders, focus ring, shadows, motion, z-index. Source: `packages/tokens/src/base/effects.json`.
 - **Foundations / Icons**: every icon, searchable by name or keyword. Source: `packages/icons`.
-- **Components**: all 14 React components with live controls, and the full component spec on each Docs page. Source: `packages/react`, `packages/specs`.
+- **Atoms**: single controls and elements (Button, Icon, Link, Checkbox, Toggle, Tag).
+- **Molecules**: a few atoms working as one unit, such as a labelled field or a control with a menu (InputField, Search, Select, RadioGroup, Dropdown, Tabs).
+- **Organisms**: self-contained sections of an interface (DataTable, Modal).
+
+Together the three levels hold all 14 React components, each with live controls and the full component spec on its Docs page. A spec's `level` field decides where a component lives, and the rule of thumb is in `docs/components.md`. Source: `packages/react`, `packages/specs`.
 
 ## Toolbar
 

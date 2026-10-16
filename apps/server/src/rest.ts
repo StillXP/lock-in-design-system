@@ -120,7 +120,7 @@ export function restRouter(store: DesignSystemStore, db: Db): Router {
     h((req, res) => {
       const list = store.components();
       if (req.query.full === 'true') return res.json(list);
-      res.json(list.map(({ name, slug, status, version, category, purpose, import: imp }) => ({ name, slug, status, version, category, purpose, import: imp })));
+      res.json(list.map(({ name, slug, status, version, category, level, purpose, import: imp }) => ({ name, slug, status, version, category, level, purpose, import: imp })));
     }),
   );
   r.get('/components/:name', viewer, h((req, res) => res.json(store.component(String(req.params.name)))));

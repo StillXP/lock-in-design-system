@@ -19,7 +19,7 @@ for (const f of readdirSync(specDir).filter((n) => n.endsWith('.json')).sort()) 
   if (!name) throw new Error(`${f}: cannot derive export name from import.web`);
   const u = s.usage ?? {};
   const a = s.accessibility ?? {};
-  const out = [`${s.purpose}\n`];
+  const out = [`${s.purpose}\n`, `Atomic level: ${s.level}.\n`];
   if (s.variants?.length) {
     out.push('## Variants\n', bullets(s.variants.map((v) => `\`${v.name}\`: ${v.description}${v.useWhen ? ` Use when: ${v.useWhen}` : ''}`)), '');
   }

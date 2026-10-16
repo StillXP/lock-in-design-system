@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "13:254" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "overlay",
+  "level": "organism",
   "purpose": "Dialog that interrupts the current task for a focused decision or short form (confirm delete, edit score). Becomes a bottom sheet on small screens.",
   "props": [
     { "name": "open", "type": "boolean", "required": true, "description": "Whether the modal is shown. The parent owns this state." },

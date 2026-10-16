@@ -1,5 +1,7 @@
 Radio buttons let users pick exactly one option from a small, visible set (2–6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `vertical`: Stacked options (default, easiest to scan).

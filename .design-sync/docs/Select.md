@@ -1,5 +1,7 @@
 Form control for choosing one value from a list. Web uses the native <select> (platform pickers on mobile browsers); native opens an accessible bottom-sheet list.
 
+Atomic level: molecule.
+
 ## Variants
 
 - `default`: Single list.

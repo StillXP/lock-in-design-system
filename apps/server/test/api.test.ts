@@ -170,10 +170,15 @@ describe('versioning and change tracking', () => {
 });
 
 describe('live examples', () => {
-  test('every component spec has Storybook stories to embed', () => {
-    const dir = join(repo, 'apps/storybook/src/stories/components');
-    const titles = readdirSync(dir).flatMap((f) => [...readFileSync(join(dir, f), 'utf8').matchAll(/title: '(Components\/[^']+)'/g)].map((m) => m[1]));
-    for (const c of store.components()) assert.ok(titles.includes(`Components/${c.name}`), `No stories titled "Components/${c.name}"`);
+  test('every component spec has Storybook stories titled and filed under its atomic level', () => {
+    const groups = { atom: 'Atoms', molecule: 'Molecules', organism: 'Organisms' } as const;
+    for (const c of store.components()) {
+      const group = groups[c.level as keyof typeof groups];
+      assert.ok(group, `${c.name} has no valid level (got "${c.level}")`);
+      const dir = join(repo, 'apps/storybook/src/stories', group.toLowerCase());
+      const titles = readdirSync(dir).flatMap((f) => [...readFileSync(join(dir, f), 'utf8').matchAll(/title: '([^']+)'/g)].map((m) => m[1]));
+      assert.ok(titles.includes(`${group}/${c.name}`), `No stories titled "${group}/${c.name}" in stories/${group.toLowerCase()}/`);
+    }
   });
   test('every component spec links its Figma library node', () => {
     for (const c of store.components()) {
@@ -188,19 +193,19 @@ describe('live examples', () => {
     writeFileSync(join(sb, 'iframe.html'), '<!doctype html>');
     const entry = (id: string, title: string, name: string, type = 'story') => [id, { id, title, name, type }];
     const entries = Object.fromEntries([
-      entry('components-button--docs', 'Components/Button', 'Docs', 'docs'),
-      entry('components-button--primary', 'Components/Button', 'Primary'),
-      entry('components-button--loading', 'Components/Button', 'Loading'),
-      entry('components-radiogroup--default', 'Components/RadioGroup', 'Default'),
+      entry('atoms-button--docs', 'Atoms/Button', 'Docs', 'docs'),
+      entry('atoms-button--primary', 'Atoms/Button', 'Primary'),
+      entry('atoms-button--loading', 'Atoms/Button', 'Loading'),
+      entry('molecules-radiogroup--default', 'Molecules/RadioGroup', 'Default'),
     ]);
     writeFileSync(join(sb, 'index.json'), JSON.stringify({ v: 5, entries }));
     const { body } = await api('GET', '/api/components/button/stories', keys.viewer);
     assert.deepEqual(body, [
-      { id: 'components-button--primary', name: 'Primary' },
-      { id: 'components-button--loading', name: 'Loading' },
+      { id: 'atoms-button--primary', name: 'Primary' },
+      { id: 'atoms-button--loading', name: 'Loading' },
     ]);
     // Slug and spec name differ for RadioGroup; stories match on the spec name.
-    assert.equal((await api('GET', '/api/components/radio-button/stories', keys.viewer)).body[0].id, 'components-radiogroup--default');
+    assert.equal((await api('GET', '/api/components/radio-button/stories', keys.viewer)).body[0].id, 'molecules-radiogroup--default');
 
     const frame = await fetch(`${base}/storybook/iframe.html`);
     assert.equal(frame.status, 200);

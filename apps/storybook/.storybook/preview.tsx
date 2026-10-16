@@ -89,6 +89,8 @@ const preview: Preview = {
   decorators: [withLockIn],
   parameters: {
     layout: 'padded',
+    // Sidebar order: foundations first, then components from smallest to largest (atomic design).
+    options: { storySort: { order: ['Foundations', 'Atoms', 'Molecules', 'Organisms'] } },
     // Story canvases use the token background so light/dark is honest.
     backgrounds: { disable: true },
     controls: { expanded: true, sort: 'requiredFirst' },

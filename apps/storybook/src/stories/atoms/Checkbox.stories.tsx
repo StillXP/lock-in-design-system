@@ -4,7 +4,7 @@ import { Checkbox } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {
-  title: 'Components/Checkbox',
+  title: 'Atoms/Checkbox',
   ...specMeta('checkbox'),
   component: Checkbox,
   args: { label: 'Send me match reminders', onChange: fn() },

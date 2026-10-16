@@ -1,23 +1,60 @@
 # Components
 
-> The 14 components, the conventions they share across web and native, and how their machine-readable specs work.
+> The 14 components grouped by atomic level, the conventions they share across web and native, and how their machine-readable specs work.
+
+## Atomic levels
+
+Components are organized by atomic design level, from smallest to largest. The level is a field on each spec (`level`), and Storybook, the hub, the MCP server and the Claude Design sync all follow it.
+
+| Level | What it is | Rule of thumb |
+| --- | --- | --- |
+| Atom | A single control or element | It does one visible thing and doesn't compose other Lock In components. |
+| Molecule | A few atoms working as one unit | It adds behavior the parts don't have alone: a label, hint and error around a control, a control with a menu, a group that shares selection state. |
+| Organism | A self-contained section of an interface | It composes molecules and atoms and manages its own layout, focus or overlay. |
+
+When a component could fit two levels, pick by what it composes. A control that stands alone is an atom. A control wrapped in a label, hint and error is a molecule. Anything that arranges several molecules, or takes over the screen, is an organism.
+
+Lock In stops at organisms. Templates and pages belong to each project, because they hold that project's content and routes. Build them from organisms, molecules and atoms.
+
+The level only organizes the system. Every component imports from `@lockin/react` (or `@lockin/react-native`) the same way, whatever its level.
+
+### Atoms
 
 | Component | Category | Use it to… |
 | --- | --- | --- |
 | Button | action | Trigger an action in the current view |
-| Dropdown | action | Open a menu of actions (menu button) |
 | Link | navigation | Navigate to another page or URL |
-| Tabs | navigation | Switch between related views |
 | Checkbox | form | Pick any number of options / confirm a statement |
-| RadioGroup (Radio Button) | form | Pick exactly one of a few visible options |
 | Toggle | form | Turn a setting on/off immediately |
+| Tag | data-display | Label status or category |
+| Icon | media | Show a glyph from the icon set |
+
+### Molecules
+
+| Component | Category | Use it to… |
+| --- | --- | --- |
 | InputField | form | Enter a single line of text |
 | Search | form | Search or filter content |
 | Select | form | Pick one value from a list |
+| RadioGroup (Radio Button) | form | Pick exactly one of a few visible options |
+| Dropdown | action | Open a menu of actions (menu button) |
+| Tabs | navigation | Switch between related views |
+
+### Organisms
+
+| Component | Category | Use it to… |
+| --- | --- | --- |
 | DataTable | data-display | Scan and compare structured rows |
-| Tag | data-display | Label status or category |
 | Modal | overlay | Focused decision or short task |
-| Icon | media | Show a glyph from the icon set |
+
+Where the level shows up:
+
+- Storybook: stories are titled `Atoms/<Name>`, `Molecules/<Name>` or `Organisms/<Name>`, filed in `apps/storybook/src/stories/atoms|molecules|organisms/`, and the sidebar lists Foundations first, then the three levels.
+- Hub: the Components page groups cards by level, and each component page shows its level.
+- API and MCP: `GET /api/components` and the `list_components` tool include `level`, and search matches it (try "molecule").
+- Specs: `level` is required and must be `atom`, `molecule` or `organism`.
+
+## Specs
 
 The full spec for each lives in `packages/specs/components/<slug>.json` and is served at `GET /api/components/<slug>` and via the MCP tool `get_component`. The web UI renders the same files, with a Live example of each component: a Code tab (its Storybook stories, embedded and following the hub's color mode and theme) and a Design tab (Figma's view-only embed of the spec's `figma` node). Each component's Docs page in Storybook (`npm run storybook`) renders the spec too, alongside live, editable stories.
 
@@ -31,7 +68,9 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
   "import": { "web": "import { Button } from '@lockin/react';", "native": "…" },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" }, // optional: the component set in the Figma library
   "status": "beta",            // experimental | beta | stable | deprecated
-  "version": "0.1.0",          // semver of this component's API
+  "version": "0.3.0",          // semver of this component's API
+  "category": "action",        // action | navigation | form | data-display | feedback | overlay | media
+  "level": "atom",             // atom | molecule | organism
   "purpose": "…",
   "props": [{ "name", "type", "default", "required", "description", "platforms"? }],
   "states": [{ "name", "description" }],

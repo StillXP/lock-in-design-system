@@ -1,5 +1,7 @@
 Triggers an action in the current view (submit, save, open a modal). For navigation to another page or URL, use Link.
 
+Atomic level: atom.
+
 ## Variants
 
 - `primary`: Filled brand color. Highest emphasis. Use when: The single main action of a view: 'Create tournament', 'Checkout'.

@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "9:236" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "form",
+  "level": "molecule",
   "purpose": "Form control for choosing one value from a list. Web uses the native <select> (platform pickers on mobile browsers); native opens an accessible bottom-sheet list.",
   "props": [
     { "name": "label", "type": "ReactNode", "required": true, "description": "Visible label." },

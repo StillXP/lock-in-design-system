@@ -1,5 +1,7 @@
 A switch that turns a single setting on or off with immediate effect (dark mode, notifications, sound). Uses the ARIA switch pattern on web and the platform Switch on native.
 
+Atomic level: atom.
+
 ## Variants
 
 - `label end`: Switch then label (default).

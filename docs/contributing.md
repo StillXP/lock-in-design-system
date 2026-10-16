@@ -11,7 +11,7 @@ packages/specs         components/*.json + schema — the AI-readable contract
 packages/react         web components (TSX + CSS per component)
 packages/react-native  native components (same props)
 apps/server            hub: REST, MCP, web UI, auth, versioning
-apps/storybook         Storybook: stories for every component, token group and icon
+apps/storybook         Storybook: stories for every component (by atomic level), token group and icon
 docs                   these guides (also served by the hub)
 docs/diagrams          architecture diagrams (.html source, .svg export)
 ```
@@ -28,17 +28,17 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 
 ## Adding a component
 
-1. Spec first. Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field, especially `accessibility` and `usage`. Run `npm run validate -w @lockin/specs`.
+1. Spec first. Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field, especially `accessibility` and `usage`. Set `level` to `atom`, `molecule` or `organism` using the rule of thumb in [Components](./components.md#atomic-levels). Run `npm run validate -w @lockin/specs`.
 2. Web. `packages/react/src/components/<Name>/<Name>.tsx` + `<Name>.css`. Export from `src/index.ts`. Only `--ds-*` variables in CSS.
 3. Native. `packages/react-native/src/components/<Name>.tsx` with the same props. Export from `src/index.ts`.
-4. Stories. Add `apps/storybook/src/stories/components/<Name>.stories.tsx` (copy a similar one). Keep `title: 'Components/<Name>'` literal and spread `specMeta('<slug>')` so the Docs page renders the spec. One story per variant and per notable state.
-5. Docs. Add a row to `docs/components.md`.
+4. Stories. Add `apps/storybook/src/stories/<level>s/<Name>.stories.tsx` (`atoms`, `molecules` or `organisms`; copy a similar one). Keep `title: '<Atoms|Molecules|Organisms>/<Name>'` literal, matching the spec's `level`, and spread `specMeta('<slug>')` so the Docs page renders the spec. One story per variant and per notable state. A server test fails if the title or folder doesn't match the level.
+5. Docs. Add a row to the table for its level in `docs/components.md`, and the component to `llms.txt`.
 6. Build and typecheck. `npm run build` and `npm run check`. Open `npm run storybook` and check the story in light, dark and both themes, with the Accessibility panel clean.
 
 ## Definition of done
 
-- [ ] Spec valid; props in spec match both implementations
-- [ ] Storybook story covers each variant and state; Accessibility panel shows no violations
+- [ ] Spec valid, with a `level`; props in spec match both implementations
+- [ ] Storybook story sits under its level and covers each variant and state; Accessibility panel shows no violations
 - [ ] Uses semantic tokens only
 - [ ] Keyboard pattern matches the spec (WAI-ARIA APG)
 - [ ] Visible focus, 44px touch targets, labels, error wiring

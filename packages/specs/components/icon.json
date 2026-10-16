@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "4:2" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "media",
+  "level": "atom",
   "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
   "props": [
     { "name": "name", "type": "IconName", "required": true, "description": "Icon id. List with GET /api/icons or the MCP tool list_icons." },

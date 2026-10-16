@@ -1,5 +1,7 @@
 Displays structured rows for scanning and comparison (standings, orders, leaderboards) with sorting, row selection, density, sticky headers and a stacked card layout on small screens.
 
+Atomic level: organism.
+
 ## Variants
 
 - `default`: Standard table.

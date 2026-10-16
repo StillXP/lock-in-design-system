@@ -8,8 +8,9 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:604" },
   "status": "beta",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "category": "navigation",
+  "level": "atom",
   "purpose": "Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.",
   "props": [
     { "name": "href", "type": "string", "required": true, "description": "Destination. On native, opened with Linking.openURL unless onPress is given." },
