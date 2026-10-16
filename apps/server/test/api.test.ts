@@ -1,7 +1,7 @@
 // Integration tests: REST, auth, versioning, contrast guardrails, public read, releases and MCP.
 // Runs against an isolated copy of the content so the real repo is never modified.
 import assert from 'node:assert/strict';
-import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
@@ -214,6 +214,31 @@ describe('live examples', () => {
     const hub = await fetch(`${base}/`);
     assert.equal(hub.headers.get('x-frame-options'), 'DENY');
     assert.match(hub.headers.get('content-security-policy') ?? '', /frame-src 'self' https:\/\/embed\.figma\.com/);
+  });
+});
+
+describe('web fonts', () => {
+  test('token sheets declare Inter and JetBrains Mono and every url() points at a font the build ships', async () => {
+    const { build } = await import('@lockin/tokens/build');
+    const dist = join(root, 'packages/tokens/dist');
+    build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
+    for (const [sheet, prefix] of [['css/tokens.css', '../fonts/'], ['css/themes/arena.css', '../../fonts/']]) {
+      const css = readFileSync(join(dist, sheet), 'utf8');
+      for (const family of ['Inter', 'JetBrains Mono']) assert.match(css, new RegExp(`font-family: '${family}'`), `${sheet} declares no ${family}`);
+      const urls = [...css.matchAll(/url\('([^']+)'\)/g)].map((m) => m[1]);
+      assert.ok(urls.length >= 4, `${sheet} has ${urls.length} font urls`);
+      for (const url of urls) {
+        assert.ok(url.startsWith(prefix), `${sheet}: unexpected url ${url}`);
+        assert.ok(existsSync(join(dist, sheet, '..', url)), `${sheet}: ${url} is not shipped`);
+      }
+    }
+    assert.ok(existsSync(join(dist, 'fonts/OFL-Inter.txt')) && existsSync(join(dist, 'fonts/OFL-JetBrains-Mono.txt')), 'font licenses are not shipped');
+  });
+  test('the hub serves the font files the token sheets reference', async () => {
+    const res = await fetch(`${base}/assets/fonts/inter-latin-wght-normal.woff2`);
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get('content-type') ?? '', /woff2/);
+    assert.ok((await res.arrayBuffer()).byteLength > 10_000);
   });
 });
 

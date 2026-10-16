@@ -81,6 +81,8 @@ export function createApp(store: DesignSystemStore, db: Db, opts: { publicRead?:
 
   // Web UI dogfoods the system's own CSS.
   app.use('/assets/tokens', express.static(`${config.paths.tokensDist}/css`));
+  // The token sheets reference their web fonts as ../fonts/<file> (and ../../fonts/ from themes/).
+  app.use('/assets/fonts', express.static(`${config.paths.tokensDist}/fonts`, { index: false }));
   app.use('/assets/react', express.static(config.paths.reactDist, { index: false }));
   app.use(express.static(config.paths.public));
 

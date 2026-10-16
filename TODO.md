@@ -4,13 +4,12 @@ Things we come across while working that are worth handling later. Add new ones 
 
 ## Design system
 
-- [ ] **Ship the fonts.** Tokens name Inter (`--ds-font-family-sans`) and JetBrains Mono (`--ds-font-family-mono`), but no font files or `@font-face` exist in the repo, Storybook or the build, so everything renders in system fallback fonts. Add the font files and `@font-face` to `@lockin/tokens`, rebuild Storybook, then re-run the Claude Design sync. (Found during the first design-sync, 2026-10-16.)
+- [ ] Fonts on React Native. Web now ships Inter and JetBrains Mono, but the native tokens still use the system font (`ds.native: System`). Decide whether to load them with `expo-font`; the font files are in `packages/tokens/src/fonts/`.
 - [ ] Cover open states in stories. Modal, Dropdown and Select stories only render the closed trigger, so the open dialog, menu and listbox are never visually checked (in Storybook or the sync).
 - [ ] Add dark mode and the `arena` / `arcade` themes to the Storybook previews, so they can be compared and synced too.
 
 ## Claude Design sync (`.design-sync/`)
 
-- [ ] Re-sync after the atomic-level split. Story titles and ids changed (`Components/Button` to `Atoms/Button`), so rebuild the reference Storybook (`.design-sync/sb-reference`), run the re-sync command in `.design-sync/NOTES.md`, and expect every component to be re-verified once. The project folders will become `atoms`, `molecules` and `organisms`; the old `components/components/...` files are removed by the reconcile step.
 - [ ] Re-sync after any component, spec, token or story change: see the command at the top of `.design-sync/NOTES.md`.
 - [ ] Raise the story cap (`--max-stories 10`) if the tail stories carry distinct variants. Ungraded today: Button 4, DataTable 3, Checkbox 2, InputField 2, RadioGroup 1, Toggle 1.
 - [ ] Optional: make `apps/storybook/src/blocks/data.ts` work without Vite's `import.meta.glob`. That would remove the need for the story-imports fork in `.design-sync/overrides/`.
