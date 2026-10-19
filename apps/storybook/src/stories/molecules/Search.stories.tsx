@@ -20,9 +20,9 @@ export const Loading: Story = { args: { defaultValue: 'Rock', loading: true } };
 export const Sizes: Story = {
   render: (args) => (
     <div className="fd-section">
-      <Search {...args} size="sm" label="Search (small)" />
-      <Search {...args} size="md" label="Search (medium)" />
-      <Search {...args} size="lg" label="Search (large)" />
+      <Search {...args} size="sm" label="Search (small)" landmarkLabel="Search small" />
+      <Search {...args} size="md" label="Search (medium)" landmarkLabel="Search medium" />
+      <Search {...args} size="lg" label="Search (large)" landmarkLabel="Search large" />
     </div>
   ),
 };

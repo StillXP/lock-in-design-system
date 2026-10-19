@@ -31,6 +31,8 @@ export function ColorSwatch({ token, on }: { token: FlatToken; on?: FlatToken })
         className="fd-swatch__chip"
         style={on ? { color: `var(${token.cssVar})`, background: `var(${on.cssVar})` } : { background: `var(${token.cssVar})` }}
         aria-hidden="true"
+        // Disabled UI is exempt from WCAG contrast, and axe skips elements marked disabled.
+        aria-disabled={token.name.includes('disabled') || undefined}
       >
         {on ? 'Aa' : null}
       </span>

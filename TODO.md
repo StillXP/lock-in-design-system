@@ -28,4 +28,4 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 - [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @lockin/tokens`, rules in `docs/figma-sync.md`.
 - [ ] Figma: Code Connect mappings.
 - [ ] Publish packages to a registry.
-- [ ] Visual regression and automated axe runs in CI for the Storybook stories.
+- [ ] Visual regression for the Storybook stories, and running `npm run build` (which now includes the story tests) in CI.

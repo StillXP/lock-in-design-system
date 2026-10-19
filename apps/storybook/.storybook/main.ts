@@ -6,7 +6,12 @@ const fromRoot = (path: string) => fileURLToPath(new URL(`../../../${path}`, imp
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest',
+    '@storybook/addon-mcp',
+  ],
   core: { disableTelemetry: true },
   typescript: {
     // Prop tables come from the TypeScript source of @lockin/react.

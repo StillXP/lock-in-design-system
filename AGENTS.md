@@ -22,7 +22,7 @@ Read `llms.txt` for the condensed version.
 | Component spec | `packages/specs/components/<slug>.json` | `npm run validate -w @lockin/specs` |
 | Web component | `packages/react/src/components/<Name>/` | `npm run build -w @lockin/react` |
 | Native component | `packages/react-native/src/components/<Name>.tsx` | `npm run typecheck -w @lockin/react-native` |
-| Stories | `apps/storybook/src/stories/{atoms,molecules,organisms}/` (components), `foundations/` | `npm run typecheck -w @lockin/storybook && npm run build -w @lockin/storybook` |
+| Stories | `apps/storybook/src/stories/{atoms,molecules,organisms}/` (components), `foundations/` | `npm run typecheck -w @lockin/storybook && npm test -w @lockin/storybook` (runs every story with axe) |
 | Hub server | `apps/server/src/` | `npm run typecheck -w @lockin/server && npm test -w @lockin/server` |
 | Docs | `docs/*.md` | — |
 
