@@ -24,10 +24,15 @@
   ],
   "scripts": {
     "build": "node scripts/validate.mjs --build",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "check:code": "node scripts/check-code.mjs",
+    "test": "node --test test/check-code.test.mjs"
   },
   "dependencies": {
     "@lockin/tokens": "0.1.0",
     "ajv": "^8.17.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
   }
 }

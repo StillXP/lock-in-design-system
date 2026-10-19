@@ -83,6 +83,14 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 
 `npm run validate -w @lockin/specs` checks every spec against the schema and that every referenced token exists.
 
+`npm run check:code -w @lockin/specs` checks every spec against the components themselves. It reads the props type of each React and React Native component with the TypeScript compiler and reports:
+
+- a prop the component declares that the spec doesn't list (props that only pass through from HTML or React Native types, plus `className`, `style` and `ref`, are exempt);
+- a spec prop the component doesn't have on a platform it lists;
+- required vs optional, string-literal values (`'sm' | 'md'`) and literal defaults that differ.
+
+Types other than string-literal unions are not compared, and a default that is an expression (`role === 'dialog'`) or described in words (`"end (web) / start (native)"`) is skipped. It runs in `npm run check`, so CI fails on drift.
+
 ### Figma props mapping
 
 `figma.props` records, for each code prop, the Figma property that models it. Each row has a `status`:

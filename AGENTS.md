@@ -19,7 +19,7 @@ Read `llms.txt` for the condensed version.
 | --- | --- | --- |
 | Tokens | `packages/tokens/src/**` (DTCG JSON; semantic colors need `light` + `dark` referencing base) | `npm run build -w @lockin/tokens` (includes contrast check) |
 | Figma variables | `packages/tokens/scripts/figma-export.mjs`; rules in `docs/figma-sync.md` | `npm run figma -w @lockin/tokens` |
-| Component spec | `packages/specs/components/<slug>.json` | `npm run validate -w @lockin/specs` |
+| Component spec | `packages/specs/components/<slug>.json` | `npm run validate -w @lockin/specs && npm run check:code -w @lockin/specs` |
 | Web component | `packages/react/src/components/<Name>/` | `npm run build -w @lockin/react` |
 | Native component | `packages/react-native/src/components/<Name>.tsx` | `npm run typecheck -w @lockin/react-native` |
 | Stories | `apps/storybook/src/stories/{atoms,molecules,organisms}/` (components), `foundations/` | `npm run typecheck -w @lockin/storybook && npm test -w @lockin/storybook` (runs every story with axe) |
@@ -28,6 +28,7 @@ Read `llms.txt` for the condensed version.
 
 Rules:
 - Keep web and native props in sync and update the spec in the same change. Update the component's stories too.
+- `npm run check:code -w @lockin/specs` compares each spec with the real React and React Native prop types (names, required, string values, defaults, platforms) and runs in CI. A component prop that the spec doesn't list, or a spec prop the component doesn't have, fails the build.
 - Every spec prop needs a row in `figma.props` (validation fails otherwise), and the "Props / <Name>" frame on the component's Figma page must match it. Adding a prop means a new row, with status `code-only` if Figma has no equivalent. See "Figma props mapping" in `docs/components.md`.
 - Every component spec has a `level` (`atom`, `molecule` or `organism`; see `docs/components.md`). Its stories are titled `<Atoms|Molecules|Organisms>/<Name>` and filed in the matching `stories/` folder. A server test enforces this.
 - Never lower a contrast pair; if the checker fails, fix the token mapping, not the check.
