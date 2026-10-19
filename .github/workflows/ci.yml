@@ -44,11 +44,12 @@ jobs:
       - name: Install Playwright browser (story tests)
         run: npx playwright install --with-deps chromium
 
-      - name: Checks (contrast, specs, typecheck)
-        run: npm run check
-
+      # Build first: the typechecks resolve workspace packages (e.g. @lockin/icons) from their built dist/.
       - name: Build (includes Storybook story and axe tests)
         run: npm run build
+
+      - name: Checks (contrast, specs, typecheck)
+        run: npm run check
 
       - name: Server tests
         run: npm test -w @lockin/server
