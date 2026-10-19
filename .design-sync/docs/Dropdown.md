@@ -1,4 +1,4 @@
-Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control — for picking a value use Select.
+Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control; for picking a value, use Select.
 
 Atomic level: molecule.
 
@@ -31,7 +31,7 @@ Atomic level: molecule.
 
 ## Don't
 
-- Don't use for selecting form values — use Select.
+- Don't use for selecting form values; use Select.
 - Don't hide the primary action of a page in a menu.
 - Don't nest menus.
 

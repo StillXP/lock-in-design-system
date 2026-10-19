@@ -7,7 +7,7 @@ body {
   position: absolute;
   left: var(--ds-space-md);
   top: -100px;
-  z-index: var(--ds-zIndex-tooltip);
+  z-index: var(--ds-z-index-tooltip);
   padding: var(--ds-space-xs) var(--ds-space-md);
   background: var(--ds-color-surface-raised);
   color: var(--ds-color-text-link);
@@ -18,7 +18,7 @@ body {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: var(--ds-zIndex-sticky);
+  z-index: var(--ds-z-index-sticky);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -73,7 +73,7 @@ body {
   text-decoration: none;
   font: var(--ds-typography-label-lg);
 }
-.nav-link:hover { background: var(--ds-color-intent-secondary-bgHover); color: var(--ds-color-text-primary); }
+.nav-link:hover { background: var(--ds-color-intent-secondary-bg-hover); color: var(--ds-color-text-primary); }
 .nav-link[aria-current='page'] {
   background: var(--ds-color-surface-selected);
   color: var(--ds-color-text-brand);

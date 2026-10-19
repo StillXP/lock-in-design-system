@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "4:2" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "media",
   "level": "atom",
   "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
@@ -53,7 +53,7 @@
       "Use currentColor so icons follow text color and theme changes."
     ],
     "dont": [
-      "Don't make an Icon clickable — use Button iconOnly.",
+      "Don't make an Icon clickable; use Button iconOnly.",
       "Don't label an icon that sits next to text saying the same thing (double announcement).",
       "Don't hard-code hex colors on icons."
     ],

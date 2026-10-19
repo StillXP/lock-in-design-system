@@ -23,8 +23,8 @@ Atomic level: atom.
 
 ## Don't
 
-- Don't use a checkbox for settings that apply instantly — use Toggle.
-- Don't use for mutually exclusive options — use RadioGroup.
+- Don't use a checkbox for settings that apply instantly; use Toggle.
+- Don't use for mutually exclusive options; use RadioGroup.
 - Don't rely on the checkbox alone to indicate errors; show a message.
 
 ## Related components

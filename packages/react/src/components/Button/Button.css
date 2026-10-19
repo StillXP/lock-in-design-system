@@ -1,7 +1,7 @@
 .ds-button {
   --_bg: var(--ds-color-intent-primary-bg);
-  --_bg-hover: var(--ds-color-intent-primary-bgHover);
-  --_bg-active: var(--ds-color-intent-primary-bgActive);
+  --_bg-hover: var(--ds-color-intent-primary-bg-hover);
+  --_bg-active: var(--ds-color-intent-primary-bg-active);
   --_fg: var(--ds-color-intent-primary-text);
   --_border: transparent;
 
@@ -31,23 +31,23 @@
 
 .ds-button--secondary {
   --_bg: var(--ds-color-intent-secondary-bg);
-  --_bg-hover: var(--ds-color-intent-secondary-bgHover);
-  --_bg-active: var(--ds-color-intent-secondary-bgActive);
+  --_bg-hover: var(--ds-color-intent-secondary-bg-hover);
+  --_bg-active: var(--ds-color-intent-secondary-bg-active);
   --_fg: var(--ds-color-intent-secondary-text);
   --_border: var(--ds-color-intent-secondary-border);
 }
 
 .ds-button--tertiary {
   --_bg: var(--ds-color-intent-tertiary-bg);
-  --_bg-hover: var(--ds-color-intent-tertiary-bgHover);
-  --_bg-active: var(--ds-color-intent-tertiary-bgActive);
+  --_bg-hover: var(--ds-color-intent-tertiary-bg-hover);
+  --_bg-active: var(--ds-color-intent-tertiary-bg-active);
   --_fg: var(--ds-color-intent-tertiary-text);
 }
 
 .ds-button--danger {
   --_bg: var(--ds-color-intent-danger-bg);
-  --_bg-hover: var(--ds-color-intent-danger-bgHover);
-  --_bg-active: var(--ds-color-intent-danger-bgActive);
+  --_bg-hover: var(--ds-color-intent-danger-bg-hover);
+  --_bg-active: var(--ds-color-intent-danger-bg-active);
   --_fg: var(--ds-color-intent-danger-text);
 }
 
@@ -92,8 +92,8 @@
     content: '';
     position: absolute;
     inset: 50% auto auto 50%;
-    width: max(100%, var(--ds-size-touchTarget-min));
-    height: max(100%, var(--ds-size-touchTarget-min));
+    width: max(100%, var(--ds-size-touch-target-min));
+    height: max(100%, var(--ds-size-touch-target-min));
     transform: translate(-50%, -50%);
   }
 }

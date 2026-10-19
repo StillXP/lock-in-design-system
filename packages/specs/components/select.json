@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "9:236" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "form",
   "level": "molecule",
   "purpose": "Form control for choosing one value from a list. Web uses the native <select> (platform pickers on mobile browsers); native opens an accessible bottom-sheet list.",
@@ -75,8 +75,8 @@
       "Use a placeholder when there is no sensible default."
     ],
     "dont": [
-      "Don't use for actions — use Dropdown.",
-      "Don't use for 2–5 options when space allows — use RadioGroup.",
+      "Don't use for actions; use Dropdown.",
+      "Don't use for 2 to 5 options when space allows; use RadioGroup.",
       "Don't auto-submit on change."
     ],
     "related": [

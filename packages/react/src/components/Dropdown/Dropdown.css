@@ -7,7 +7,7 @@
   position: absolute;
   top: calc(100% + var(--ds-space-2xs));
   left: 0;
-  z-index: var(--ds-zIndex-dropdown);
+  z-index: var(--ds-z-index-dropdown);
   display: flex;
   flex-direction: column;
   min-width: 12rem;
@@ -43,7 +43,7 @@
 
 .ds-dropdown__item:hover,
 .ds-dropdown__item:focus-visible {
-  background: var(--ds-color-intent-secondary-bgHover);
+  background: var(--ds-color-intent-secondary-bg-hover);
   outline: var(--ds-focus-width) solid var(--ds-color-focus-ring);
   outline-offset: calc(var(--ds-focus-width) * -1);
 }
@@ -63,6 +63,6 @@
 
 @media (pointer: coarse) {
   .ds-dropdown__item {
-    min-height: var(--ds-size-touchTarget-min);
+    min-height: var(--ds-size-touch-target-min);
   }
 }

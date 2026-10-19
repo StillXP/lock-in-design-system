@@ -28,8 +28,8 @@ Atomic level: molecule.
 
 ## Don't
 
-- Don't use Tabs for sequential steps — use a stepper / wizard.
-- Don't use Tabs for top-level site navigation — use links.
+- Don't use Tabs for sequential steps; use a stepper / wizard.
+- Don't use Tabs for top-level site navigation; use links.
 - Don't exceed ~6 tabs; consider a Select on mobile.
 
 ## Related components

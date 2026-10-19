@@ -53,7 +53,7 @@
 
 .ds-toggle__switch[aria-checked='true'] .ds-toggle__thumb {
   left: calc(100% - var(--_thumb) - 1px);
-  background: var(--ds-color-text-onBrand);
+  background: var(--ds-color-text-on-brand);
   color: var(--ds-color-intent-primary-bg);
 }
 

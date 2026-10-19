@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:604" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "navigation",
   "level": "atom",
   "purpose": "Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.",
@@ -63,7 +63,7 @@
     ],
     "dont": [
       "Don't use 'click here' or 'read more' without context.",
-      "Don't style a Link like a Button for in-page actions — use Button.",
+      "Don't style a Link like a Button for in-page actions; use Button.",
       "Don't remove the underline from inline links."
     ],
     "related": [

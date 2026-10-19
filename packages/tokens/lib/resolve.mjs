@@ -133,7 +133,13 @@ export function resolveAll(tokens) {
   return out;
 }
 
-export const cssVarName = (path) => `--${CSS_PREFIX}-${path.replace(/\./g, '-')}`;
+/**
+ * CSS custom property for a token path: dots become dashes and camelCase becomes kebab-case,
+ * so `color.text.linkHover` is `--ds-color-text-link-hover`. Token names keep their camelCase
+ * everywhere else (JS, JSON, REST, MCP).
+ */
+export const cssVarName = (path) =>
+  `--${CSS_PREFIX}-${path.replace(/\./g, '-').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
 /** Nest a flat Map<path, value> into an object tree. */
 export function nest(entries) {

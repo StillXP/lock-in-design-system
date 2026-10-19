@@ -22,7 +22,7 @@ Atomic level: atom.
 
 ## Don't
 
-- Don't make an Icon clickable — use Button iconOnly.
+- Don't make an Icon clickable; use Button iconOnly.
 - Don't label an icon that sits next to text saying the same thing (double announcement).
 - Don't hard-code hex colors on icons.
 

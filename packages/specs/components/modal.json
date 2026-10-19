@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "13:254" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "overlay",
   "level": "organism",
   "purpose": "Dialog that interrupts the current task for a focused decision or short form (confirm delete, edit score). Becomes a bottom sheet on small screens.",
@@ -68,7 +68,7 @@
     ],
     "dont": [
       "Don't stack modals on top of modals.",
-      "Don't use for non-critical info — use inline messages.",
+      "Don't use for non-critical info; use inline messages.",
       "Don't hide the close affordance without another clear way out."
     ],
     "related": [

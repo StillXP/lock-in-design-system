@@ -68,7 +68,7 @@
 }
 
 .ds-table tbody tr:hover {
-  background: var(--ds-color-intent-secondary-bgHover);
+  background: var(--ds-color-intent-secondary-bg-hover);
 }
 
 .ds-table tbody tr.is-selected {

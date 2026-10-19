@@ -33,7 +33,7 @@ Atomic level: organism.
 ## Don't
 
 - Don't stack modals on top of modals.
-- Don't use for non-critical info — use inline messages.
+- Don't use for non-critical info; use inline messages.
 - Don't hide the close affordance without another clear way out.
 
 ## Related components

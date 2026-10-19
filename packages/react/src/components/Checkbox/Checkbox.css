@@ -43,7 +43,7 @@
   height: 100%;
   background: var(--ds-color-surface-default);
   border: var(--ds-border-width-thick) solid var(--ds-color-border-strong);
-  color: var(--ds-color-text-onBrand);
+  color: var(--ds-color-text-on-brand);
   transition: background-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
 }
 

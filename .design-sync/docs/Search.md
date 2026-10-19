@@ -22,7 +22,7 @@ Atomic level: molecule.
 
 ## Don't
 
-- Don't use Search for non-search text entry — use InputField.
+- Don't use Search for non-search text entry; use InputField.
 - Don't move focus away from the input as results update.
 
 ## Related components

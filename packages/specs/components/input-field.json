@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "7:380" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "form",
   "level": "molecule",
   "purpose": "Single-line text entry with label, hint, and error wiring built in. Supports text, email, number, password (with show/hide), tel, url.",
@@ -22,11 +22,11 @@
     { "name": "iconStart", "type": "IconName", "required": false, "description": "Leading decorative icon." },
     { "name": "suffix", "type": "ReactNode", "required": false, "description": "Trailing unit text ('pts', 'kg', '$')." },
     { "name": "required", "type": "boolean", "required": false, "description": "Marks required with * and aria-required." },
-    { "name": "showOptional", "type": "boolean", "default": false, "required": false, "description": "Show '(optional)' instead — use when most fields are required." },
+    { "name": "showOptional", "type": "boolean", "default": false, "required": false, "description": "Show '(optional)' instead; use when most fields are required." },
     { "name": "value / defaultValue", "type": "string", "required": false, "description": "Controlled / uncontrolled value." },
     { "name": "onChange", "type": "(event) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },
     { "name": "onChangeText", "type": "(text: string) => void", "required": false, "description": "Change handler.", "platforms": ["native"] },
-    { "name": "autoComplete", "type": "string", "required": false, "description": "Always set for personal data (email, name, tel) — WCAG 1.3.5." }
+    { "name": "autoComplete", "type": "string", "required": false, "description": "Always set for personal data (email, name, tel), per WCAG 1.3.5." }
   ],
   "states": [
     { "name": "default", "description": "border.strong outline." },
@@ -46,7 +46,7 @@
     { "token": "color.text.secondary", "usage": "Hint text." },
     { "token": "size.control.md", "usage": "Height." },
     { "token": "radius.md", "usage": "Corner radius." },
-    { "token": "typography.body.md", "usage": "Input text — 16px minimum prevents iOS zoom." },
+    { "token": "typography.body.md", "usage": "Input text: 16px minimum prevents iOS zoom." },
     { "token": "typography.label.md", "usage": "Label." }
   ],
   "accessibility": {

@@ -198,6 +198,13 @@ export function build({ srcDir = SRC_DIR, distDir = DIST } = {}) {
       .replaceAll("url('./", `url('${filesUrl}/`);
   rmSync(distDir, { recursive: true, force: true });
   const resolved = resolveAll(loadTokens({ srcDir }));
+  // Kebab-casing must not merge two token paths into one CSS variable.
+  const cssNames = new Map();
+  for (const path of resolved.keys()) {
+    const name = cssVarName(path);
+    if (cssNames.has(name)) throw new Error(`CSS variable collision: "${path}" and "${cssNames.get(name)}" both become ${name}`);
+    cssNames.set(name, path);
+  }
   const themes = listThemes(srcDir);
   const resolvedThemes = Object.fromEntries(themes.map((t) => [t.name, resolveAll(loadTokens({ srcDir, theme: t }))]));
 
