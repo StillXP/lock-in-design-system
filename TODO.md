@@ -22,10 +22,13 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Docs and repo
 
+- [ ] Once CI has run green on a PR, turn on branch protection for `main` (require a PR and the `verify` and `pr-title` checks, block force pushes and deletion, auto-delete head branches, squash-merge only). Also enable secret scanning and push protection.
+- [ ] Versioning and releases, before the first npm publish: semver tags (`v0.2.0`), GitHub Releases, and Changesets or release-please to turn Conventional Commits into version bumps and `CHANGELOG.md`. Decide whether packages are versioned together or independently.
+- [ ] Add `.github/dependabot.yml` and `CODEOWNERS`.
 
 ## Roadmap (from README)
 
 - [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @lockin/tokens`, rules in `docs/figma-sync.md`.
 - [ ] Figma: Code Connect mappings.
 - [ ] Publish packages to a registry.
-- [ ] Visual regression for the Storybook stories, and running `npm run build` (which now includes the story tests) in CI.
+- [ ] Visual regression for the Storybook stories.
