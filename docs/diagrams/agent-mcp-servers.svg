@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="agent-mcp-servers-root" viewBox="0 0 1280 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="agent-mcp-servers-title agent-mcp-servers-desc">
+        <title id="agent-mcp-servers-title">Two MCP servers for agents</title>
+        <desc id="agent-mcp-servers-desc">An AI agent connects to two MCP servers. The lockin MCP server, over local stdio, serves specs, tokens and contrast checks from git-tracked files. The Storybook MCP server, over HTTP while the Storybook dev server runs, serves stories and runs the story tests, which use Vitest and axe in Chromium. The npm run build gate runs the same story tests.</desc>
+        <defs>
+          <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');
+          #agent-mcp-servers-root { color: #1c2028; font-family: 'Geist', system-ui, sans-serif; }</style>
+          <marker id="agent-mcp-servers-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5260"/></marker>
+          <marker id="agent-mcp-servers-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
+          <marker id="agent-mcp-servers-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6d28d9"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f4f5f7"/>
+
+  <rect x="280" y="232" width="448" height="104" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <rect x="292" y="236" width="108" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="346" y="245" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.14em">STORYBOOK DEV SERVER</text>
+  <!-- agent to lockin MCP (local stdio) and Storybook MCP (HTTP) -->
+  <path d="M216,200 H256 Q264,200 264,192 V108 Q264,100 272,100 H296" fill="none" stroke="#6d28d9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#agent-mcp-servers-arrow-link)"/>
+  <rect x="192" y="144" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="224" y="153" fill="#6d28d9" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LOCAL STDIO</text>
+  <path d="M216,224 H256 Q264,224 264,232 V276 Q264,284 272,284 H296" fill="none" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#agent-mcp-servers-arrow-link)"/>
+  <rect x="192" y="248" width="64" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="224" y="257" fill="#6d28d9" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">HTTP · :6006</text>
+  <!-- MCP servers to what they read -->
+  <path d="M456,100 H552" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#agent-mcp-servers-arrow)"/>
+  <path d="M456,284 H552" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#agent-mcp-servers-arrow)"/>
+  <path d="M712,284 H808" fill="none" stroke="#2563eb" stroke-width="1.2" marker-end="url(#agent-mcp-servers-arrow-accent)"/>
+  <!-- build gate runs the same tests -->
+  <path d="M888,128 V256" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#agent-mcp-servers-arrow)"/>
+  <rect x="896" y="186" width="72" height="12" rx="2" fill="#f4f5f7"/>
+  <text x="932" y="195" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SAME TESTS</text>
+  <g>
+    <rect x="40" y="184" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="40" y="184" width="160" height="56" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+    <rect x="48" y="190" width="32" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="64" y="199" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">AGENT</text>
+    <text x="120" y="218" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">AI agents</text>
+    <text x="120" y="232" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Claude Code · Cursor</text>
+  </g>
+  <g>
+    <rect x="296" y="72" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="296" y="72" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="304" y="78" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="316" y="87" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">MCP</text>
+    <text x="376" y="106" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">lockin MCP</text>
+    <text x="376" y="120" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">specs · tokens · contrast</text>
+  </g>
+  <g>
+    <rect x="296" y="256" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="296" y="256" width="160" height="56" rx="6" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1"/>
+    <rect x="304" y="262" width="24" height="12" rx="2" fill="none" stroke="#2563eb" stroke-width="0.8"/>
+    <text x="316" y="271" fill="#2563eb" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">MCP</text>
+    <text x="376" y="290" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Storybook MCP</text>
+    <text x="376" y="304" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">stories · tests · a11y</text>
+  </g>
+  <g>
+    <rect x="552" y="72" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="552" y="72" width="160" height="56" rx="6" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/>
+    <rect x="560" y="78" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="572" y="87" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">GIT</text>
+    <text x="632" y="106" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Specs, tokens, docs</text>
+    <text x="632" y="120" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">git-tracked files</text>
+  </g>
+  <g>
+    <rect x="552" y="256" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="552" y="256" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="560" y="262" width="32" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="576" y="271" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">STORY</text>
+    <text x="632" y="290" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Stories</text>
+    <text x="632" y="304" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">render @lockin/react</text>
+  </g>
+  <g>
+    <rect x="808" y="256" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="808" y="256" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="816" y="262" width="28" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="830" y="271" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">TEST</text>
+    <text x="888" y="290" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Story tests</text>
+    <text x="888" y="304" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Vitest · axe · Chromium</text>
+  </g>
+  <g>
+    <rect x="808" y="72" width="160" height="56" rx="6" fill="#f4f5f7"/>
+    <rect x="808" y="72" width="160" height="56" rx="6" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+    <rect x="816" y="78" width="32" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+    <text x="832" y="87" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" text-anchor="middle" letter-spacing="0.08em">BUILD</text>
+    <text x="888" y="106" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">npm run build</text>
+    <text x="888" y="120" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">release gate</text>
+  </g>
+
+  <line x1="32" y1="420" x2="1248" y2="420" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+  <text x="32" y="444" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+  <g transform="translate(104,436)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Client</text></g>
+  <g transform="translate(200,436)"><rect x="0" y="0" width="20" height="12" rx="3" fill="#ffffff" stroke="#1c2028" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Service</text></g>
+  <g transform="translate(300,436)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Storybook MCP (new)</text></g>
+  <g transform="translate(500,436)"><rect x="0" y="0" width="20" height="12" rx="3" fill="rgba(28,32,40,0.05)" stroke="#4b5260" stroke-width="1"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Storage</text></g>
+  <g transform="translate(600,436)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">HTTP call</text></g>
+  <g transform="translate(720,436)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="8" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Local stdio</text></g>
+      </svg>
