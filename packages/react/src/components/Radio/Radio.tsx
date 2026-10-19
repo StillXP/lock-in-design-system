@@ -16,6 +16,7 @@ interface RadioGroupContextValue {
   value: string;
   disabled?: boolean;
   invalid: boolean;
+  required?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -73,7 +74,6 @@ export function RadioGroup({
     <fieldset
       className={cx('ds-radio-group', `ds-radio-group--${orientation}`, error && 'is-invalid', className)}
       aria-describedby={[descId, errId].filter(Boolean).join(' ') || undefined}
-      aria-required={required || undefined}
       aria-invalid={error ? true : undefined}
       disabled={disabled}
     >
@@ -84,7 +84,7 @@ export function RadioGroup({
       {description && <p id={descId} className="ds-field__hint">{description}</p>}
       <div className="ds-radio-group__options">
         <RadioGroupContext.Provider
-          value={{ name: groupName, value: current, disabled, invalid: Boolean(error), onChange: setCurrent }}
+          value={{ name: groupName, value: current, disabled, invalid: Boolean(error), required, onChange: setCurrent }}
         >
           {options?.map((o) => (
             <Radio key={o.value} value={o.value} label={o.label} description={o.description} disabled={o.disabled} />
@@ -135,6 +135,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
           value={value}
           checked={group ? group.value === value : rest.checked}
           disabled={isDisabled}
+          required={group?.required}
           aria-describedby={descId}
           onChange={handleChange}
           {...rest}

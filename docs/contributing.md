@@ -38,7 +38,7 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 ## Definition of done
 
 - [ ] Spec valid, with a `level`; props in spec match both implementations
-- [ ] Storybook story sits under its level and covers each variant and state; Accessibility panel shows no violations
+- [ ] Storybook story sits under its level and covers each variant and state; `npm test -w @lockin/storybook` passes (axe, WCAG 2.1 AA)
 - [ ] Uses semantic tokens only
 - [ ] Keyboard pattern matches the spec (WAI-ARIA APG)
 - [ ] Visible focus, 44px touch targets, labels, error wiring
