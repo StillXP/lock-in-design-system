@@ -28,6 +28,7 @@ Read `llms.txt` for the condensed version.
 
 Rules:
 - Keep web and native props in sync and update the spec in the same change. Update the component's stories too.
+- Every spec prop needs a row in `figma.props` (validation fails otherwise), and the "Props / <Name>" frame on the component's Figma page must match it. Adding a prop means a new row, with status `code-only` if Figma has no equivalent. See "Figma props mapping" in `docs/components.md`.
 - Every component spec has a `level` (`atom`, `molecule` or `organism`; see `docs/components.md`). Its stories are titled `<Atoms|Molecules|Organisms>/<Name>` and filed in the matching `stories/` folder. A server test enforces this.
 - Never lower a contrast pair; if the checker fails, fix the token mapping, not the check.
 - Component CSS may only reference `--ds-*` variables.

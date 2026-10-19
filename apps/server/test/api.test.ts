@@ -119,7 +119,12 @@ describe('read API', () => {
 describe('versioning and change tracking', () => {
   test('adding a prop bumps minor and is logged', async () => {
     const spec = store.component('tag');
-    const next = { ...spec, props: [...spec.props, { name: 'pulse', type: 'boolean', required: false, description: 'Animate for live status.' }] };
+    const unmapped = { ...spec, props: [...spec.props, { name: 'pulse', type: 'boolean', required: false, description: 'Animate for live status.' }] };
+    const rejected = await api('PUT', '/api/components/tag', keys.editor, { spec: unmapped });
+    assert.equal(rejected.status, 422);
+    assert.match(JSON.stringify(rejected.body.details), /prop \\"pulse\\" is not mapped/);
+    // every code prop needs a figma.props row, even if Figma has no equivalent
+    const next = { ...unmapped, figma: { ...spec.figma, props: [...spec.figma.props, { code: ['pulse'], status: 'code-only', note: 'Not modelled in Figma yet.' }] } };
     const { status, body } = await api('PUT', '/api/components/tag', keys.editor, { spec: next, summary: 'Add pulse' });
     assert.equal(status, 200);
     const [maj, min] = spec.version.split('.').map(Number);
@@ -131,7 +136,11 @@ describe('versioning and change tracking', () => {
   });
   test('removing a prop bumps major', async () => {
     const spec = store.component('tag');
-    const next = { ...spec, props: spec.props.filter((p: { name: string }) => p.name !== 'pulse') };
+    const next = {
+      ...spec,
+      props: spec.props.filter((p: { name: string }) => p.name !== 'pulse'),
+      figma: { ...spec.figma, props: spec.figma.props.filter((r: { code: string[] }) => !r.code.includes('pulse')) },
+    };
     const { body } = await api('PUT', '/api/components/tag', keys.editor, { spec: next });
     assert.equal(body.version, '1.0.0');
   });
@@ -184,6 +193,14 @@ describe('live examples', () => {
     for (const c of store.components()) {
       assert.ok(c.figma, `${c.name} has no figma link`);
       assert.equal(c.figma.fileKey, store.component('button').figma.fileKey, `${c.name} points at a different Figma file`);
+    }
+  });
+  test('a spec with figma.props maps every code prop exactly once', () => {
+    const withProps = store.components().filter((c) => c.figma?.props);
+    assert.ok(withProps.length, 'no spec has figma.props');
+    for (const c of withProps) {
+      const mapped: string[] = c.figma!.props!.flatMap((r: { code: string[] }) => r.code);
+      assert.deepEqual([...mapped].sort(), c.props.map((p: { name: string }) => p.name).sort(), `${c.name} figma.props does not cover its props`);
     }
   });
   test('stories come from the Storybook build index, embeddable by the hub only', async () => {
