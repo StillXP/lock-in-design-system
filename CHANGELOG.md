@@ -15,6 +15,7 @@
 - BREAKING, CSS variables: camelCase token parts are now kebab-case in CSS custom properties (`--ds-color-text-linkHover` is `--ds-color-text-link-hover`). Affected parts: `bgHover`, `bgActive`, `onBrand`, `onSolid`, `linkHover`, `ringOffset`, `touchTarget`, `lineHeight`, `letterSpacing`, `underlineOffset`, `lineThrough`, `zIndex` (37 variables). Token names are unchanged in JS, React Native, JSON, REST and MCP; the flat JSON `cssVar` field has the new names. The build fails if two paths would map to one variable. Component and hub CSS were updated, `Icon` converts its `color` prop, and the Figma variables' web code syntax was updated to match (28 variables).
 - Storybook: every story now runs as a test in headless Chromium with axe (WCAG 2.1 AA), via `@storybook/addon-vitest`. `npm test -w @lockin/storybook` runs them; root `npm run build` and `npm test` include them. Needs `npx playwright install chromium` once per machine. Added `@storybook/addon-mcp`, which serves the stories and runs tests for agents at `http://127.0.0.1:6006/mcp` while Storybook is running.
 - Fixed: RadioGroup no longer puts `aria-required` on its `<fieldset>` (not allowed by ARIA); `required` is now set on each radio input (spec 0.3.1 → 0.3.2). Search `Sizes` story names its landmarks, and the disabled color swatches in the Foundations stories are marked `aria-disabled` so axe skips them.
+- Docs: new Agent tooling diagram in `architecture.md` (`agent-mcp-servers`) showing the lockin and Storybook MCP servers and the shared story tests.
 
 ## 0.1.0 — 2026-10-13
 
