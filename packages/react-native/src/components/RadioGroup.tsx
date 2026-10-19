@@ -16,7 +16,7 @@ export interface RadioGroupProps {
   /** Visually hide the legend. */
   hideLegend?: boolean;
   /** Options shortcut. On web you may pass <Radio> children instead. */
-  options: RadioOption[];
+  options?: RadioOption[];
   /** Controlled selected value. */
   value?: string;
   /** Uncontrolled initial value. */
@@ -38,7 +38,7 @@ export interface RadioGroupProps {
 export function RadioGroup({
   legend,
   hideLegend = false,
-  options,
+  options = [],
   value,
   defaultValue = '',
   onValueChange,

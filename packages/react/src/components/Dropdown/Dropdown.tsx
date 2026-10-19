@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { cx } from '../../utils/cx';
 import { Button, type ButtonSize, type ButtonVariant } from '../Button/Button';
 import { Icon, type IconName } from '../Icon/Icon';
@@ -30,8 +30,6 @@ export interface DropdownProps {
   disabled?: boolean;
   /** Extra class on the wrapper. */
   className?: string;
-  /** Trigger label. */
-  children?: ReactNode;
 }
 
 /**

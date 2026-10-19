@@ -3,13 +3,14 @@ import { textStyle, useTheme } from '../theme/ThemeProvider';
 import { Icon } from './Icon';
 
 /** Shared label / hint / error pieces for form components. */
-export function FieldLabel({ label, required, hidden }: { label: string; required?: boolean; hidden?: boolean }) {
+export function FieldLabel({ label, required, optional, hidden }: { label: string; required?: boolean; optional?: boolean; hidden?: boolean }) {
   const { t } = useTheme();
   if (hidden) return null;
   return (
     <Text style={[textStyle(t.typography.label.md), { color: t.color.text.primary }]} importantForAccessibility="no">
       {label}
       {required ? <Text style={{ color: t.color.text.danger }}> *</Text> : null}
+      {optional && !required ? <Text style={{ color: t.color.text.secondary }}> (optional)</Text> : null}
     </Text>
   );
 }
