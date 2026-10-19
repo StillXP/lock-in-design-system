@@ -5,6 +5,7 @@ import { Icon } from '../Icon/Icon';
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
   /** Visible label. Always required — use hideLabel to hide it visually (e.g. in table rows). */
   label: ReactNode;
+  /** Visually hide the label (e.g. table row selection) while keeping it for screen readers. */
   hideLabel?: boolean;
   /** Supporting text below the label (linked via aria-describedby). */
   description?: ReactNode;

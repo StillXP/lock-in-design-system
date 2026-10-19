@@ -104,7 +104,7 @@ describe('read API', () => {
   test('serves architecture diagrams referenced by docs', async () => {
     const doc = await api('GET', '/api/docs/architecture', keys.viewer);
     const refs = [...doc.body.content.matchAll(/\(\.\/(diagrams\/[\w-]+\.(?:svg|html))\)/g)].map((m) => m[1]);
-    assert.equal(refs.length, 8);
+    assert.equal(refs.length, 10);
     for (const ref of refs) {
       const res = await fetch(`${base}/${ref}`);
       assert.equal(res.status, 200, ref);

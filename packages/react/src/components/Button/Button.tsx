@@ -9,8 +9,11 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual emphasis. One primary action per view. */
   variant?: ButtonVariant;
+  /** Height 32/40/48px. Hit area is always ≥44px on touch. */
   size?: ButtonSize;
+  /** Icon before the label (or the only icon when iconOnly). */
   iconStart?: IconName;
+  /** Icon after the label (e.g. chevron-down, arrow). */
   iconEnd?: IconName;
   /** Render only the icon (iconStart). Requires aria-label. */
   iconOnly?: boolean;
@@ -18,8 +21,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   /** Text announced while loading. */
   loadingLabel?: string;
+  /** Stretch to container width (common on mobile forms). */
   fullWidth?: boolean;
+  /** Label text. Use a verb: 'Save score', not 'OK'. */
   children?: ReactNode;
+  /** Native button type. */
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(

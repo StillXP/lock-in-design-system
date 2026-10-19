@@ -6,6 +6,7 @@ import { Icon } from '../Icon/Icon';
 export type LinkVariant = 'inline' | 'standalone' | 'subtle';
 
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  /** Destination. On native, opened with Linking.openURL unless onPress is given. */
   href: string;
   /** inline = within body copy; standalone = on its own line with a chevron; subtle = low-emphasis (footers, meta). */
   variant?: LinkVariant;
@@ -15,6 +16,7 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   externalLabel?: string;
   /** Render with a router link component, e.g. Next.js Link. Must forward href and render an <a>. */
   as?: ElementType;
+  /** Link text. Must describe the destination ('View bracket', not 'Click here'). */
   children: ReactNode;
 }
 

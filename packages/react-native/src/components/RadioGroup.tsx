@@ -11,16 +11,27 @@ export interface RadioOption {
 }
 
 export interface RadioGroupProps {
+  /** The question the group answers. Rendered as <legend>. */
   legend: string;
+  /** Visually hide the legend. */
   hideLegend?: boolean;
+  /** Options shortcut. On web you may pass <Radio> children instead. */
   options: RadioOption[];
+  /** Controlled selected value. */
   value?: string;
+  /** Uncontrolled initial value. */
   defaultValue?: string;
+  /** Selection handler. */
   onValueChange?: (value: string) => void;
+  /** Layout. Horizontal wraps on narrow screens. */
   orientation?: 'vertical' | 'horizontal';
+  /** Helper text for the group. */
   description?: string;
+  /** Group error message. */
   error?: string;
+  /** Marks the group required. */
   required?: boolean;
+  /** Disable all options. */
   disabled?: boolean;
 }
 

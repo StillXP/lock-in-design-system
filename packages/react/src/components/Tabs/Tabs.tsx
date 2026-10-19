@@ -14,9 +14,13 @@ export interface TabItem {
 }
 
 export interface TabsProps {
+  /** Tabs and their panels. */
   items: TabItem[];
+  /** Controlled selected tab id. */
   value?: string;
+  /** Uncontrolled initial tab (defaults to first enabled). */
   defaultValue?: string;
+  /** Selection handler. */
   onValueChange?: (id: string) => void;
   /** Accessible name for the tab list (required if there's no visible heading). */
   'aria-label'?: string;
@@ -26,9 +30,11 @@ export interface TabsProps {
    * manual: arrow keys move focus; Enter/Space selects (use when panels are expensive to render).
    */
   activation?: 'automatic' | 'manual';
+  /** Underline indicator or segmented control look. */
   variant?: 'line' | 'contained';
   /** Stretch tabs to fill the width (good for 2–4 tabs on mobile). */
   fitted?: boolean;
+  /** Extra class on the tab list wrapper. */
   className?: string;
 }
 

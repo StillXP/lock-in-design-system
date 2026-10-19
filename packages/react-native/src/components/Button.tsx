@@ -6,16 +6,25 @@ export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<PressableProps, 'children' | 'style'> {
+  /** Visual emphasis. Use one primary per view. */
   variant?: ButtonVariant;
+  /** Height 32/40/48px. Hit area is always ≥44px on touch. */
   size?: ButtonSize;
+  /** Label text. Use a verb: 'Save score', not 'OK'. */
   children?: string;
+  /** Icon before the label (or the only icon when iconOnly). */
   iconStart?: IconName;
+  /** Icon after the label (e.g. chevron-down, arrow). */
   iconEnd?: IconName;
   /** Requires accessibilityLabel. */
   iconOnly?: boolean;
+  /** Shows a spinner, sets aria-busy, ignores presses but stays focusable. */
   loading?: boolean;
+  /** Text announced while loading. */
   loadingLabel?: string;
+  /** Stretch to container width (common on mobile forms). */
   fullWidth?: boolean;
+  /** Style overrides for the button container. */
   style?: StyleProp<ViewStyle>;
 }
 

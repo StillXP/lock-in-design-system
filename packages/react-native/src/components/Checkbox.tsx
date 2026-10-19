@@ -5,14 +5,23 @@ import { describe, FieldError, FieldHint } from './Field';
 import { Icon } from './Icon';
 
 export interface CheckboxProps {
+  /** Visible label. Required even when hidden. */
   label: string;
+  /** Visually hide the label (e.g. table row selection) while keeping it for screen readers. */
   hideLabel?: boolean;
+  /** Supporting text, linked via aria-describedby. */
   description?: string;
+  /** Error message; sets aria-invalid. */
   error?: string;
+  /** Controlled checked state. */
   checked?: boolean;
+  /** Uncontrolled initial state. */
   defaultChecked?: boolean;
+  /** Change handler. */
   onCheckedChange?: (checked: boolean) => void;
+  /** Mixed state for a parent 'select all' checkbox. */
   indeterminate?: boolean;
+  /** Disable the checkbox. */
   disabled?: boolean;
 }
 

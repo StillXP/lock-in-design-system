@@ -5,14 +5,23 @@ import { useControllableState } from '../useControllableState';
 import { Icon } from './Icon';
 
 export interface SearchProps extends Omit<TextInputProps, 'value' | 'defaultValue' | 'style'> {
+  /** Accessible label (visually hidden unless showLabel). Make it specific: 'Search players'. */
   label?: string;
+  /** Controlled query. */
   value?: string;
+  /** Uncontrolled initial query. */
   defaultValue?: string;
+  /** Called on every change (debounce in your code for remote search). */
   onValueChange?: (value: string) => void;
+  /** Called on Enter / submit. */
   onSearch?: (value: string) => void;
+  /** Called when cleared via button or Escape. */
   onClear?: () => void;
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
+  /** Swap the search icon for a spinner. */
   loading?: boolean;
+  /** Disables the search field. */
   disabled?: boolean;
 }
 

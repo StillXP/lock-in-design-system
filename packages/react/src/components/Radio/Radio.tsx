@@ -32,19 +32,31 @@ export interface RadioOption {
 export interface RadioGroupProps {
   /** Group question/label, rendered as a <legend>. Required. */
   legend: ReactNode;
+  /** Visually hide the legend. */
   hideLegend?: boolean;
   /** Shortcut for rendering options; or pass <Radio> children. */
   options?: RadioOption[];
+  /** Radio options as children, for custom composition. Use instead of options. */
   children?: ReactNode;
+  /** Form field name (auto-generated if omitted). */
   name?: string;
+  /** Controlled selected value. */
   value?: string;
+  /** Uncontrolled initial value. */
   defaultValue?: string;
+  /** Selection handler. */
   onValueChange?: (value: string) => void;
+  /** Layout. Horizontal wraps on narrow screens. */
   orientation?: 'vertical' | 'horizontal';
+  /** Helper text for the group. */
   description?: ReactNode;
+  /** Group error message. */
   error?: ReactNode;
+  /** Marks the group required. */
   required?: boolean;
+  /** Disable all options. */
   disabled?: boolean;
+  /** Extra class on the fieldset. */
   className?: string;
 }
 
@@ -103,8 +115,11 @@ export function RadioGroup({
 }
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value'> {
+  /** Value submitted and reported to the group when this option is selected. */
   value: string;
+  /** Option label. */
   label: ReactNode;
+  /** Helper text for this option. */
   description?: ReactNode;
 }
 

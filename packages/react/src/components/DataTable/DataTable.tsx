@@ -28,30 +28,47 @@ export interface DataTableColumn<T> {
 }
 
 export interface DataTableProps<T> {
+  /** Column definitions. Mark the name column isRowHeader. */
   columns: DataTableColumn<T>[];
+  /** Data. */
   rows: T[];
+  /** Stable unique id per row. */
   getRowId: (row: T, index: number) => string;
   /** Describes the table for screen readers. Required; hide visually with hideCaption. */
   caption: string;
+  /** Visually hide the caption. */
   hideCaption?: boolean;
+  /** Controlled sort state. Pair with onSortChange. */
   sort?: SortState | null;
+  /** Uncontrolled initial sort. */
   defaultSort?: SortState | null;
+  /** Sort handler. */
   onSortChange?: (sort: SortState | null) => void;
   /** Disable internal sorting (e.g. when the server sorts). */
   manualSorting?: boolean;
+  /** Adds row checkboxes and select-all. */
   selectable?: boolean;
+  /** Controlled selected row ids. */
   selectedIds?: string[];
+  /** Uncontrolled initial selected row ids. */
   defaultSelectedIds?: string[];
+  /** Called with the selected row ids when the selection changes. */
   onSelectionChange?: (ids: string[]) => void;
   /** Accessible label for a row's checkbox. Defaults to the row id. */
   getRowLabel?: (row: T) => string;
+  /** Row padding. */
   density?: 'compact' | 'default' | 'comfortable';
+  /** Zebra rows. */
   striped?: boolean;
+  /** Header sticks while scrolling (table max-height 70vh). */
   stickyHeader?: boolean;
   /** scroll: horizontal scroll on small screens. stack: rows become cards below 640px. */
   mobileLayout?: 'scroll' | 'stack';
+  /** Loading row; aria-busy. */
   loading?: boolean;
+  /** Shown when rows is empty. */
   emptyState?: ReactNode;
+  /** Extra class on the table wrapper. */
   className?: string;
 }
 

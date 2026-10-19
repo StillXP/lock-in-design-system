@@ -14,13 +14,19 @@ export interface SelectOptionGroup {
 }
 
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
+  /** Visible label. */
   label: ReactNode;
+  /** Visually hide the label. */
   hideLabel?: boolean;
+  /** Options; groups render as <optgroup> on web. */
   options: Array<SelectOption | SelectOptionGroup>;
   /** Empty first option, e.g. "Choose a team". Selected when value is "". */
   placeholder?: string;
+  /** Helper text. */
   hint?: ReactNode;
+  /** Error message. */
   error?: ReactNode;
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
 }
 

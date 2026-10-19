@@ -23,20 +23,33 @@ export interface DataTableColumn<T> {
 }
 
 export interface DataTableProps<T> {
+  /** Column definitions. Mark the name column isRowHeader. */
   columns: DataTableColumn<T>[];
+  /** Data. */
   rows: T[];
+  /** Stable unique id per row. */
   getRowId: (row: T, index: number) => string;
+  /** Table title for screen readers (hide visually with hideCaption). */
   caption: string;
+  /** Visually hide the caption. */
   hideCaption?: boolean;
+  /** Controlled sort state. Pair with onSortChange. */
   sort?: SortState | null;
+  /** Uncontrolled initial sort. */
   defaultSort?: SortState | null;
+  /** Sort handler. */
   onSortChange?: (sort: SortState | null) => void;
+  /** Skip client-side sorting (server sorts). */
   manualSorting?: boolean;
+  /** Row padding. */
   density?: 'compact' | 'default' | 'comfortable';
+  /** Zebra rows. */
   striped?: boolean;
   /** stack (default on native): each row is a card of label/value pairs. scroll: horizontal grid. */
   mobileLayout?: 'scroll' | 'stack';
+  /** Loading row; aria-busy. */
   loading?: boolean;
+  /** Shown when rows is empty. */
   emptyState?: ReactNode;
 }
 

@@ -4,13 +4,21 @@ import { useControllableState } from '../useControllableState';
 import { FieldHint } from './Field';
 
 export interface ToggleProps {
+  /** What the switch controls. Phrase as the 'on' state ('Sound effects'). */
   label: string;
+  /** Visually hide the label. */
   hideLabel?: boolean;
+  /** Supporting text. */
   description?: string;
+  /** Controlled state. */
   checked?: boolean;
+  /** Uncontrolled initial state. */
   defaultChecked?: boolean;
+  /** Called with the new state. */
   onCheckedChange?: (checked: boolean) => void;
+  /** start puts the label first and the switch at the far end (settings lists). */
   labelPosition?: 'start' | 'end';
+  /** Disable the switch. */
   disabled?: boolean;
 }
 
