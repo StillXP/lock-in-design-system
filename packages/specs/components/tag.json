@@ -6,9 +6,22 @@
     "web": "import { Tag } from '@lockin/react';",
     "native": "import { Tag } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:893" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "5:893",
+    "props": [
+      { "code": ["children"], "figma": "children", "figmaType": "TEXT", "figmaDefault": "Tag", "status": "aligned", "note": "Figma holds text only." },
+      { "code": ["tone"], "figma": "tone", "figmaType": "VARIANT", "figmaValues": ["neutral", "brand", "info", "success", "warning", "danger"], "figmaDefault": "neutral", "status": "aligned", "note": "Same names, values and default." },
+      { "code": ["variant"], "figma": "variant", "figmaType": "VARIANT", "figmaValues": ["subtle", "solid", "outline"], "figmaDefault": "subtle", "status": "aligned", "note": "Same names, values and default." },
+      { "code": ["size"], "figma": "size", "figmaType": "VARIANT", "figmaValues": ["md", "sm"], "figmaDefault": "md", "status": "aligned", "note": "Same values and default." },
+      { "code": ["icon"], "figma": "icon", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/star", "status": "aligned", "note": "Needs showIcon on." },
+      { "code": [], "figma": "showIcon", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for icon." },
+      { "code": ["onRemove"], "figma": "onRemove", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "differs", "note": "Same name, different type. Code takes a handler; Figma shows the remove button when true." },
+      { "code": ["removeLabel"], "status": "code-only", "note": "Screen reader text of the remove button." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "data-display",
   "level": "atom",
   "purpose": "Compact label for status, category or metadata (Live, Final, Sold out, Division A). Optionally removable for active filters.",

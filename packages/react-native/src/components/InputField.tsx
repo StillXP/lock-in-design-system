@@ -23,6 +23,8 @@ export interface InputFieldProps extends Omit<TextInputProps, 'style'> {
   suffix?: string;
   /** Marks required with * and aria-required. */
   required?: boolean;
+  /** Show "(optional)" next to the label instead of marking required fields. */
+  showOptional?: boolean;
   /** Disables the field. */
   disabled?: boolean;
 }
@@ -44,6 +46,7 @@ export function InputField({
   iconStart,
   suffix,
   required,
+  showOptional = false,
   disabled,
   ...rest
 }: InputFieldProps) {
@@ -55,7 +58,7 @@ export function InputField({
 
   return (
     <View style={{ gap: t.space['2xs'] }}>
-      <FieldLabel label={label} required={required} hidden={hideLabel} />
+      <FieldLabel label={label} required={required} optional={showOptional} hidden={hideLabel} />
       <FieldHint>{hint}</FieldHint>
       <View
         style={{
@@ -72,7 +75,7 @@ export function InputField({
       >
         {iconStart && <Icon name={iconStart} color="secondary" />}
         <TextInput
-          accessibilityLabel={required ? `${label}, required` : label}
+          accessibilityLabel={required ? `${label}, required` : showOptional ? `${label}, optional` : label}
           accessibilityHint={describe(hint, error)}
           accessibilityState={{ disabled: Boolean(disabled) }}
           editable={!disabled}

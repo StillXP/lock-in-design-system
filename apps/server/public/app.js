@@ -61,6 +61,7 @@ const can = (role) => {
 const TONE = { stable: 'success', beta: 'info', experimental: 'warning', deprecated: 'danger' };
 const tag = (text, tone = 'neutral') =>
   `<span class="ds-tag ds-tag--${esc(tone)} ds-tag--subtle ds-tag--sm"><span class="ds-tag__label">${esc(text)}</span></span>`;
+const FIGMA_PROP_TONE = { aligned: 'success', differs: 'warning', 'code-only': 'info', 'figma-only': 'info' };
 const btn = (label, { variant = 'primary', type = 'button', size = 'md', attrs = '' } = {}) =>
   `<button type="${type}" class="ds-button ds-focus-ring ds-button--${variant} ds-button--${size}" ${attrs}><span class="ds-button__label">${esc(label)}</span></button>`;
 const code = (text) => `<pre tabindex="0"><code>${esc(text)}</code></pre>`;
@@ -255,6 +256,7 @@ async function componentView(slug) {
     <div class="do-dont"><div class="card"><h3>Do</h3><ul>${c.usage.do.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div><div class="card dont"><h3>Don't</h3><ul>${c.usage.dont.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
     <h3>Related</h3><ul>${c.usage.related.map((r) => `<li><a class="ds-link" href="#/search?q=${encodeURIComponent(r.name)}">${esc(r.name)}</a> — ${esc(r.reason)}</li>`).join('')}</ul>
     <h2>Props</h2>${table(`${c.name} props`, ['Prop', 'Type', 'Default', 'Required', 'Description'], c.props.map((p) => [`<code>${esc(p.name)}</code>${p.platforms ? ` ${tag(p.platforms.join(' + '))}` : ''}`, `<code>${esc(p.type)}</code>`, p.default === undefined ? '—' : `<code>${esc(JSON.stringify(p.default))}</code>`, p.required ? 'Yes' : 'No', esc(p.description)]))}
+    ${c.figma?.props ? figmaPropsSection(c) : ''}
     <h2>Variants</h2>${table(`${c.name} variants`, ['Variant', 'Description', 'Use when'], c.variants.map((v) => [esc(v.name), esc(v.description), esc(v.useWhen ?? '—')]))}
     <h2>States</h2>${table(`${c.name} states`, ['State', 'Description'], c.states.map((s) => [esc(s.name), esc(s.description)]))}
     <h2>Accessibility</h2>
@@ -269,6 +271,18 @@ async function componentView(slug) {
     <h2>Raw spec (JSON)</h2>${code(JSON.stringify(c, null, 2))}`,
   );
   bindLiveExample(c);
+}
+
+/** Code props next to the Figma properties that model them, so designers and developers see where the two differ. */
+function figmaPropsSection(c) {
+  const rows = c.figma.props.map((r) => [
+    r.code.length ? r.code.map((n) => `<code>${esc(n)}</code>`).join(' ') : '—',
+    r.figma ? `<code>${esc(r.figma)}</code>` : '—',
+    r.figmaType ? `${esc(r.figmaType)}${r.figmaValues ? `: ${esc(r.figmaValues.join(', '))}` : ''}${r.figmaDefault === undefined ? '' : ` · ${esc(String(r.figmaDefault))}`}` : '—',
+    tag(r.status, FIGMA_PROP_TONE[r.status]),
+    esc(r.note ?? ''),
+  ]);
+  return `<h2>Figma ↔ code props</h2><p class="muted">How each code prop is modelled in the Figma library. Only rows marked aligned match exactly.</p>${table(`${c.name} Figma and code props`, ['Code prop', 'Figma property', 'Figma type · default', 'Status', 'Notes'], rows, { rowHeader: false })}`;
 }
 
 // ---------- live examples (stories from the static Storybook build) ----------

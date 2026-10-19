@@ -6,9 +6,25 @@
     "web": "import { Toggle } from '@lockin/react';",
     "native": "import { Toggle } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:529" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "6:529",
+    "props": [
+      { "code": ["label"], "figma": "label", "figmaType": "TEXT", "figmaDefault": "Notifications", "status": "aligned", "note": "Figma holds text only." },
+      { "code": ["hideLabel"], "figma": "showLabel", "figmaType": "BOOLEAN", "figmaDefault": true, "status": "differs", "note": "Inverted: hideLabel = !showLabel." },
+      { "code": ["description"], "figma": "description", "figmaType": "TEXT", "figmaDefault": "Get alerts when a match starts.", "status": "aligned", "note": "Needs showDescription on." },
+      { "code": [], "figma": "showDescription", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for description." },
+      { "code": ["checked"], "figma": "checked", "figmaType": "VARIANT", "figmaValues": ["false", "true"], "figmaDefault": "false", "status": "differs", "note": "Same name, different values. Code checked is a boolean; Figma uses the strings false and true." },
+      { "code": ["defaultChecked"], "status": "code-only", "note": "Starting value for an uncontrolled toggle. Figma has no controlled / uncontrolled split." },
+      { "code": ["onCheckedChange"], "status": "code-only", "note": "Behaviour." },
+      { "code": ["size"], "figma": "size", "figmaType": "VARIANT", "figmaValues": ["md", "sm"], "figmaDefault": "md", "status": "aligned", "note": "Same values and default. Web only; native has one size." },
+      { "code": ["labelPosition"], "status": "code-only", "note": "Not modelled. Figma always puts the label after the track, which is the web default; native defaults to start." },
+      { "code": ["disabled"], "figma": "state=disabled", "figmaType": "VARIANT", "status": "differs", "note": "disabled=true in code is state=disabled in Figma." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "focus", "disabled"], "figmaDefault": "default", "status": "differs", "note": "Figma-only axis for specs and prototypes. focus is :focus-visible." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "form",
   "level": "atom",
   "purpose": "A switch that turns a single setting on or off with immediate effect (dark mode, notifications, sound). Uses the ARIA switch pattern on web and the platform Switch on native.",
@@ -20,7 +36,7 @@
     { "name": "defaultChecked", "type": "boolean", "default": false, "required": false, "description": "Uncontrolled initial state." },
     { "name": "onCheckedChange", "type": "(checked: boolean) => void", "required": false, "description": "Called with the new state." },
     { "name": "size", "type": "'sm' | 'md'", "default": "md", "required": false, "description": "Switch size.", "platforms": ["web"] },
-    { "name": "labelPosition", "type": "'start' | 'end'", "default": "end", "required": false, "description": "start puts the label first and the switch at the far end (settings lists)." },
+    { "name": "labelPosition", "type": "'start' | 'end'", "default": "end (web) / start (native)", "required": false, "description": "start puts the label first and the switch at the far end (settings lists)." },
     { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disable the switch." }
   ],
   "states": [

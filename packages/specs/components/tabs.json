@@ -6,9 +6,29 @@
     "web": "import { Tabs } from '@lockin/react';",
     "native": "import { Tabs } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "10:167" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "10:167",
+    "props": [
+      { "code": ["items"], "figma": "Tabs / Tab", "figmaType": "COMPONENT_SET", "status": "differs", "note": "Tabs holds three Tab instances and has no items property. Add or remove Tab instances. Per tab: label, icon, badge and disabled are Tab properties." },
+      { "code": ["value"], "figma": "value", "figmaType": "VARIANT", "figmaValues": ["overview", "standings", "fixtures"], "figmaDefault": "overview", "status": "differs", "note": "Same name, different values. Figma values are sample tab ids that choose the selected tab." },
+      { "code": ["defaultValue"], "status": "code-only", "note": "Starting tab. Figma has no controlled / uncontrolled split." },
+      { "code": ["onValueChange"], "status": "code-only", "note": "Behaviour." },
+      { "code": ["aria-label / accessibilityLabel"], "status": "code-only", "note": "Accessible name of the tab list. Web is aria-label, native is accessibilityLabel." },
+      { "code": ["aria-labelledby"], "status": "code-only", "note": "Web only. Points at a visible heading that names the tab list." },
+      { "code": ["activation"], "status": "code-only", "note": "Web only. Keyboard behaviour." },
+      { "code": ["variant"], "figma": "variant", "figmaType": "VARIANT", "figmaValues": ["line", "contained"], "figmaDefault": "line", "status": "aligned", "note": "Same names, values and default on Tabs and on Tab." },
+      { "code": ["fitted"], "status": "code-only", "note": "Not modelled. Resize the Tabs instance and set the tabs to fill." },
+      { "code": [], "figma": "Tabs / Tab: label", "figmaType": "TEXT", "figmaDefault": "Overview", "status": "figma-only", "note": "items[].label." },
+      { "code": [], "figma": "Tabs / Tab: showIcon", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle. In code the icon renders when items[].icon is set." },
+      { "code": [], "figma": "Tabs / Tab: icon", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/bar-chart", "status": "figma-only", "note": "items[].icon." },
+      { "code": [], "figma": "Tabs / Tab: showBadge", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle. In code the badge renders when items[].badge is set." },
+      { "code": [], "figma": "Tabs / Tab: badge", "figmaType": "TEXT", "figmaDefault": "3", "status": "figma-only", "note": "items[].badge." },
+      { "code": [], "figma": "Tabs / Tab: state", "figmaType": "VARIANT", "figmaValues": ["selected", "unselected", "hover", "focus", "disabled"], "figmaDefault": "selected", "status": "figma-only", "note": "disabled is items[].disabled; focus is :focus-visible; selected follows value." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "navigation",
   "level": "molecule",
   "purpose": "Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.",
@@ -17,7 +37,8 @@
     { "name": "value", "type": "string", "required": false, "description": "Controlled selected tab id." },
     { "name": "defaultValue", "type": "string", "required": false, "description": "Uncontrolled initial tab (defaults to first enabled)." },
     { "name": "onValueChange", "type": "(id: string) => void", "required": false, "description": "Selection handler." },
-    { "name": "aria-label", "type": "string", "required": false, "description": "Names the tab list when no visible heading labels it." },
+    { "name": "aria-label / accessibilityLabel", "type": "string", "required": false, "description": "Names the tab list when no visible heading labels it. Web: aria-label. Native: accessibilityLabel." },
+    { "name": "aria-labelledby", "type": "string", "required": false, "description": "Id of a visible heading that names the tab list.", "platforms": ["web"] },
     { "name": "activation", "type": "'automatic' | 'manual'", "default": "automatic", "required": false, "description": "automatic selects on arrow; manual requires Enter/Space (use for slow panels).", "platforms": ["web"] },
     { "name": "variant", "type": "'line' | 'contained'", "default": "line", "required": false, "description": "Underline indicator or segmented control look." },
     { "name": "fitted", "type": "boolean", "default": false, "required": false, "description": "Tabs share the full width equally (2 to 4 tabs on mobile)." }

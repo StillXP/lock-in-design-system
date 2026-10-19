@@ -6,9 +6,31 @@
     "web": "import { Button } from '@lockin/react';",
     "native": "import { Button } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "5:422",
+    "props": [
+      { "code": ["variant"], "figma": "variant", "figmaType": "VARIANT", "figmaValues": ["primary", "secondary", "tertiary", "danger"], "figmaDefault": "primary", "status": "aligned" },
+      { "code": ["size"], "figma": "size", "figmaType": "VARIANT", "figmaValues": ["sm", "md", "lg"], "figmaDefault": "md", "status": "aligned" },
+      { "code": ["children"], "figma": "children", "figmaType": "TEXT", "figmaDefault": "Button", "status": "aligned", "note": "Figma holds text only; web code can also take elements." },
+      { "code": ["iconStart"], "figma": "iconStart", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/plus", "status": "aligned", "note": "Swap in an icon/<name> component, where <name> is the code IconName. Needs showIconStart on." },
+      { "code": ["iconEnd"], "figma": "iconEnd", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/chevron-down", "status": "aligned", "note": "Same as iconStart. Needs showIconEnd on." },
+      { "code": [], "figma": "showIconStart", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for the swap. In code the icon renders when iconStart is set. Ignored in state=loading." },
+      { "code": [], "figma": "showIconEnd", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for the swap. In code the icon renders when iconEnd is set. Ignored in state=loading." },
+      { "code": ["iconOnly"], "figma": "Button / Icon only", "figmaType": "COMPONENT_SET", "status": "differs", "note": "Not a property. Use the Icon only component set (iconStart, variant, size, state). It has no children and no state=focus variant." },
+      { "code": ["loading"], "figma": "state=loading", "figmaType": "VARIANT", "status": "differs", "note": "A value of the state axis, in Button and Button / Icon only. The spinner replaces the start icon and the end icon is hidden, as in code. Prototypes do not block presses." },
+      { "code": ["loadingLabel"], "status": "code-only", "note": "Text for screen readers only, so there is nothing to draw." },
+      { "code": ["fullWidth"], "status": "code-only", "note": "In Figma set the instance's horizontal sizing to Fill container." },
+      { "code": ["disabled"], "figma": "state=disabled", "figmaType": "VARIANT", "status": "differs", "note": "Same result, different shape: disabled=true in code is state=disabled in Figma." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "pressed", "focus", "disabled", "loading"], "figmaDefault": "default", "status": "differs", "note": "Figma-only axis for specs and prototypes. Code has hover, active and focus-visible as CSS states, not props. pressed is :active and focus is :focus-visible. Native has no hover." },
+      { "code": ["type"], "status": "code-only", "note": "Web only. Changes behaviour, not appearance." },
+      { "code": ["onClick"], "status": "code-only", "note": "Web only. Behaviour. In prototypes hover and press are wired through state." },
+      { "code": ["onPress"], "status": "code-only", "note": "Native only. Behaviour." },
+      { "code": ["aria-label / accessibilityLabel"], "status": "code-only", "note": "Required when iconOnly. Record the label in the handoff notes for every Icon only instance." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "action",
   "level": "atom",
   "purpose": "Triggers an action in the current view (submit, save, open a modal). For navigation to another page or URL, use Link.",

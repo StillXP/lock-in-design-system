@@ -26,7 +26,25 @@
       "required": ["fileKey", "nodeId"],
       "properties": {
         "fileKey": { "type": "string", "pattern": "^[0-9A-Za-z]{22,128}$" },
-        "nodeId": { "type": "string", "pattern": "^\\d+:\\d+$", "description": "Component set (or frame) node ID, e.g. \"5:422\"." }
+        "nodeId": { "type": "string", "pattern": "^\\d+:\\d+$", "description": "Component set (or frame) node ID, e.g. \"5:422\"." },
+        "props": {
+          "type": "array",
+          "description": "How each code prop maps to a Figma component property, and where they differ. Every prop in `props` must appear in exactly one row's `code`. A row with no `code` is a Figma-only property.",
+          "items": {
+            "type": "object",
+            "required": ["code", "status"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "array", "items": { "type": "string" }, "description": "Names from the spec's `props`. Empty for Figma-only properties." },
+              "figma": { "type": "string", "description": "Figma property name, e.g. \"variant\", or \"state=disabled\" for a variant value. Omit when Figma has no equivalent." },
+              "figmaType": { "enum": ["VARIANT", "BOOLEAN", "TEXT", "INSTANCE_SWAP", "COMPONENT_SET", "COMPONENT"], "description": "COMPONENT_SET or COMPONENT: modelled as separate Figma components instead of a property." },
+              "figmaValues": { "type": "array", "items": { "type": "string" }, "description": "Values of a VARIANT property, in Figma order." },
+              "figmaDefault": { "type": ["string", "boolean"], "description": "Default in the Figma component." },
+              "status": { "enum": ["aligned", "differs", "code-only", "figma-only"], "description": "aligned: same name, values and default. differs: modelled in both but not the same way. code-only: Figma has nothing for it. figma-only: Figma property with no code prop." },
+              "note": { "type": "string", "description": "Required unless aligned. What differs and what to do in Figma." }
+            }
+          }
+        }
       },
       "additionalProperties": false
     },
