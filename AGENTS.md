@@ -33,4 +33,14 @@ Rules:
 - Component CSS may only reference `--ds-*` variables.
 - Bump the spec `version` when editing specs by hand (major: removed/changed props; minor: additions; patch: other).
 - Run `npm run build` and the server tests before finishing.
+- Follow the Git workflow below.
 - `TODO.md` is the project backlog. Check its "Now" section at the start of a session, add follow-ups you find along the way, and delete items once done.
+
+## Git workflow
+
+- Never commit or push to `main`. Start every change on a branch named `type/short-description` (`feat/`, `fix/`, `docs/`, `chore/`). A hook in `.claude/hooks/guard-main.mjs` blocks commits and pushes on `main` and force pushes.
+- Commit messages and PR titles use Conventional Commits: `type(scope): summary`, with `!` after the type for breaking changes. Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. CI rejects PR titles that don't match.
+- One logical change per commit; put the why in the body.
+- Land changes with a pull request (`gh pr create`), squash-merged, then delete the branch. The PR title becomes the commit on `main`, and the PR template lists what to check.
+- CI (`.github/workflows/ci.yml`) runs `npm run check`, `npm run build` (includes the story and axe tests) and the server tests on every PR. Don't merge a red PR.
+- Only commit, push or merge when the user asks.

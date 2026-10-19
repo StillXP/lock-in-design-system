@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    # PRs are squash-merged, so the PR title becomes the commit message on main.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Conventional Commits format
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .+'
+          if ! printf '%s' "$TITLE" | grep -Eq "$pattern"; then
+            echo "::error::PR title must look like 'type(scope): summary', e.g. 'feat(react): add Badge'. Got: $TITLE"
+            exit 1
+          fi
+
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browser (story tests)
+        run: npx playwright install --with-deps chromium
+
+      # Build first: the typechecks resolve workspace packages (e.g. @lockin/icons) from their built dist/.
+      - name: Build (includes Storybook story and axe tests)
+        run: npm run build
+
+      - name: Checks (contrast, specs, typecheck)
+        run: npm run check
+
+      - name: Server tests
+        run: npm test -w @lockin/server
