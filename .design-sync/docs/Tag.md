@@ -24,7 +24,7 @@ Atomic level: atom.
 
 ## Don't
 
-- Don't make tags clickable links or buttons — use Button or Link.
+- Don't make tags clickable links or buttons; use Button or Link.
 - Don't rely on tone color alone to convey meaning.
 
 ## Related components

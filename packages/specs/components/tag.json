@@ -8,12 +8,12 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:893" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "data-display",
   "level": "atom",
   "purpose": "Compact label for status, category or metadata (Live, Final, Sold out, Division A). Optionally removable for active filters.",
   "props": [
-    { "name": "children", "type": "ReactNode", "required": true, "description": "Tag text (1–2 words)." },
+    { "name": "children", "type": "ReactNode", "required": true, "description": "Tag text (1 to 2 words)." },
     { "name": "tone", "type": "'neutral' | 'brand' | 'info' | 'success' | 'warning' | 'danger'", "default": "neutral", "required": false, "description": "Semantic color. Status tones add a default icon." },
     { "name": "variant", "type": "'subtle' | 'solid' | 'outline'", "default": "subtle", "required": false, "description": "Emphasis level." },
     { "name": "size", "type": "'sm' | 'md'", "default": "md", "required": false, "description": "Size." },
@@ -61,7 +61,7 @@
       "Use removable tags to show active filters."
     ],
     "dont": [
-      "Don't make tags clickable links or buttons — use Button or Link.",
+      "Don't make tags clickable links or buttons; use Button or Link.",
       "Don't rely on tone color alone to convey meaning."
     ],
     "related": [

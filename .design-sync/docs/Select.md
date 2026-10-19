@@ -30,8 +30,8 @@ Atomic level: molecule.
 
 ## Don't
 
-- Don't use for actions — use Dropdown.
-- Don't use for 2–5 options when space allows — use RadioGroup.
+- Don't use for actions; use Dropdown.
+- Don't use for 2 to 5 options when space allows; use RadioGroup.
 - Don't auto-submit on change.
 
 ## Related components

@@ -1,11 +1,11 @@
-Radio buttons let users pick exactly one option from a small, visible set (2–6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.
+Radio buttons let users pick exactly one option from a small, visible set (2 to 6). RadioGroup provides the required fieldset/legend grouping; Radio is the individual option.
 
 Atomic level: molecule.
 
 ## Variants
 
 - `vertical`: Stacked options (default, easiest to scan).
-- `horizontal`: Inline options. Use when: 2–3 short options like 'Home / Away'.
+- `horizontal`: Inline options. Use when: 2 to 3 short options like 'Home / Away'.
 
 ## Example
 
@@ -23,13 +23,13 @@ Atomic level: molecule.
 
 ## Do
 
-- Use when all options should be visible and there are 2–6 of them.
+- Use when all options should be visible and there are 2 to 6 of them.
 - Pre-select a sensible default when one exists.
 - Order options logically (frequency, size, alphabet).
 
 ## Don't
 
-- Don't use for more than ~6 options — use Select.
+- Don't use for more than ~6 options; use Select.
 - Don't use a single radio button; use Checkbox.
 - Don't trigger navigation or actions on change.
 

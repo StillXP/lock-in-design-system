@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "8:137" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "form",
   "level": "molecule",
   "purpose": "Search input wrapped in a search landmark with a leading icon, clear button, Escape-to-clear, and an optional loading spinner.",
@@ -67,7 +67,7 @@
       "Debounce remote searches (~250ms)."
     ],
     "dont": [
-      "Don't use Search for non-search text entry — use InputField.",
+      "Don't use Search for non-search text entry; use InputField.",
       "Don't move focus away from the input as results update."
     ],
     "related": [

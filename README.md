@@ -48,6 +48,7 @@ Open in a browser (self-contained HTML, in `docs/diagrams/`):
 - [Architecture](docs/architecture.md): diagrams of packages, token pipeline, hub, edit lifecycle
 - [Getting started](docs/getting-started.md)
 - [Tokens](docs/tokens.md)
+- [Token naming](docs/token-naming.md): why the names look the way they do, and how to name a new token
 - [Components](docs/components.md)
 - [Accessibility](docs/accessibility.md)
 - [Theming & customization](docs/theming.md)

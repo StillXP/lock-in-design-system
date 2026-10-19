@@ -196,11 +196,11 @@ body {
 @media (pointer: coarse) {
   .ds-control,
   .ds-control--sm {
-    min-height: var(--ds-size-touchTarget-min);
+    min-height: var(--ds-size-touch-target-min);
   }
   .ds-control__button {
-    width: var(--ds-size-touchTarget-min);
-    height: var(--ds-size-touchTarget-min);
+    width: var(--ds-size-touch-target-min);
+    height: var(--ds-size-touch-target-min);
     margin-inline-end: calc(var(--ds-space-sm) * -1);
   }
 }

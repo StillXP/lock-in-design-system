@@ -242,6 +242,39 @@ describe('web fonts', () => {
   });
 });
 
+describe('css variable names', () => {
+  test('are kebab-case, and every var(--ds-*) a stylesheet uses is defined', async () => {
+    const { build } = await import('@lockin/tokens/build');
+    const dist = join(root, 'packages/tokens/dist');
+    build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
+    const tokensCss = readFileSync(join(dist, 'css/tokens.css'), 'utf8');
+    const defined = new Set([...tokensCss.matchAll(/(--ds-[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+    assert.ok(defined.size > 250, `only ${defined.size} variables defined`);
+    assert.deepEqual([...tokensCss.matchAll(/--ds-[A-Za-z0-9-]*[A-Z][A-Za-z0-9-]*/g)].map((m) => m[0]), [], 'camelCase CSS variables in tokens.css');
+    const reactSrc = join(repo, 'packages/react/src');
+    const sheets = [
+      ...readdirSync(reactSrc, { recursive: true }).map(String).filter((f) => f.endsWith('.css')).map((f) => join(reactSrc, f)),
+      join(repo, 'apps/server/public/app.css'),
+    ];
+    assert.ok(sheets.length > 10);
+    for (const sheet of sheets) {
+      for (const [, name] of readFileSync(sheet, 'utf8').matchAll(/var\((--ds-[A-Za-z0-9-]+)/g)) {
+        assert.ok(defined.has(name), `${sheet.replace(repo, '')} uses ${name}, which tokens.css does not define`);
+      }
+    }
+  });
+  test('the flat JSON lists the kebab-case name for camelCase tokens', async () => {
+    const { build } = await import('@lockin/tokens/build');
+    const dist = join(root, 'packages/tokens/dist');
+    build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
+    const flat = JSON.parse(readFileSync(join(dist, 'json/tokens.flat.json'), 'utf8'));
+    const tokens: Array<{ name: string; cssVar: string }> = Array.isArray(flat) ? flat : flat.tokens;
+    assert.equal(tokens.find((t) => t.name === 'color.text.linkHover')?.cssVar, '--ds-color-text-link-hover');
+    assert.equal(tokens.find((t) => t.name === 'zIndex.modal')?.cssVar, '--ds-z-index-modal');
+    assert.equal(tokens.filter((t) => /[A-Z]/.test(t.cssVar)).length, 0);
+  });
+});
+
 describe('public read', () => {
   let publicBase = '';
   let closePublic: () => void;

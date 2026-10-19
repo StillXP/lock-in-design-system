@@ -25,7 +25,7 @@ Atomic level: atom.
 ## Don't
 
 - Don't use 'click here' or 'read more' without context.
-- Don't style a Link like a Button for in-page actions — use Button.
+- Don't style a Link like a Button for in-page actions; use Button.
 - Don't remove the underline from inline links.
 
 ## Related components

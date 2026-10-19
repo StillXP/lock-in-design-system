@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "10:167" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "navigation",
   "level": "molecule",
   "purpose": "Switches between related views of the same context (Overview / Standings / Fixtures) without leaving the page.",
@@ -20,7 +20,7 @@
     { "name": "aria-label", "type": "string", "required": false, "description": "Names the tab list when no visible heading labels it." },
     { "name": "activation", "type": "'automatic' | 'manual'", "default": "automatic", "required": false, "description": "automatic selects on arrow; manual requires Enter/Space (use for slow panels).", "platforms": ["web"] },
     { "name": "variant", "type": "'line' | 'contained'", "default": "line", "required": false, "description": "Underline indicator or segmented control look." },
-    { "name": "fitted", "type": "boolean", "default": false, "required": false, "description": "Tabs share the full width equally (2–4 tabs on mobile)." }
+    { "name": "fitted", "type": "boolean", "default": false, "required": false, "description": "Tabs share the full width equally (2 to 4 tabs on mobile)." }
   ],
   "states": [
     { "name": "selected", "description": "Brand text, semibold, 3px indicator bar (line) or raised pill (contained)." },
@@ -66,8 +66,8 @@
       "Use badges for counts ('Disputes 3')."
     ],
     "dont": [
-      "Don't use Tabs for sequential steps — use a stepper / wizard.",
-      "Don't use Tabs for top-level site navigation — use links.",
+      "Don't use Tabs for sequential steps; use a stepper / wizard.",
+      "Don't use Tabs for top-level site navigation; use links.",
       "Don't exceed ~6 tabs; consider a Select on mobile."
     ],
     "related": [

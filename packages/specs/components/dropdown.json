@@ -8,10 +8,10 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "11:180" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "action",
   "level": "molecule",
-  "purpose": "Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control — for picking a value use Select.",
+  "purpose": "Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control; for picking a value, use Select.",
   "props": [
     { "name": "label", "type": "string", "required": true, "description": "Trigger text, or the aria-label when triggerIcon is set." },
     { "name": "items", "type": "Array<{ id: string; label: string; icon?: IconName; onSelect?: () => void; disabled?: boolean; tone?: 'default' | 'danger' }>", "required": true, "description": "Menu actions." },
@@ -67,7 +67,7 @@
       "Use verbs for item labels."
     ],
     "dont": [
-      "Don't use for selecting form values — use Select.",
+      "Don't use for selecting form values; use Select.",
       "Don't hide the primary action of a page in a menu.",
       "Don't nest menus."
     ],

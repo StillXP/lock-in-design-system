@@ -3,7 +3,7 @@
   --_fg: var(--ds-color-status-neutral-text);
   --_border: var(--ds-color-status-neutral-border);
   --_solid: var(--ds-color-status-neutral-solid);
-  --_on-solid: var(--ds-color-status-neutral-onSolid);
+  --_on-solid: var(--ds-color-status-neutral-on-solid);
 
   display: inline-flex;
   align-items: center;
@@ -36,35 +36,35 @@
   --_fg: var(--ds-color-status-brand-text);
   --_border: var(--ds-color-status-brand-border);
   --_solid: var(--ds-color-status-brand-solid);
-  --_on-solid: var(--ds-color-status-brand-onSolid);
+  --_on-solid: var(--ds-color-status-brand-on-solid);
 }
 .ds-tag--info {
   --_bg: var(--ds-color-status-info-bg);
   --_fg: var(--ds-color-status-info-text);
   --_border: var(--ds-color-status-info-border);
   --_solid: var(--ds-color-status-info-solid);
-  --_on-solid: var(--ds-color-status-info-onSolid);
+  --_on-solid: var(--ds-color-status-info-on-solid);
 }
 .ds-tag--success {
   --_bg: var(--ds-color-status-success-bg);
   --_fg: var(--ds-color-status-success-text);
   --_border: var(--ds-color-status-success-border);
   --_solid: var(--ds-color-status-success-solid);
-  --_on-solid: var(--ds-color-status-success-onSolid);
+  --_on-solid: var(--ds-color-status-success-on-solid);
 }
 .ds-tag--warning {
   --_bg: var(--ds-color-status-warning-bg);
   --_fg: var(--ds-color-status-warning-text);
   --_border: var(--ds-color-status-warning-border);
   --_solid: var(--ds-color-status-warning-solid);
-  --_on-solid: var(--ds-color-status-warning-onSolid);
+  --_on-solid: var(--ds-color-status-warning-on-solid);
 }
 .ds-tag--danger {
   --_bg: var(--ds-color-status-danger-bg);
   --_fg: var(--ds-color-status-danger-text);
   --_border: var(--ds-color-status-danger-border);
   --_solid: var(--ds-color-status-danger-solid);
-  --_on-solid: var(--ds-color-status-danger-onSolid);
+  --_on-solid: var(--ds-color-status-danger-on-solid);
 }
 
 .ds-tag--solid {

@@ -2,7 +2,7 @@
 
 > Color, typography, spacing and effect tokens: base vs. semantic layers, light/dark modes, and how to use them on each platform.
 
-Tokens are named design decisions. Source files live in `packages/tokens/src/` in [DTCG](https://www.designtokens.org/) format (`$value`, `$type`, `$description`). One build turns them into CSS, JS/TS, React Native and JSON.
+Tokens are named design decisions. Source files live in `packages/tokens/src/` in [DTCG](https://www.designtokens.org/) format (`$value`, `$type`, `$description`). One build turns them into CSS, JS/TS, React Native and JSON. For why the names look the way they do, see [Token naming](./token-naming.md).
 
 ![Token pipeline: base, semantic and theme JSON are resolved, pass the WCAG contrast gate, then emit CSS, JS/TS, React Native and JSON outputs.](./diagrams/token-pipeline.svg)
 
@@ -41,7 +41,7 @@ Eight hues with ten steps each: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900
 | `color.icon.*` | `primary`, `secondary`, `disabled`, `inverse`, `onBrand`, `brand`, `danger`, `success`, `warning`, `info` | Icons (≥ 3:1 contrast) |
 | `color.border.*` | `subtle`, `default`, `strong`, `selected`, `danger`, `success`, `warning`, `info` | Dividers (subtle), containers (default), form controls (strong) |
 | `color.focus.*` | `ring`, `ringOffset` | Keyboard focus indicator |
-| `color.intent.*` | `primary`, `secondary`, `tertiary`, `danger`, `disabled` × `bg`, `bgHover`, `bgActive`, `text`, `border` | Interactive elements by emphasis |
+| `color.intent.*` | `primary`, `secondary`, `tertiary`, `danger` × `bg`, `bgHover`, `bgActive`, `text` (`secondary` also has `border`); `disabled` has `bg` and `text` | Interactive elements by emphasis |
 | `color.status.*` | `neutral`, `brand`, `info`, `success`, `warning`, `danger` × `bg`, `border`, `text`, `solid`, `onSolid` | Messages, tags, validation |
 | `color.dataviz.*` | `1` to `8` | Chart series, in order |
 
@@ -139,7 +139,7 @@ Base unit is 16px (`space.md`). Ten steps, all divisible by 4:
 | `@lockin/tokens/native` | `nativeTokens.light/dark`, `nativeThemes` (numbers, RN shadows) |
 | `@lockin/tokens/json/tokens.flat.json` | Flat list for tooling and AI: `name`, `cssVar`, `type`, `layer`, `value` (light/dark), `aliasOf`, `description` |
 
-CSS variable names are the token path with dots replaced by dashes: `color.text.primary` → `--ds-color-text-primary`.
+CSS variable names are the token path with dots replaced by dashes and camelCase turned into kebab-case: `color.text.primary` → `--ds-color-text-primary`, `color.text.linkHover` → `--ds-color-text-link-hover`. Every other surface (JS, React Native, JSON, REST, MCP) keeps the camelCase token name, and the flat JSON lists the exact `cssVar` for each token.
 
 ## Do / don't
 

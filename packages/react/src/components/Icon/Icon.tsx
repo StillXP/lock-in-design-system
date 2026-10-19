@@ -62,7 +62,8 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
       style={{
         width: dimension,
         height: dimension,
-        color: color === 'currentColor' ? undefined : `var(--ds-color-icon-${color})`,
+        // The prop value is the token part (`onBrand`); the CSS variable is kebab-case (`on-brand`).
+        color: color === 'currentColor' ? undefined : `var(--ds-color-icon-${color.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()})`,
         ...style,
       }}
       {...rest}

@@ -15,6 +15,7 @@ Rebuild + verify: `node .ds-sync/resync.mjs --config .design-sync/config.json --
 
 - Fonts: Inter and JetBrains Mono now ship from `@lockin/tokens` (`src/fonts/`, @font-face inlined in `tokens.css`, urls `../fonts/<file>`). The converter copies `tokens/tokens.css` as is, so `cfg.extraFonts` lists the four `.woff2` files (package-relative `../tokens/src/fonts/...`) to land them in the bundle's `fonts/`, where `../fonts/<file>` resolves. If a font file is added or renamed, update `extraFonts` or the sync reports `[FONT_DANGLING]`. Rebuild `.design-sync/sb-reference` when fonts change so both compare panels use them.
 - `[FONT_MISSING]` also lists `underline` and `line-through`: false positives from the `--ds-font-decoration-*` tokens. Ignore.
+- CSS variable names are kebab-case (`--ds-color-text-link-hover`); the shipped `tokens/tokens.css` and component CSS use only those. `.design-sync/conventions.md` names variables, so re-check it against `tokens.css` after any token rename.
 
 ## Re-sync risks
 

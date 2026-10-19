@@ -8,7 +8,7 @@
   },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:202" },
   "status": "beta",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "category": "form",
   "level": "atom",
   "purpose": "Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.",
@@ -72,8 +72,8 @@
       "Use indeterminate for a parent that controls a list."
     ],
     "dont": [
-      "Don't use a checkbox for settings that apply instantly — use Toggle.",
-      "Don't use for mutually exclusive options — use RadioGroup.",
+      "Don't use a checkbox for settings that apply instantly; use Toggle.",
+      "Don't use for mutually exclusive options; use RadioGroup.",
       "Don't rely on the checkbox alone to indicate errors; show a message."
     ],
     "related": [

@@ -19,14 +19,14 @@ Atomic level: atom.
 
 ## Do
 
-- Start labels with a verb and keep them short (1–3 words).
+- Start labels with a verb and keep them short (1 to 3 words).
 - Use one primary button per view or section.
 - Place the primary action last (right) in button groups and modals.
 - Use loading for async actions instead of disabling.
 
 ## Don't
 
-- Don't use a Button to navigate to a URL — use Link.
+- Don't use a Button to navigate to a URL; use Link.
 - Don't put more than one primary or danger button side by side.
 - Don't use icon-only buttons for uncommon actions; add a label.
 - Don't disable submit buttons to signal validation errors; show field errors instead.

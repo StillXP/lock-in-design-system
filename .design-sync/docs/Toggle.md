@@ -17,12 +17,12 @@ Atomic level: atom.
 ## Do
 
 - Apply the change immediately when toggled.
-- Keep labels short and stable — don't change the label text when toggled.
+- Keep labels short and stable; don't change the label text when toggled.
 
 ## Don't
 
-- Don't use inside a form that needs a Submit button — use Checkbox.
-- Don't use for choices that aren't on/off (e.g. 'Grid / List') — use Tabs or RadioGroup.
+- Don't use inside a form that needs a Submit button; use Checkbox.
+- Don't use for choices that aren't on/off (e.g. 'Grid / List'); use Tabs or RadioGroup.
 
 ## Related components
 

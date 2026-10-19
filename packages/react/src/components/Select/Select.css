@@ -78,7 +78,7 @@
 
   .ds-select__input option:hover,
   .ds-select__input option:focus-visible {
-    background: var(--ds-color-intent-secondary-bgHover);
+    background: var(--ds-color-intent-secondary-bg-hover);
     outline: none;
   }
 
@@ -106,7 +106,7 @@
 
   @media (pointer: coarse) {
     .ds-select__input option {
-      min-block-size: var(--ds-size-touchTarget-min);
+      min-block-size: var(--ds-size-touch-target-min);
     }
   }
 }
