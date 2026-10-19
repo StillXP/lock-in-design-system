@@ -5,15 +5,25 @@ import { describe, FieldError, FieldHint, FieldLabel } from './Field';
 import { Icon, type IconName } from './Icon';
 
 export interface InputFieldProps extends Omit<TextInputProps, 'style'> {
+  /** Visible label. Placeholders are not labels. */
   label: string;
+  /** Visually hide the label. */
   hideLabel?: boolean;
+  /** Format guidance shown above the input ('e.g. 12:30'). */
   hint?: string;
+  /** Error message; sets aria-invalid. Say how to fix it. */
   error?: string;
+  /** Input type. password adds a show/hide button; on native sets keyboardType/secureTextEntry. */
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
+  /** Leading decorative icon. */
   iconStart?: IconName;
+  /** Trailing unit text ('pts', 'kg', '$'). */
   suffix?: string;
+  /** Marks required with * and aria-required. */
   required?: boolean;
+  /** Disables the field. */
   disabled?: boolean;
 }
 

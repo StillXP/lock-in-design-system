@@ -17,17 +17,29 @@ export interface SelectOptionGroup {
 }
 
 export interface SelectProps {
+  /** Visible label. */
   label: string;
+  /** Visually hide the label. */
   hideLabel?: boolean;
+  /** Options; groups render as <optgroup> on web. */
   options: Array<SelectOption | SelectOptionGroup>;
+  /** Empty first option ('Choose a team'). */
   placeholder?: string;
+  /** Controlled selected value. */
   value?: string;
+  /** Uncontrolled initial value. */
   defaultValue?: string;
+  /** Change handler. */
   onValueChange?: (value: string) => void;
+  /** Helper text. */
   hint?: string;
+  /** Error message. */
   error?: string;
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
+  /** Marks the field required. */
   required?: boolean;
+  /** Disables the select. */
   disabled?: boolean;
 }
 

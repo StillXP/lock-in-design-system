@@ -16,7 +16,9 @@ export type IconColor =
   | 'info';
 
 export interface IconProps {
+  /** Icon id. List with GET /api/icons or the MCP tool list_icons. */
   name: IconName;
+  /** 16/20/24/32px, or a pixel number. */
   size?: 'sm' | 'md' | 'lg' | 'xl' | number;
   /** Semantic icon color. Defaults to color.icon.primary (RN has no currentColor inheritance). */
   color?: IconColor | 'currentColor';

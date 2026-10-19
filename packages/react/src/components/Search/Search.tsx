@@ -6,13 +6,19 @@ import { Icon } from '../Icon/Icon';
 export interface SearchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'defaultValue' | 'onChange'> {
   /** Accessible label. Visually hidden by default because the icon + placeholder make purpose clear. */
   label?: string;
+  /** Show the label visually. */
   showLabel?: boolean;
+  /** Controlled query. */
   value?: string;
+  /** Uncontrolled initial query. */
   defaultValue?: string;
+  /** Called on every change (debounce in your code for remote search). */
   onValueChange?: (value: string) => void;
   /** Called on Enter / submit. */
   onSearch?: (value: string) => void;
+  /** Called when cleared via button or Escape. */
   onClear?: () => void;
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
   /** Shows a spinner while results load. */
   loading?: boolean;

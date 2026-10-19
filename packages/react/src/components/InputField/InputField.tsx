@@ -5,12 +5,15 @@ import { Icon, type IconName } from '../Icon/Icon';
 export interface InputFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   /** Visible label. Required — placeholders are not labels. */
   label: ReactNode;
+  /** Visually hide the label. */
   hideLabel?: boolean;
   /** Helper text shown under the input. */
   hint?: ReactNode;
   /** Error message; sets aria-invalid. Describe how to fix the problem. */
   error?: ReactNode;
+  /** Control height. */
   size?: 'sm' | 'md' | 'lg';
+  /** Leading decorative icon. */
   iconStart?: IconName;
   /** Trailing content such as a unit ("kg") or currency. */
   suffix?: ReactNode;

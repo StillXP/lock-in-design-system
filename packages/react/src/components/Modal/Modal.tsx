@@ -3,6 +3,7 @@ import { cx } from '../../utils/cx';
 import { Button } from '../Button/Button';
 
 export interface ModalProps {
+  /** Whether the modal is shown. The parent owns this state. */
   open: boolean;
   /** Called on Escape, close button, or backdrop click. The parent owns `open`. */
   onClose: () => void;
@@ -10,17 +11,23 @@ export interface ModalProps {
   title: ReactNode;
   /** Optional supporting text, linked via aria-describedby. */
   description?: ReactNode;
+  /** Body content (scrolls if long). */
   children?: ReactNode;
   /** Action buttons. Put the primary action last (right-most). */
   footer?: ReactNode;
+  /** Width 384 / 512 / 768px or fullscreen. */
   size?: 'sm' | 'md' | 'lg' | 'fullscreen';
   /** alertdialog for confirmations that interrupt the user (e.g. "Delete team?"). */
   role?: 'dialog' | 'alertdialog';
+  /** Close when clicking outside. */
   closeOnBackdropClick?: boolean;
+  /** Hide the X button (ensure another way to close). */
   hideCloseButton?: boolean;
   /** Element to focus on open. Defaults to the first focusable element. */
   initialFocusRef?: RefObject<HTMLElement | null>;
+  /** Accessible name of the X button. */
   closeLabel?: string;
+  /** Extra class on the dialog. */
   className?: string;
 }
 

@@ -16,15 +16,21 @@ export interface DropdownItem {
 export interface DropdownProps {
   /** Trigger button text. */
   label: string;
+  /** Menu actions. */
   items: DropdownItem[];
   /** Render the trigger as an icon-only button (label becomes its aria-label). */
   triggerIcon?: IconName;
+  /** Trigger button variant. */
   triggerVariant?: ButtonVariant;
+  /** Trigger button size. */
   triggerSize?: ButtonSize;
   /** Horizontal alignment of the menu relative to the trigger. */
   align?: 'start' | 'end';
+  /** Disable the trigger. */
   disabled?: boolean;
+  /** Extra class on the wrapper. */
   className?: string;
+  /** Trigger label. */
   children?: ReactNode;
 }
 

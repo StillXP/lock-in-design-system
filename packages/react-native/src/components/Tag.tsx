@@ -5,12 +5,19 @@ import { Icon, type IconName } from './Icon';
 export type TagTone = 'neutral' | 'brand' | 'info' | 'success' | 'warning' | 'danger';
 
 export interface TagProps {
+  /** Tag text (1 to 2 words). */
   children: string;
+  /** Semantic color. Status tones add a default icon. */
   tone?: TagTone;
+  /** Emphasis level. */
   variant?: 'subtle' | 'solid' | 'outline';
+  /** Size. */
   size?: 'sm' | 'md';
+  /** Override the leading icon. */
   icon?: IconName;
+  /** Shows a remove button. */
   onRemove?: () => void;
+  /** Accessible name for the remove button (default 'Remove <text>'). */
   removeLabel?: string;
 }
 

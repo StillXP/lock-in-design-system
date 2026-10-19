@@ -15,11 +15,17 @@ export interface DropdownItem {
 }
 
 export interface DropdownProps {
+  /** Trigger text, or the aria-label when triggerIcon is set. */
   label: string;
+  /** Menu actions. */
   items: DropdownItem[];
+  /** Render an icon-only trigger (e.g. more-horizontal). */
   triggerIcon?: IconName;
+  /** Trigger button variant. */
   triggerVariant?: ButtonVariant;
+  /** Trigger button size. */
   triggerSize?: ButtonSize;
+  /** Disable the trigger. */
   disabled?: boolean;
 }
 

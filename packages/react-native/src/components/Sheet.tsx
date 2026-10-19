@@ -15,16 +15,25 @@ export function useReducedMotion() {
 }
 
 export interface SheetProps {
+  /** Whether the modal is shown. The parent owns this state. */
   open: boolean;
+  /** Called on Escape, close button, backdrop click (or Android back). */
   onClose: () => void;
+  /** Heading and accessible name. */
   title: string;
+  /** Body content (scrolls if long). */
   children: ReactNode;
+  /** Action buttons; primary last. */
   footer?: ReactNode;
+  /** Close when the backdrop is pressed. */
   closeOnBackdropPress?: boolean;
   /** 'sheet' docks to the bottom (phones); 'center' floats (tablets / confirmations). */
   placement?: 'sheet' | 'center';
+  /** Supporting text, linked via aria-describedby. */
   description?: string;
+  /** Hide the X button (ensure another way to close). */
   hideCloseButton?: boolean;
+  /** Accessible name of the X button. */
   closeLabel?: string;
 }
 

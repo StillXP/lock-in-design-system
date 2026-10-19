@@ -5,9 +5,13 @@ import { Icon, type IconName } from '../Icon/Icon';
 export type TagTone = 'neutral' | 'brand' | 'info' | 'success' | 'warning' | 'danger';
 
 export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Tag text (1 to 2 words). */
   children: ReactNode;
+  /** Semantic color. Status tones add a default icon. */
   tone?: TagTone;
+  /** Emphasis level. */
   variant?: 'subtle' | 'solid' | 'outline';
+  /** Size. */
   size?: 'sm' | 'md';
   /** Leading icon. Status tones should include one so meaning isn't color-only. */
   icon?: IconName;

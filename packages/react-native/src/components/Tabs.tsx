@@ -14,12 +14,19 @@ export interface TabItem {
 }
 
 export interface TabsProps {
+  /** Tabs and their panels. */
   items: TabItem[];
+  /** Controlled selected tab id. */
   value?: string;
+  /** Uncontrolled initial tab (defaults to first enabled). */
   defaultValue?: string;
+  /** Selection handler. */
   onValueChange?: (id: string) => void;
+  /** Underline indicator or segmented control look. */
   variant?: 'line' | 'contained';
+  /** Tabs share the full width equally (2 to 4 tabs on mobile). */
   fitted?: boolean;
+  /** Accessible name for the tab list. */
   accessibilityLabel?: string;
 }
 

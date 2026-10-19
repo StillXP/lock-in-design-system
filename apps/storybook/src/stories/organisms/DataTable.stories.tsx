@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { DataTable, Tag, type DataTableColumn, type DataTableProps } from '@lockin/react';
+import { DataTable as GenericDataTable, Tag, type DataTableColumn, type DataTableProps } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
 interface Team {
@@ -42,12 +42,12 @@ const columns: DataTableColumn<Team>[] = [
 ];
 
 // DataTable is generic; Storybook's component typing needs a concrete row type.
-const TeamTable = DataTable as (props: DataTableProps<Team>) => ReturnType<typeof DataTable>;
+const DataTable = GenericDataTable as (props: DataTableProps<Team>) => ReturnType<typeof GenericDataTable>;
 
 const meta = {
   title: 'Organisms/DataTable',
   ...specMeta('data-table'),
-  component: TeamTable,
+  component: DataTable,
   args: {
     caption: 'Group A standings',
     columns,
@@ -64,7 +64,7 @@ const meta = {
     getRowId: { control: false },
     getRowLabel: { control: false },
   },
-} satisfies Meta<typeof TeamTable>;
+} satisfies Meta<typeof DataTable>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 

@@ -6,11 +6,17 @@ import { Icon } from '../Icon/Icon';
 export interface ToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'value'> {
   /** Visible label describing what the switch controls. Required. */
   label: ReactNode;
+  /** Visually hide the label. */
   hideLabel?: boolean;
+  /** Supporting text. */
   description?: ReactNode;
+  /** Controlled state. */
   checked?: boolean;
+  /** Uncontrolled initial state. */
   defaultChecked?: boolean;
+  /** Called with the new state. */
   onCheckedChange?: (checked: boolean) => void;
+  /** Switch size. */
   size?: 'sm' | 'md';
   /** Label placement relative to the switch. */
   labelPosition?: 'start' | 'end';
