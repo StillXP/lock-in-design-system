@@ -6,9 +6,27 @@
     "web": "import { Search } from '@lockin/react';",
     "native": "import { Search } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "8:137" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "8:137",
+    "props": [
+      { "code": ["label"], "figma": "label", "figmaType": "TEXT", "figmaDefault": "Search", "status": "aligned", "note": "Same name and default. Hidden unless showLabel is on." },
+      { "code": ["showLabel"], "figma": "showLabel", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "aligned", "note": "Same name and default." },
+      { "code": ["value"], "figma": "value", "figmaType": "TEXT", "figmaDefault": "Lakers", "status": "differs", "note": "Figma value is sample text for the filled state." },
+      { "code": ["defaultValue"], "status": "code-only", "note": "Starting query. Figma has no controlled / uncontrolled split." },
+      { "code": ["onValueChange"], "status": "code-only", "note": "Behaviour." },
+      { "code": ["onSearch"], "status": "code-only", "note": "Behaviour." },
+      { "code": ["onClear"], "status": "code-only", "note": "Behaviour. The filled state draws the clear button." },
+      { "code": ["placeholder"], "figma": "placeholder", "figmaType": "TEXT", "figmaDefault": "Search…", "status": "aligned", "note": "Same name and default." },
+      { "code": ["size"], "figma": "size", "figmaType": "VARIANT", "figmaValues": ["md", "sm", "lg"], "figmaDefault": "md", "status": "aligned", "note": "Same values and default." },
+      { "code": ["loading"], "figma": "state=loading", "figmaType": "VARIANT", "status": "differs", "note": "A value of the state axis in Figma. The spinner replaces the search icon, as in code." },
+      { "code": ["disabled"], "figma": "state=disabled", "figmaType": "VARIANT", "status": "differs", "note": "disabled=true in code is state=disabled in Figma." },
+      { "code": ["landmarkLabel"], "status": "code-only", "note": "Web only. Accessible name of the search landmark." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["empty", "filled", "focus", "loading", "disabled"], "figmaDefault": "empty", "status": "differs", "note": "Figma-only axis for specs and prototypes. focus is :focus-visible. disabled comes from the disabled prop." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "form",
   "level": "molecule",
   "purpose": "Search input wrapped in a search landmark with a leading icon, clear button, Escape-to-clear, and an optional loading spinner.",
@@ -23,6 +41,7 @@
     { "name": "placeholder", "type": "string", "default": "Search…", "required": false, "description": "Example query text." },
     { "name": "size", "type": "'sm' | 'md' | 'lg'", "default": "md", "required": false, "description": "Control height." },
     { "name": "loading", "type": "boolean", "default": false, "required": false, "description": "Swap the search icon for a spinner." },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disables the search field." },
     { "name": "landmarkLabel", "type": "string", "required": false, "description": "Names the role=search landmark when a page has more than one.", "platforms": ["web"] }
   ],
   "states": [

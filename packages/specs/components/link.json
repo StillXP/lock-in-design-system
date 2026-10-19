@@ -6,9 +6,22 @@
     "web": "import { Link } from '@lockin/react';",
     "native": "import { Link } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:604" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "5:604",
+    "props": [
+      { "code": ["href"], "status": "code-only", "note": "Destination. Not drawn." },
+      { "code": ["children"], "figma": "children", "figmaType": "TEXT", "figmaDefault": "Link text", "status": "aligned", "note": "Same name. Figma holds text only." },
+      { "code": ["variant"], "figma": "variant", "figmaType": "VARIANT", "figmaValues": ["inline", "standalone", "subtle"], "figmaDefault": "inline", "status": "aligned", "note": "Same names, values and default." },
+      { "code": ["external"], "figma": "external", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "aligned", "note": "Same name and default. Shows the external-link icon." },
+      { "code": ["externalLabel"], "status": "code-only", "note": "Screen reader text only." },
+      { "code": ["as"], "status": "code-only", "note": "Web only. Lets the link render as a router component." },
+      { "code": ["onPress"], "status": "code-only", "note": "Native only. Behaviour." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "focus"], "figmaDefault": "default", "status": "differs", "note": "Figma-only axis. focus is :focus-visible. Code also has a visited state, which Figma does not draw." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "navigation",
   "level": "atom",
   "purpose": "Navigates to another page, screen, section or external URL. Underlined so it is identifiable without color.",
@@ -18,7 +31,7 @@
     { "name": "variant", "type": "'inline' | 'standalone' | 'subtle'", "default": "inline", "required": false, "description": "inline in prose; standalone on its own line with a chevron; subtle for low-emphasis meta links." },
     { "name": "external", "type": "boolean", "default": false, "required": false, "description": "Opens a new tab/browser, adds rel=noopener noreferrer, an external icon and an SR hint." },
     { "name": "externalLabel", "type": "string", "default": "(opens in a new tab)", "required": false, "description": "Hint announced for external links." },
-    { "name": "as", "type": "ElementType", "required": false, "description": "Router link component (Next.js Link, React Router Link). Must render an <a>.", "platforms": ["web"] },
+    { "name": "as", "type": "ElementType", "default": "a", "required": false, "description": "Router link component (Next.js Link, React Router Link). Must render an <a>.", "platforms": ["web"] },
     { "name": "onPress", "type": "() => void", "required": false, "description": "In-app navigation handler (e.g. router.push). Overrides href.", "platforms": ["native"] }
   ],
   "states": [

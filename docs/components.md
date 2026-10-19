@@ -66,9 +66,9 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 {
   "name": "Button",
   "import": { "web": "import { Button } from '@lockin/react';", "native": "…" },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422" }, // optional: the component set in the Figma library
+  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422", "props": [] }, // optional: the component set in the Figma library, and how its properties map to `props`
   "status": "beta",            // experimental | beta | stable | deprecated
-  "version": "0.3.0",          // semver of this component's API
+  "version": "0.4.0",          // semver of this component's API
   "category": "action",        // action | navigation | form | data-display | feedback | overlay | media
   "level": "atom",             // atom | molecule | organism
   "purpose": "…",
@@ -83,6 +83,27 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 
 `npm run validate -w @lockin/specs` checks every spec against the schema and that every referenced token exists.
 
+`npm run check:code -w @lockin/specs` checks every spec against the components themselves. It reads the props type of each React and React Native component with the TypeScript compiler and reports:
+
+- a prop the component declares that the spec doesn't list (props that only pass through from HTML or React Native types, plus `className`, `style` and `ref`, are exempt);
+- a spec prop the component doesn't have on a platform it lists;
+- required vs optional, string-literal values (`'sm' | 'md'`) and literal defaults that differ.
+
+Types other than string-literal unions are not compared, and a default that is an expression (`role === 'dialog'`) or described in words (`"end (web) / start (native)"`) is skipped. It runs in `npm run check`, so CI fails on drift.
+
+### Figma props mapping
+
+`figma.props` records, for each code prop, the Figma property that models it. Each row has a `status`:
+
+| Status | Meaning |
+| --- | --- |
+| `aligned` | Same name, values and default. |
+| `differs` | Modelled in both, but not the same way (for example `disabled` is `state=disabled`). Needs a `note`. |
+| `code-only` | Figma has nothing for it (for example `onClick`). Needs a `note` with the Figma workaround. |
+| `figma-only` | A Figma property with no code prop (for example `showIconStart`). Needs a `note`. |
+
+Validation requires every prop in `props` to appear in exactly one row, so adding a prop without mapping it fails. An `aligned` row also fails if the defaults differ. The hub shows the rows under "Figma ↔ code props" on the component page, and the same table is on the component's page in the Figma library, so keep the two in step.
+
 ## Shared conventions
 
 Same API on both platforms. Prop names match between `@lockin/react` and `@lockin/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:
@@ -92,6 +113,8 @@ Same API on both platforms. Prop names match between `@lockin/react` and `@locki
 | Press | `onClick` | `onPress` |
 | Text change | `onChange` (event) | `onChangeText` / `onValueChange` |
 | Accessible name | `aria-label` | `accessibilityLabel` |
+
+When a prop differs by platform only in name, the spec lists it once with both names (`aria-label / accessibilityLabel`). Specs don't list `className` (web), `style` (native) or the standard HTML / React Native attributes a component passes through (for example `placeholder` on InputField); list one only when the component gives it its own behaviour.
 
 Controlled or uncontrolled. Every stateful component accepts `value` + `on…Change` (controlled) or `default…` (uncontrolled): `Tabs value/defaultValue/onValueChange`, `Toggle checked/defaultChecked/onCheckedChange`, `DataTable sort/defaultSort/onSortChange`.
 

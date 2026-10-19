@@ -2,11 +2,14 @@ import { useRef, type ComponentRef } from 'react';
 import { ActivityIndicator, Pressable, TextInput, View, type TextInputProps } from 'react-native';
 import { textStyle, useTheme } from '../theme/ThemeProvider';
 import { useControllableState } from '../useControllableState';
+import { FieldLabel } from './Field';
 import { Icon } from './Icon';
 
 export interface SearchProps extends Omit<TextInputProps, 'value' | 'defaultValue' | 'style'> {
   /** Accessible label (visually hidden unless showLabel). Make it specific: 'Search players'. */
   label?: string;
+  /** Show the label visually. */
+  showLabel?: boolean;
   /** Controlled query. */
   value?: string;
   /** Uncontrolled initial query. */
@@ -27,6 +30,7 @@ export interface SearchProps extends Omit<TextInputProps, 'value' | 'defaultValu
 
 export function Search({
   label = 'Search',
+  showLabel = false,
   value,
   defaultValue = '',
   onValueChange,
@@ -43,49 +47,52 @@ export function Search({
   const [query, setQuery] = useControllableState(value, defaultValue, onValueChange);
 
   return (
-    <View
-      accessibilityRole="search"
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: t.space.xs,
-        minHeight: Math.max(t.size.control[size], t.size.touchTarget.min),
-        paddingHorizontal: t.space.md,
-        borderRadius: t.radius.full,
-        borderWidth: t.border.width.thin,
-        borderColor: t.color.border.strong,
-        backgroundColor: disabled ? t.color.intent.disabled.bg : t.color.surface.default,
-      }}
-    >
-      {loading ? <ActivityIndicator size="small" color={t.color.icon.secondary} /> : <Icon name="search" color="secondary" />}
-      <TextInput
-        ref={inputRef}
-        accessibilityLabel={label}
-        value={query}
-        onChangeText={setQuery}
-        onSubmitEditing={() => onSearch?.(query)}
-        returnKeyType="search"
-        autoCorrect={false}
-        editable={!disabled}
-        placeholder={placeholder}
-        placeholderTextColor={t.color.text.placeholder}
-        style={[textStyle(t.typography.body.md), { flex: 1, color: t.color.text.primary, paddingVertical: 0 }]}
-        {...rest}
-      />
-      {query && !disabled ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Clear search"
-          hitSlop={12}
-          onPress={() => {
-            setQuery('');
-            onClear?.();
-            inputRef.current?.focus();
-          }}
-        >
-          <Icon name="close" color="secondary" />
-        </Pressable>
-      ) : null}
+    <View style={{ gap: t.space['2xs'] }}>
+      <FieldLabel label={label} hidden={!showLabel} />
+      <View
+        accessibilityRole="search"
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: t.space.xs,
+          minHeight: Math.max(t.size.control[size], t.size.touchTarget.min),
+          paddingHorizontal: t.space.md,
+          borderRadius: t.radius.full,
+          borderWidth: t.border.width.thin,
+          borderColor: t.color.border.strong,
+          backgroundColor: disabled ? t.color.intent.disabled.bg : t.color.surface.default,
+        }}
+      >
+        {loading ? <ActivityIndicator size="small" color={t.color.icon.secondary} /> : <Icon name="search" color="secondary" />}
+        <TextInput
+          ref={inputRef}
+          accessibilityLabel={label}
+          value={query}
+          onChangeText={setQuery}
+          onSubmitEditing={() => onSearch?.(query)}
+          returnKeyType="search"
+          autoCorrect={false}
+          editable={!disabled}
+          placeholder={placeholder}
+          placeholderTextColor={t.color.text.placeholder}
+          style={[textStyle(t.typography.body.md), { flex: 1, color: t.color.text.primary, paddingVertical: 0 }]}
+          {...rest}
+        />
+        {query && !disabled ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Clear search"
+            hitSlop={12}
+            onPress={() => {
+              setQuery('');
+              onClear?.();
+              inputRef.current?.focus();
+            }}
+          >
+            <Icon name="close" color="secondary" />
+          </Pressable>
+        ) : null}
+      </View>
     </View>
   );
 }

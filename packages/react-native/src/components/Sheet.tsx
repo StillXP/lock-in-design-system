@@ -35,13 +35,19 @@ export interface SheetProps {
   hideCloseButton?: boolean;
   /** Accessible name of the X button. */
   closeLabel?: string;
+  /** Width of a centered sheet (sm 384, md 512, lg 768); fullscreen fills the screen. Docked sheets are always full width. */
+  size?: 'sm' | 'md' | 'lg' | 'fullscreen';
 }
 
+const CENTER_WIDTH = { sm: 384, md: 512, lg: 768 } as const;
+
 /** Shared overlay used by Modal, Select and Dropdown. */
-export function Sheet({ open, onClose, title, description, children, footer, closeOnBackdropPress = true, placement = 'sheet', hideCloseButton = false, closeLabel = 'Close' }: SheetProps) {
+export function Sheet({ open, onClose, title, description, children, footer, closeOnBackdropPress = true, placement = 'sheet', hideCloseButton = false, closeLabel = 'Close', size }: SheetProps) {
   const { t } = useTheme();
   const reducedMotion = useReducedMotion();
   const isSheet = placement === 'sheet';
+  const fullscreen = size === 'fullscreen';
+  const centerWidth = !isSheet && size && !fullscreen ? CENTER_WIDTH[size] : undefined;
 
   return (
     <RNModal
@@ -51,7 +57,7 @@ export function Sheet({ open, onClose, title, description, children, footer, clo
       onRequestClose={onClose}
       statusBarTranslucent
     >
-      <View style={{ flex: 1, justifyContent: isSheet ? 'flex-end' : 'center', padding: isSheet ? 0 : t.space.lg }}>
+      <View style={{ flex: 1, justifyContent: isSheet || fullscreen ? 'flex-end' : 'center', padding: isSheet || fullscreen ? 0 : t.space.lg }}>
         <Pressable
           accessible={false}
           onPress={closeOnBackdropPress ? onClose : undefined}
@@ -60,14 +66,18 @@ export function Sheet({ open, onClose, title, description, children, footer, clo
         <View
           accessibilityViewIsModal
           style={{
-            maxHeight: '85%',
+            maxHeight: fullscreen ? '100%' : '85%',
+            height: fullscreen ? '100%' : undefined,
+            width: centerWidth ? '100%' : undefined,
+            maxWidth: centerWidth,
+            alignSelf: centerWidth ? 'center' : undefined,
             backgroundColor: t.color.surface.raised,
-            borderTopLeftRadius: t.radius.xl,
-            borderTopRightRadius: t.radius.xl,
-            borderBottomLeftRadius: isSheet ? 0 : t.radius.xl,
-            borderBottomRightRadius: isSheet ? 0 : t.radius.xl,
+            borderTopLeftRadius: fullscreen ? 0 : t.radius.xl,
+            borderTopRightRadius: fullscreen ? 0 : t.radius.xl,
+            borderBottomLeftRadius: isSheet || fullscreen ? 0 : t.radius.xl,
+            borderBottomRightRadius: isSheet || fullscreen ? 0 : t.radius.xl,
             paddingTop: t.space.lg,
-            paddingBottom: isSheet ? t.space.xl : t.space.lg,
+            paddingBottom: isSheet || fullscreen ? t.space.xl : t.space.lg,
             ...t.shadow.xl,
           }}
         >

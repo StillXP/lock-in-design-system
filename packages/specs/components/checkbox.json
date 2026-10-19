@@ -6,9 +6,27 @@
     "web": "import { Checkbox } from '@lockin/react';",
     "native": "import { Checkbox } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "6:202" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "6:202",
+    "props": [
+      { "code": ["label"], "figma": "label", "figmaType": "TEXT", "figmaDefault": "Checkbox label", "status": "aligned", "note": "Figma holds text only; web code can also take elements." },
+      { "code": ["hideLabel"], "figma": "showLabel", "figmaType": "BOOLEAN", "figmaDefault": true, "status": "differs", "note": "Inverted: hideLabel = !showLabel. Figma booleans can only show a layer when true." },
+      { "code": ["description"], "figma": "description", "figmaType": "TEXT", "figmaDefault": "Helper text that explains the option.", "status": "aligned", "note": "Needs showDescription on." },
+      { "code": [], "figma": "showDescription", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for description. In code the text renders when description is set." },
+      { "code": ["error"], "figma": "error", "figmaType": "TEXT", "figmaDefault": "Select this option to continue.", "status": "differs", "note": "Same name, different trigger. Figma shows the text when state=invalid; in code, setting error makes the checkbox invalid." },
+      { "code": ["checked"], "figma": "checked", "figmaType": "VARIANT", "figmaValues": ["false", "true", "indeterminate"], "figmaDefault": "false", "status": "differs", "note": "Same name, different values. Code checked is a boolean; Figma uses the strings false and true, plus indeterminate." },
+      { "code": ["defaultChecked"], "status": "code-only", "note": "Starting value for an uncontrolled checkbox. Figma has no controlled / uncontrolled split; pick the checked variant." },
+      { "code": ["indeterminate"], "figma": "checked=indeterminate", "figmaType": "VARIANT", "status": "differs", "note": "A value of checked in Figma, a separate boolean in code." },
+      { "code": ["disabled"], "figma": "state=disabled", "figmaType": "VARIANT", "status": "differs", "note": "disabled=true in code is state=disabled in Figma." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "focus", "disabled", "invalid"], "figmaDefault": "default", "status": "differs", "note": "Figma-only axis for specs and prototypes. focus is :focus-visible, invalid comes from the error prop, disabled from the disabled prop." },
+      { "code": ["onChange"], "status": "code-only", "note": "Web only. Behaviour." },
+      { "code": ["onCheckedChange"], "status": "code-only", "note": "Native only. Behaviour." },
+      { "code": ["name / value / required"], "status": "code-only", "note": "Web form attributes. Not drawn in Figma." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "form",
   "level": "atom",
   "purpose": "Lets users select zero or more independent options, or confirm a single statement (accept terms). Changes take effect on form submit.",
@@ -18,7 +36,7 @@
     { "name": "description", "type": "ReactNode", "required": false, "description": "Supporting text, linked via aria-describedby." },
     { "name": "error", "type": "ReactNode", "required": false, "description": "Error message; sets aria-invalid." },
     { "name": "checked", "type": "boolean", "required": false, "description": "Controlled checked state." },
-    { "name": "defaultChecked", "type": "boolean", "required": false, "description": "Uncontrolled initial state." },
+    { "name": "defaultChecked", "type": "boolean", "default": false, "required": false, "description": "Uncontrolled initial state." },
     { "name": "indeterminate", "type": "boolean", "default": false, "required": false, "description": "Mixed state for a parent 'select all' checkbox." },
     { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disable the checkbox." },
     { "name": "onChange", "type": "(event: ChangeEvent<HTMLInputElement>) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },

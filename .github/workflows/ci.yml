@@ -48,8 +48,11 @@ jobs:
       - name: Build (includes Storybook story and axe tests)
         run: npm run build
 
-      - name: Checks (contrast, specs, typecheck)
+      - name: Checks (contrast, specs, specs vs code, typecheck)
         run: npm run check
+
+      - name: Spec tests
+        run: npm test -w @lockin/specs
 
       - name: Server tests
         run: npm test -w @lockin/server

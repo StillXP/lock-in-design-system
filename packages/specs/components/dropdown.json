@@ -6,9 +6,28 @@
     "web": "import { Dropdown } from '@lockin/react';",
     "native": "import { Dropdown } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "11:180" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "11:180",
+    "props": [
+      { "code": ["label"], "status": "code-only", "note": "Not a property. Edit the text of the nested Trigger button (a Button instance, default \"Actions\")." },
+      { "code": ["items"], "figma": "items", "figmaType": "INSTANCE_SWAP", "figmaDefault": "Dropdown / Menu", "status": "differs", "note": "Swap in a menu built from Dropdown / Item instances. Code takes an array of { id, label, icon, onSelect, disabled, tone }." },
+      { "code": ["triggerIcon"], "figma": "trigger=overflow", "figmaType": "VARIANT", "status": "differs", "note": "trigger has labelled and overflow. overflow is the icon-only trigger; code accepts any IconName." },
+      { "code": ["triggerVariant"], "status": "code-only", "note": "Set variant on the nested Trigger button instance (default secondary, like code)." },
+      { "code": ["triggerSize"], "status": "code-only", "note": "Set size on the nested Trigger button instance (default md, like code)." },
+      { "code": ["align"], "status": "code-only", "note": "Web only. Not modelled." },
+      { "code": ["disabled"], "status": "code-only", "note": "Not modelled. The Trigger button instance has its own state=disabled." },
+      { "code": [], "figma": "trigger", "figmaType": "VARIANT", "figmaValues": ["labelled", "overflow"], "figmaDefault": "labelled", "status": "figma-only", "note": "See triggerIcon." },
+      { "code": [], "figma": "open", "figmaType": "VARIANT", "figmaValues": ["false", "true"], "figmaDefault": "false", "status": "figma-only", "note": "Shows the menu. In code open is internal state, not a prop." },
+      { "code": [], "figma": "Dropdown / Item: label", "figmaType": "TEXT", "figmaDefault": "Edit", "status": "figma-only", "note": "items[].label." },
+      { "code": [], "figma": "Dropdown / Item: showIcon", "figmaType": "BOOLEAN", "figmaDefault": true, "status": "figma-only", "note": "Visibility toggle. In code the icon renders when items[].icon is set." },
+      { "code": [], "figma": "Dropdown / Item: icon", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/edit", "status": "figma-only", "note": "items[].icon." },
+      { "code": [], "figma": "Dropdown / Item: tone", "figmaType": "VARIANT", "figmaValues": ["default", "danger"], "figmaDefault": "default", "status": "figma-only", "note": "items[].tone. Same values." },
+      { "code": [], "figma": "Dropdown / Item: state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "focus", "disabled"], "figmaDefault": "default", "status": "figma-only", "note": "disabled is items[].disabled; focus is :focus-visible." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "action",
   "level": "molecule",
   "purpose": "Menu button: a button that reveals a list of actions (Edit, Duplicate, Delete). Implements the WAI-ARIA menu button pattern on web and an action sheet on native. Not a form control; for picking a value, use Select.",

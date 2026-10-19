@@ -6,9 +6,19 @@
     "web": "import { Icon } from '@lockin/react';",
     "native": "import { Icon } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "4:2" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "4:2",
+    "props": [
+      { "code": ["name"], "figma": "icon/<name>", "figmaType": "COMPONENT", "status": "differs", "note": "Each icon is its own component in Icons — Library. Pick one, or swap through an INSTANCE_SWAP property such as iconStart." },
+      { "code": ["size"], "status": "code-only", "note": "Not a property. Figma icons are 24×24, which is lg in code. Resize the instance to 16 (sm), 20 (md, the code default), 24 (lg) or 32 (xl)." },
+      { "code": ["color"], "status": "code-only", "note": "Not a property. Bind the vector stroke to an icon/* color variable; the names match the code color values." },
+      { "code": ["label"], "status": "code-only", "note": "Accessible name for informative icons. Not drawn." },
+      { "code": ["tint"], "status": "code-only", "note": "Native only. Raw color override." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "media",
   "level": "atom",
   "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",

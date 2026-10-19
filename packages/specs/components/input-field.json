@@ -6,9 +6,34 @@
     "web": "import { InputField } from '@lockin/react';",
     "native": "import { InputField } from '@lockin/react-native';"
   },
-  "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "7:380" },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "7:380",
+    "props": [
+      { "code": ["label"], "figma": "label", "figmaType": "TEXT", "figmaDefault": "Email", "status": "aligned", "note": "Figma holds text only; web code can also take elements." },
+      { "code": ["hideLabel"], "figma": "showLabel", "figmaType": "BOOLEAN", "figmaDefault": true, "status": "differs", "note": "Inverted: hideLabel = !showLabel." },
+      { "code": ["hint"], "figma": "hint", "figmaType": "TEXT", "figmaDefault": "We'll never share your email.", "status": "aligned", "note": "Needs showHint on." },
+      { "code": [], "figma": "showHint", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for hint." },
+      { "code": ["error"], "figma": "error", "figmaType": "TEXT", "figmaDefault": "Enter an email address like name@example.com.", "status": "differs", "note": "Same name, different trigger. Figma shows the text when state=invalid; in code, setting error makes the field invalid." },
+      { "code": ["type"], "figma": "showPasswordToggle", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "differs", "note": "Only type=\"password\" is modelled: it shows the show/hide button. text, email, number, tel and url look the same." },
+      { "code": ["size"], "figma": "size", "figmaType": "VARIANT", "figmaValues": ["md", "sm", "lg"], "figmaDefault": "md", "status": "aligned", "note": "Same values and default." },
+      { "code": ["iconStart"], "figma": "iconStart", "figmaType": "INSTANCE_SWAP", "figmaDefault": "icon/user", "status": "aligned", "note": "Needs showIconStart on." },
+      { "code": [], "figma": "showIconStart", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for iconStart." },
+      { "code": ["suffix"], "figma": "suffix", "figmaType": "TEXT", "figmaDefault": ".com", "status": "aligned", "note": "Needs showSuffix on. Text only in Figma." },
+      { "code": [], "figma": "showSuffix", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "figma-only", "note": "Visibility toggle for suffix." },
+      { "code": ["required"], "figma": "required", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "aligned", "note": "Same name. Shows the asterisk." },
+      { "code": ["showOptional"], "figma": "showOptional", "figmaType": "BOOLEAN", "figmaDefault": false, "status": "aligned", "note": "Same name and default." },
+      { "code": ["value / defaultValue"], "figma": "value", "figmaType": "TEXT", "figmaDefault": "jane@example.com", "status": "differs", "note": "Figma value is sample text for the filled state. There is no controlled / uncontrolled split." },
+      { "code": ["onChange"], "status": "code-only", "note": "Web only. Behaviour." },
+      { "code": ["onChangeText"], "status": "code-only", "note": "Native only. Behaviour." },
+      { "code": ["disabled"], "figma": "state=disabled", "figmaType": "VARIANT", "status": "differs", "note": "disabled=true in code is state=disabled in Figma." },
+      { "code": ["autoComplete"], "status": "code-only", "note": "Behaviour." },
+      { "code": [], "figma": "placeholder", "figmaType": "TEXT", "figmaDefault": "you@example.com", "status": "figma-only", "note": "The standard input placeholder attribute in code. It is passed through, so the spec does not list it." },
+      { "code": [], "figma": "state", "figmaType": "VARIANT", "figmaValues": ["default", "hover", "focus", "filled", "invalid", "disabled"], "figmaDefault": "default", "status": "differs", "note": "Figma-only axis for specs and prototypes. invalid comes from the error prop, disabled from the disabled prop." }
+    ]
+  },
   "status": "beta",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "category": "form",
   "level": "molecule",
   "purpose": "Single-line text entry with label, hint, and error wiring built in. Supports text, email, number, password (with show/hide), tel, url.",
@@ -26,6 +51,7 @@
     { "name": "value / defaultValue", "type": "string", "required": false, "description": "Controlled / uncontrolled value." },
     { "name": "onChange", "type": "(event) => void", "required": false, "description": "Change handler.", "platforms": ["web"] },
     { "name": "onChangeText", "type": "(text: string) => void", "required": false, "description": "Change handler.", "platforms": ["native"] },
+    { "name": "disabled", "type": "boolean", "default": false, "required": false, "description": "Disables the field." },
     { "name": "autoComplete", "type": "string", "required": false, "description": "Always set for personal data (email, name, tel), per WCAG 1.3.5." }
   ],
   "states": [
