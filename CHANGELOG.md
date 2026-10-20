@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Visual regression: a `chromatic` CI job publishes Storybook to Chromatic and snapshots every story in light and dark mode (`npm run chromatic -w @lockin/storybook`). It needs the `CHROMATIC_PROJECT_KEY` secret and is skipped on PRs from forks.
 - Hub component pages show a **Live example**: the component's Storybook stories embedded from the static build (`/storybook`), switchable per story and synced with the hub's color mode and theme. New `GET /api/components/:name/stories`. Root `npm run build` now also builds Storybook.
 - Specs gain an optional `figma` field (`fileKey`, `nodeId`); all 14 now link their Figma library node (each spec 0.1.0 → 0.2.0). The Live example has **Code** and **Design** tabs; Design is Figma's view-only embed, loaded on first open.
 - Hub sidebar lists each component and doc under its section while that section is open.
