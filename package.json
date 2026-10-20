@@ -28,6 +28,7 @@
     "node": ">=22.13"
   },
   "devDependencies": {
+    "@figma/code-connect": "^2.0.2",
     "chromatic": "^18.13.0",
     "typescript": "^5.9.0"
   }
