@@ -1,5 +1,6 @@
 import { useState, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { userEvent, within } from 'storybook/test';
 import { Button, InputField, Modal } from '@lockin/react';
 import { specMeta } from '../../blocks/data';
 
@@ -51,6 +52,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+/** Open dialog, so the backdrop, panel and footer are visible to visual regression. */
+export const Open: Story = {
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: 'Open modal' }));
+  },
+};
+
 export const Sizes: Story = {
   render: ({ open: _open, onClose: _onClose, ...args }) => (
     <div className="fd-row">
@@ -63,6 +71,13 @@ export const Sizes: Story = {
 
 /** Destructive confirmation: role="alertdialog", no backdrop dismissal. */
 export const Confirm: Story = { render: () => <ConfirmDemo /> };
+
+export const ConfirmOpen: Story = {
+  render: () => <ConfirmDemo />,
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: 'Delete team' }));
+  },
+};
 
 function ConfirmDemo() {
   const [open, setOpen] = useState(false);
