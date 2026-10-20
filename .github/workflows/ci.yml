@@ -28,6 +28,35 @@ jobs:
             exit 1
           fi
 
+  chromatic:
+    # Visual regression. Needs the CHROMATIC_PROJECT_KEY secret; skipped on PRs from forks, which can't read it.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Chromatic needs history to find the baseline build
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Storybook resolves workspace packages from their built dist/, so build those first.
+      - name: Build workspace packages
+        run: npm run build -w @lockin/tokens -w @lockin/icons -w @lockin/specs -w @lockin/react
+
+      - name: Build Storybook
+        run: npm run build -w @lockin/storybook
+
+      - name: Publish to Chromatic
+        run: npm run chromatic -w @lockin/storybook
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_KEY }}
+
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20

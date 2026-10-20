@@ -95,6 +95,16 @@ const preview: Preview = {
     backgrounds: { disable: true },
     controls: { expanded: true, sort: 'requiredFirst' },
     docs: { page: DocsPage, codePanel: true },
+    // Visual regression (Chromatic): every story is snapshotted once per mode. Arena and arcade
+    // are left out for now to save snapshots; add them here when they need coverage.
+    chromatic: {
+      modes: {
+        light: { colorMode: 'light', theme: 'default' },
+        dark: { colorMode: 'dark', theme: 'default' },
+      },
+      // Fonts are bundled, but wait for them so text never snapshots in the fallback face.
+      delay: 300,
+    },
     // WCAG 2.1 AA rules from axe; 'error' fails the a11y check instead of only reporting it.
     a11y: {
       test: 'error',
