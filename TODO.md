@@ -10,13 +10,13 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 - [ ] Toggle `labelPosition` defaults to `end` on web but `start` on native. The spec now says so; decide whether native should default to `end` (a visible layout change) or the difference is intended.
 - [ ] Native Modal: `size` is only a width for a centered alertdialog and `fullscreen`; a dialog is always a bottom sheet. Test the new native `size`, `hideCloseButton`, `closeLabel`, Search `showLabel` and InputField `showOptional` on a device; the repo has no native stories or tests for them.
 - [ ] Fonts on React Native. Web now ships Inter and JetBrains Mono, but the native tokens still use the system font (`ds.native: System`). Decide whether to load them with `expo-font`; the font files are in `packages/tokens/src/fonts/`.
-- [ ] Commit the web font work (tokens build script, server changes, `.design-sync/` notes) once the build and server tests pass.
+
+- [ ] Finish the Chromatic trial: run it once on `main` to set the baseline, then decide whether to require the Chromatic checks in branch protection. Add open-state stories first (see Design system) so Modal, Dropdown and Select menus are covered.
 
 ## Design system
 
 
 - [ ] Cover open states in stories. Modal, Dropdown and Select stories only render the closed trigger, so the open dialog, menu and listbox are never visually checked (in Storybook or the sync).
-- [ ] Add dark mode and the `arena` / `arcade` themes to the Storybook previews, so they can be compared and synced too.
 
 ## Claude Design sync (`.design-sync/`)
 
