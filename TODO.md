@@ -29,7 +29,6 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 - [ ] Security follow-ups from the review: the remaining `zod` advisory (GHSA-mrhx-c7xc-m3w5) sits in `@figma/code-connect`'s nested copy, so re-run `npm audit` after each code-connect bump. Serve `/storybook` from a separate origin (it needs `unsafe-inline`/`unsafe-eval` and shares `localStorage` with the hub's API key). Remove the empty `{}` file `fileForNewToken` leaves behind when a new token fails validation. Pin the GitHub Actions in `ci.yml` to commit SHAs. `guard-main.mjs` is regex-based and bypassable, so rely on branch protection.
 - [ ] Once CI has run green on a PR, turn on branch protection for `main` (require a PR and the `verify` and `pr-title` checks, block force pushes and deletion, auto-delete head branches, squash-merge only). Also enable secret scanning and push protection.
 - [ ] Versioning and releases, before the first npm publish: semver tags (`v0.2.0`), GitHub Releases, and Changesets or release-please to turn Conventional Commits into version bumps and `CHANGELOG.md`. Decide whether packages are versioned together or independently.
-- [ ] Add `.github/dependabot.yml` and `CODEOWNERS`.
 
 ## Roadmap (from README)
 

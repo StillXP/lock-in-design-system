@@ -1,0 +1,8 @@
+# Default reviewer for everything. Add narrower rules below as the team grows
+# (the last matching pattern wins).
+*                     @StillXP
+
+# Security-sensitive: CI, the local git guard, and the hub server (auth, writes).
+/.github/             @StillXP
+/.claude/hooks/       @StillXP
+/apps/server/src/     @StillXP
