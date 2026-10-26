@@ -104,6 +104,8 @@ Types other than string-literal unions are not compared, and a default that is a
 
 Validation requires every prop in `props` to appear in exactly one row, so adding a prop without mapping it fails. An `aligned` row also fails if the defaults differ. The hub shows the rows under "Figma ↔ code props" on the component page, and the same table is on the component's page in the Figma library, so keep the two in step.
 
+`npm run check:figma -w @lockin/specs` keeps the Code Connect templates in `packages/react/figma/` in step with these rows. For each component's main template it checks that every Figma property the template reads has a row, that the call matches the row's `figmaType`, and that a `getEnum` maps exactly the row's `figmaValues`. Templates for sub-components (Tab, DropdownItem and so on) and layer lookups (`findText`, `findInstance`) are not checked.
+
 ## Shared conventions
 
 Same API on both platforms. Prop names match between `@lockin/react` and `@lockin/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:

@@ -29,6 +29,7 @@ Read `llms.txt` for the condensed version.
 Rules:
 - Keep web and native props in sync and update the spec in the same change. Update the component's stories too.
 - `npm run check:code -w @lockin/specs` compares each spec with the real React and React Native prop types (names, required, string values, defaults, platforms) and runs in CI. A component prop that the spec doesn't list, or a spec prop the component doesn't have, fails the build.
+- `npm run check:figma -w @lockin/specs` compares each Code Connect template in `packages/react/figma/` with its spec's `figma.props` (property names, Figma types, variant values) and runs in CI. Change a Figma property in the spec and its template together.
 - Every spec prop needs a row in `figma.props` (validation fails otherwise), and the "Props / <Name>" frame on the component's Figma page must match it. Adding a prop means a new row, with status `code-only` if Figma has no equivalent. See "Figma props mapping" in `docs/components.md`.
 - Every component spec has a `level` (`atom`, `molecule` or `organism`; see `docs/components.md`). Its stories are titled `<Atoms|Molecules|Organisms>/<Name>` and filed in the matching `stories/` folder. A server test enforces this.
 - Never lower a contrast pair; if the checker fails, fix the token mapping, not the check.
