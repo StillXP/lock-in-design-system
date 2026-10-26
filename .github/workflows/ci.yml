@@ -29,8 +29,8 @@ jobs:
           fi
 
   chromatic:
-    # Visual regression. Needs the CHROMATIC_PROJECT_KEY secret; skipped on PRs from forks, which can't read it.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    # Visual regression. Needs the CHROMATIC_PROJECT_KEY secret; skipped on PRs from forks and from Dependabot, which can't read it.
+    if: github.actor != 'dependabot[bot]' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
