@@ -158,6 +158,17 @@ describe('versioning and change tracking', () => {
     assert.ok(body.details.length > 0);
     assert.equal(readFileSync(file, 'utf8'), original);
   });
+  test('rejects token names that could reach Object.prototype', async () => {
+    for (const name of ['__proto__', '__proto__.x', 'color.constructor.prototype', 'a/b']) {
+      const { status } = await api('PUT', `/api/tokens/${encodeURIComponent(name)}`, keys.editor, { value: '#fff', type: 'color' });
+      assert.equal(status, 400, name);
+    }
+    assert.equal(({} as any).$value, undefined);
+  });
+  test('rejects theme names that escape the themes folder', async () => {
+    const { status } = await api('GET', `/api/tokens?theme=${encodeURIComponent('../../../design-system')}`, keys.viewer);
+    assert.equal(status, 500);
+  });
   test('accepts valid token changes and logs them', async () => {
     const { status } = await api('PUT', '/api/tokens/color.text.secondary', keys.editor, {
       value: { light: '{color.neutral.700}', dark: '{color.neutral.200}' },
