@@ -31,6 +31,9 @@ export class HttpError extends Error {
 export type Bump = 'major' | 'minor' | 'patch';
 type Spec = Record<string, any>;
 
+/** Token path: dot-separated segments. `__proto__` is rejected separately so a name can't reach Object.prototype. */
+const TOKEN_NAME = /^(?!(?:.*\.)?(?:__proto__|constructor|prototype)(?:\.|$))[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*$/;
+
 const readJson = (file: string) => JSON.parse(readFileSync(file, 'utf8'));
 const writeJson = (file: string, data: unknown) => writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
 
@@ -145,6 +148,7 @@ export class DesignSystemStore {
     actor: string,
     summary?: string,
   ) {
+    if (!TOKEN_NAME.test(name)) throw new HttpError(400, 'Token names are dot-separated segments of letters, numbers, dashes and underscores');
     const tokens = loadTokens({ srcDir: config.paths.tokensSrc });
     const existing = tokens.get(name);
     const file = existing?.file ?? this.fileForNewToken(name, input.layer ?? 'semantic', tokens);
@@ -153,7 +157,7 @@ export class DesignSystemStore {
     const original = readFileSync(file, 'utf8');
     const json = JSON.parse(original);
     let node = json;
-    for (const seg of name.split('.')) node = node[seg] ??= {};
+    for (const seg of name.split('.')) node = Object.hasOwn(node, seg) ? node[seg] : (node[seg] = {});
     const before = { $value: node.$value, $description: node.$description };
     node.$value = input.value;
     if (input.type && !existing) node.$type = input.type;
