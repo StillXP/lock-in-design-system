@@ -62,6 +62,7 @@ export function listThemes(srcDir = SRC_DIR) {
 }
 
 export function loadTheme(name, srcDir = SRC_DIR) {
+  if (!/^[a-z0-9-]+$/i.test(name)) throw new Error(`Unknown theme "${name}"`);
   const file = join(srcDir, 'themes', `${name}.json`);
   if (!existsSync(file)) throw new Error(`Unknown theme "${name}"`);
   return readJson(file);
