@@ -11,7 +11,7 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 - [ ] Native Modal: `size` is only a width for a centered alertdialog and `fullscreen`; a dialog is always a bottom sheet. Test the new native `size`, `hideCloseButton`, `closeLabel`, Search `showLabel` and InputField `showOptional` on a device; the repo has no native stories or tests for them.
 - [ ] Fonts on React Native. Web now ships Inter and JetBrains Mono, but the native tokens still use the system font (`ds.native: System`). Decide whether to load them with `expo-font`; the font files are in `packages/tokens/src/fonts/`.
 
-- [ ] Finish the Chromatic trial: run it once on `main` to set the baseline, then decide whether to require the Chromatic checks in branch protection.
+- [ ] Chromatic: open the project and confirm the baseline from the first `main` build looks right (light and dark). Then decide how to gate PRs: `--exit-zero-on-changes` means the CI job never fails on visual diffs, so requiring it in branch protection only checks that the upload worked. Also check the snapshot count against the plan quota.
 
 ## Design system
 
@@ -33,6 +33,4 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 ## Roadmap (from README)
 
 - [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @lockin/tokens`, rules in `docs/figma-sync.md`.
-- [ ] Figma: Code Connect mappings.
 - [ ] Publish packages to a registry.
-- [ ] Visual regression for the Storybook stories.
