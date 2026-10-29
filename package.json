@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "npm run build -w @lockin/tokens && npm run build -w @lockin/icons && npm run build -w @lockin/specs && npm run build -w @lockin/react && npm run build -w @lockin/react-native && npm run build -w @lockin/storybook && npm run test -w @lockin/storybook",
-    "check": "npm run check:contrast -w @lockin/tokens && npm run validate -w @lockin/specs && npm run check:code -w @lockin/specs && npm run typecheck -w @lockin/react && npm run typecheck -w @lockin/react-native && npm run typecheck -w @lockin/server && npm run typecheck -w @lockin/storybook",
+    "check": "npm run check:contrast -w @lockin/tokens && npm run validate -w @lockin/specs && npm run check:code -w @lockin/specs && npm run check:figma -w @lockin/specs && npm run typecheck -w @lockin/react && npm run typecheck -w @lockin/react-native && npm run typecheck -w @lockin/server && npm run typecheck -w @lockin/storybook",
     "check:contrast": "npm run check:contrast -w @lockin/tokens",
     "dev": "npm run dev -w @lockin/server",
     "start": "npm run start -w @lockin/server",
