@@ -30,6 +30,6 @@
   "devDependencies": {
     "@figma/code-connect": "^2.0.2",
     "chromatic": "^18.13.3",
-    "typescript": "^5.9.0"
+    "typescript": "^7.0.2"
   }
 }
