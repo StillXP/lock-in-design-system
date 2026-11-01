@@ -15,3 +15,5 @@ apps/storybook/storybook-static/
 .design-sync/*.log
 .ds-sync/
 ds-bundle/
+
+proposals/dist/
