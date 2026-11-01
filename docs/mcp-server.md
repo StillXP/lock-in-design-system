@@ -17,7 +17,7 @@ On first start the server prints a bootstrap admin key. Save it. Anyone can brow
 
 | URL | What |
 | --- | --- |
-| `/` | Web UI: browse/search tokens, components, docs, changes (no key needed); edit with an API key |
+| `/` | Web UI: browse/search tokens, components, proposals, docs, changes (no key needed); edit with an API key |
 | `/api` | REST API (index of endpoints) |
 | `/mcp` | MCP over Streamable HTTP (stateless) |
 | `/llms.txt` | Plain-text guide for agents (public) |
@@ -31,6 +31,7 @@ Environment variables:
 | `DS_DATA_DIR` | `apps/server/data` | SQLite database (keys, changes, releases) |
 | `DS_PUBLIC_READ` | `true` | Anonymous callers get the read-only `viewer` role (REST, MCP, web UI). Set `false` to require a key for everything. |
 | `DS_STDIO_ROLE` | `editor` | Role for the local stdio MCP server |
+| `DS_GITHUB_TOKEN` / `DS_GITHUB_REPO` | (unset) | Optional. When both are set, each submitted proposal also opens a GitHub issue in `owner/repo` (token needs issues: write). |
 
 The server uses Node's built-in `node:sqlite` (Node ≥ 22.13). Node 22 prints an "ExperimentalWarning" for it; that's expected.
 
@@ -41,7 +42,7 @@ Send a key as `Authorization: Bearer ds_…` (or `X-API-Key`). Keys are stored a
 | Role | Can |
 | --- | --- |
 | `viewer` | Read everything (anonymous callers get this when public read is on) |
-| `editor` | + edit tokens, components, docs; MCP write tools |
+| `editor` | + edit tokens, components, docs; file proposals; MCP write tools |
 | `admin` | + cut releases, create/revoke API keys |
 
 Manage keys from the web UI (Settings, admin only), the API (`/api/keys`), or the CLI:
@@ -71,6 +72,10 @@ Read-only agents need no key while public read is on. Give agents that edit the 
 | `GET /api/components/:name/history` | viewer | Change log with diffs |
 | `GET /api/components/:name/stories` | viewer | Storybook stories (`id`, `name`) for the live example, found under `<Level>/<Name>` from the spec's level; `[]` if Storybook isn't built |
 | `GET /api/icons?query=` | viewer | Icon names/keywords |
+| `GET /api/proposals` | viewer | Proposal summaries (id, slug, title, kind, status, from, evidence count, links) |
+| `GET /api/proposals/:id` | viewer | Full proposal by id (`LIP-001`), slug or component name |
+| `POST /api/proposals` | editor | File a proposal: the intake fields plus `spec` for components. The hub assigns the id, status and submitter, validates, writes `proposals/<slug>.json`; 409 for duplicates, 422 if invalid |
+| `POST /api/proposals/:id/evidence` | editor | `{ evidence: [{ product, where, link?, note? }] }`; skips entries already listed; 409 on released/declined |
 | `GET /api/docs` · `GET /api/docs/:slug?format=html` | viewer | Docs |
 | `PUT /api/docs/:slug` | editor | `{ content, summary? }` |
 | `GET /api/changes?entityType=&entityId=&unreleased=true` | viewer | Audit trail |
@@ -109,10 +114,22 @@ claude mcp add --transport http lockin https://ds.example.com/mcp --header "Auth
 | `list_icons` | viewer | Icon names |
 | `list_docs` / `get_doc` | viewer | Guides |
 | `get_changelog` | viewer | Changes and releases |
+| `list_proposals` / `get_proposal` | viewer | Lock In proposals (LIP) and their status; check before filing |
 | `update_component` / `update_token` / `update_doc` | editor | Writes (validated, logged, versioned) |
+| `submit_proposal` / `add_proposal_evidence` | editor | File a proposal or add evidence to an open one (see [Proposals](#proposals)) |
 
 Resources: `ds://overview`, `ds://tokens/{light|dark}`, `ds://components/{slug}`, `ds://docs/{slug}`.
 Prompt: `build_with_lockin` (task, platform).
+
+## Proposals
+
+When Lock In has nothing that fits, agents file a **proposal (LIP)** instead of keeping a private workaround. The server instructions tell agents to do this (step 5).
+
+1. `list_proposals` / `search_design_system`. If a proposal already covers it, `add_proposal_evidence` with your product and screen.
+2. Otherwise, `submit_proposal` with the problem, evidence (Figma or code links), the closest existing component and why it can't be extended, the stand-in, open questions and, for components, a draft spec (`status: "experimental"`, checked like any spec). Run `check_contrast` for new color pairings first.
+3. The hub assigns the next `LIP-NNN`, sets `status: proposed`, writes `proposals/<slug>.json`, logs the change and, when `DS_GITHUB_TOKEN` and `DS_GITHUB_REPO` are set, opens the GitHub issue with the `proposal`, `status:proposed` and `kind:*` labels.
+
+The file is written to the hub's working tree like any other edit, so commit it with a PR. Triage (accept or decline) stays with the design system owner. See `proposals/README.md` for the lifecycle.
 
 ## Versioning & change tracking
 

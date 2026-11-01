@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { icons, iconNames } from '@lockin/icons';
 import { build as buildTokens } from '@lockin/tokens/build';
@@ -13,6 +13,7 @@ import {
   type RawToken,
 } from '@lockin/tokens/lib/resolve';
 import { validateSpec } from '@lockin/specs/validate';
+import { loadProposals, nextProposalId, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
 import { Marked } from 'marked';
 import { config } from './config.js';
 import type { Db } from './db.js';
@@ -382,6 +383,142 @@ export class DesignSystemStore {
     return results.sort((a, b) => b.score - a.score).slice(0, 50);
   }
 
+  // ---------- proposals (LIP) ----------
+
+  proposals() {
+    return loadProposals(config.paths.proposals).map(({ slug, proposal: { intake: i, spec } }) => ({
+      id: i.id,
+      slug,
+      title: i.title,
+      kind: i.kind,
+      status: i.status,
+      from: i.submitted.from,
+      submitted: i.submitted.date,
+      evidence: i.evidence.length,
+      openQuestions: i.openQuestions.length,
+      component: spec?.name as string | undefined,
+      issue: i.issue,
+      prototype: i.prototype,
+    }));
+  }
+
+  /** One proposal by id (LIP-001), slug (textarea) or component name. */
+  proposal(idOrSlug: string): Proposal & { slug: string } {
+    const key = idOrSlug.toLowerCase();
+    const hit = loadProposals(config.paths.proposals).find(
+      ({ slug, proposal: p }) => slug === key || p.intake.id.toLowerCase() === key || String(p.spec?.name ?? '').toLowerCase() === key,
+    );
+    if (!hit) throw new HttpError(404, `Proposal "${idOrSlug}" not found`);
+    return { ...hit.proposal, slug: hit.slug };
+  }
+
+  /**
+   * File a new proposal. The hub assigns the id, sets status "proposed" and stamps who and when;
+   * everything else is validated like proposals/validate.mjs. Duplicates of an existing proposal or
+   * component are rejected with a pointer to what already exists.
+   */
+  async submitProposal(input: SubmitProposal, actor: string) {
+    const all = loadProposals(config.paths.proposals);
+    const slug = (input.slug ?? (input.spec?.slug as string | undefined) ?? slugify(input.title)).toLowerCase();
+    if (!/^[a-z][a-z0-9-]*$/.test(slug)) throw new HttpError(400, 'slug must be lowercase letters, numbers and dashes, starting with a letter');
+
+    const existing = all.find((e) => e.slug === slug || (input.spec?.name && e.proposal.spec?.name === input.spec.name));
+    if (existing) {
+      const { id, status } = existing.proposal.intake;
+      throw new HttpError(409, `${id} already proposes this (status: ${status}). Add your evidence to it with add_proposal_evidence instead.`, { id, slug: existing.slug, status });
+    }
+    if (input.kind === 'component') {
+      const name = String(input.spec?.name ?? input.title).toLowerCase();
+      const component = this.components().find((c) => c.slug === slug || c.name.toLowerCase() === name);
+      if (component) throw new HttpError(409, `Lock In already has ${component.name}. Propose a variant or change to it instead (kind: "variant" or "change").`, { component: component.slug });
+    }
+
+    const { spec, onBehalfOf, from } = input;
+    const intake: ProposalIntake = {
+      id: nextProposalId(all.map((e) => e.proposal)),
+      title: input.title,
+      kind: input.kind,
+      status: 'proposed',
+      submitted: { by: onBehalfOf ? `${actor} (on behalf of ${onBehalfOf})` : actor, date: new Date().toISOString().slice(0, 10), from },
+      problem: input.problem,
+      evidence: input.evidence,
+      closestExisting: input.closestExisting,
+      ...(input.standIn ? { standIn: input.standIn } : {}),
+      ...(input.figmaApi ? { figmaApi: input.figmaApi } : {}),
+      ...(input.contrast ? { contrast: input.contrast } : {}),
+      openQuestions: input.openQuestions ?? [],
+      ...(input.prototype ? { prototype: input.prototype } : {}),
+    };
+    const proposal: Proposal = { $schema: '../packages/specs/schema/proposal.schema.json', intake, ...(spec ? { spec } : {}) };
+    const file = join(config.paths.proposals, `${slug}.json`);
+    const errors = validateProposal(proposal, file, loadTokens({ srcDir: config.paths.tokensSrc }));
+    if (errors.length) throw new HttpError(422, 'Proposal is invalid', errors);
+
+    const issue = await this.openProposalIssue(proposal, slug);
+    if (issue.url) proposal.intake.issue = issue.url;
+    mkdirSync(config.paths.proposals, { recursive: true });
+    writeJson(file, proposal);
+    logChange(this.db, { entityType: 'proposal', entityId: intake.id, action: 'create', summary: `${intake.title} (${intake.kind})`, diff: [], actor });
+    return { proposal: { ...proposal, slug }, issue };
+  }
+
+  /** Append evidence to an open proposal (skips entries already listed for the same product and place). */
+  addProposalEvidence(idOrSlug: string, evidence: ProposalIntake['evidence'], actor: string) {
+    const current = this.proposal(idOrSlug);
+    const { slug, ...proposal } = current;
+    if (['released', 'declined'].includes(proposal.intake.status)) {
+      throw new HttpError(409, `${proposal.intake.id} is ${proposal.intake.status}. File a new proposal (kind "change" or "variant") instead.`);
+    }
+    const key = (e: { product: string; where: string }) => `${e.product}\u0000${e.where}`.toLowerCase();
+    const known = new Set(proposal.intake.evidence.map(key));
+    const added = evidence.filter((e) => !known.has(key(e)));
+    if (!added.length) return { proposal: current, added: 0 };
+    proposal.intake.evidence = [...proposal.intake.evidence, ...added];
+    const file = join(config.paths.proposals, `${slug}.json`);
+    const errors = validateProposal(proposal, file, loadTokens({ srcDir: config.paths.tokensSrc }));
+    if (errors.length) throw new HttpError(422, 'Proposal is invalid', errors);
+    writeJson(file, proposal);
+    logChange(this.db, {
+      entityType: 'proposal',
+      entityId: proposal.intake.id,
+      action: 'update',
+      summary: `Added evidence: ${added.map((e) => `${e.product} · ${e.where}`).join('; ')}`,
+      diff: added.map((e, i) => ({ path: `intake.evidence[${proposal.intake.evidence.length - added.length + i}]`, before: null, after: e })),
+      actor,
+    });
+    return { proposal: { ...proposal, slug }, added: added.length };
+  }
+
+  /** Opens the GitHub issue for a new proposal when DS_GITHUB_TOKEN and DS_GITHUB_REPO are set. Never throws. */
+  private async openProposalIssue(p: Proposal, slug: string): Promise<{ url?: string; skipped?: string; error?: string }> {
+    const { token, repo } = config.github;
+    if (!token || !repo) return { skipped: 'Set DS_GITHUB_TOKEN and DS_GITHUB_REPO to open GitHub issues automatically.' };
+    const i = p.intake;
+    const list = (items: string[]) => items.map((x) => `- ${x}`).join('\n') || '- (none)';
+    const body = [
+      `**Proposal file:** \`proposals/${slug}.json\` (written by the hub; commit it with a PR)`,
+      `**Kind:** ${i.kind}   **From:** ${i.submitted.from}   **Submitted:** ${i.submitted.date} by ${i.submitted.by}`,
+      i.prototype ? `**Prototype:** ${i.prototype}` : '',
+      `### Problem\n${i.problem}`,
+      `### Evidence\n${list(i.evidence.map((e) => `**${e.product}**: ${e.link ? `[${e.where}](${e.link})` : e.where}${e.note ? ` · ${e.note}` : ''}`))}`,
+      `### Closest existing\n${list(i.closestExisting.map((c) => `**${c.name}**: ${c.whyNotExtend}`))}`,
+      `### Open questions\n${list(i.openQuestions)}`,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repo}/issues`, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'content-type': 'application/json', 'user-agent': 'lockin-hub' },
+        body: JSON.stringify({ title: `${i.id}: ${i.title}`, body, labels: ['proposal', 'status:proposed', `kind:${i.kind}`] }),
+      });
+      if (!res.ok) return { error: `GitHub returned ${res.status}` };
+      return { url: ((await res.json()) as { html_url: string }).html_url };
+    } catch (err) {
+      return { error: `Could not reach GitHub: ${(err as Error).message}` };
+    }
+  }
+
   // ---------- releases ----------
 
   release(input: { bump?: Bump; version?: string; notes?: string }, actor: string) {
@@ -408,6 +545,23 @@ export class DesignSystemStore {
     return { version, previous: manifest.version, changes: pending.length };
   }
 }
+
+/** Input for submitProposal: the intake minus what the hub sets itself (id, status, submitted). */
+export type SubmitProposal = Omit<ProposalIntake, 'id' | 'status' | 'submitted' | 'issue' | 'decision' | 'resolved' | 'openQuestions'> & {
+  from: string;
+  openQuestions?: string[];
+  slug?: string;
+  onBehalfOf?: string;
+  spec?: Record<string, unknown>;
+};
+
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/^(\d)/, 'p-$1')
+    .slice(0, 60);
 
 function lineDiff(before: string, after: string): DiffEntry[] {
   const a = before.split('\n');
