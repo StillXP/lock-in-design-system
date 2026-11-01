@@ -4,8 +4,10 @@
 import figma from 'figma'
 const instance = figma.selectedInstance
 
-const label = instance.getString('label')
-const description = instance.getBoolean('showDescription') ? instance.getString('description') : undefined
+// label, description and showDescription live on the exposed Choice text instance.
+const choice = instance.findInstance('Choice text')
+const label = choice.getString('label')
+const description = choice.getBoolean('showDescription') ? choice.getString('description') : undefined
 const value = label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
 // One entry of RadioGroup's `options` array; RadioGroup reads it through metadata.

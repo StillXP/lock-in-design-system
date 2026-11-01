@@ -4,13 +4,15 @@
 import figma from 'figma'
 const instance = figma.selectedInstance
 
-const label = instance.getString('label')
-const hideLabel = !instance.getBoolean('showLabel')
-const description = instance.getBoolean('showDescription') ? instance.getString('description') : undefined
+// label, showLabel, description and showDescription live on the exposed Choice text instance.
+const choice = instance.findInstance('Choice text')
+const label = choice.getString('label')
+const hideLabel = !choice.getBoolean('showLabel')
+const description = choice.getBoolean('showDescription') ? choice.getString('description') : undefined
 const checked = instance.getEnum('checked', { false: 'false', true: 'true', indeterminate: 'indeterminate' })
 const state = instance.getEnum('state', { default: 'default', hover: 'hover', focus: 'focus', disabled: 'disabled', invalid: 'invalid' })
 // In code, setting error makes the checkbox invalid; Figma shows the text for state=invalid.
-const error = state === 'invalid' ? instance.getString('error') : undefined
+const error = state === 'invalid' ? instance.findInstance('Error').getString('message') : undefined
 
 export default {
   example: figma.code`<Checkbox label="${label}"${hideLabel ? ' hideLabel' : ''}${description ? ` description="${description}"` : ''}${error ? ` error="${error}"` : ''}${checked === 'true' ? ' checked' : ''}${checked === 'indeterminate' ? ' indeterminate' : ''}${state === 'disabled' ? ' disabled' : ''} />`,
