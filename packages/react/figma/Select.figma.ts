@@ -4,10 +4,11 @@
 import figma from 'figma'
 const instance = figma.selectedInstance
 
-const label = instance.getString('label')
+// label lives on the exposed Label (Field / Label), the hint on Hint and the error on Error.
+const label = instance.findInstance('Label').getString('label')
 const hideLabel = !instance.getBoolean('showLabel')
 const placeholder = instance.getString('placeholder')
-const hint = instance.getBoolean('showHint') ? instance.getString('hint') : undefined
+const hint = instance.getBoolean('showHint') ? instance.findInstance('Hint').getString('text') : undefined
 const size = instance.getEnum('size', { md: 'md', sm: 'sm', lg: 'lg' })
 const state = instance.getEnum('state', {
   default: 'default',
@@ -19,7 +20,7 @@ const state = instance.getEnum('state', {
   open: 'open',
 })
 // In code, setting error makes the select invalid; Figma shows the text for state=invalid.
-const error = state === 'invalid' ? instance.getString('error') : undefined
+const error = state === 'invalid' ? instance.findInstance('Error').getString('message') : undefined
 const value = state === 'filled' ? instance.getString('value') : undefined
 
 // Options come from the Select / Option templates inside the swapped-in Select / Menu.

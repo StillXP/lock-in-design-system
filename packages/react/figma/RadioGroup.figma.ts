@@ -7,7 +7,7 @@ const instance = figma.selectedInstance
 const legend = instance.getString('legend')
 const orientation = instance.getEnum('orientation', { vertical: 'vertical', horizontal: 'horizontal' })
 const value = instance.getEnum('value', { home: 'home', away: 'away', neutral: 'neutral' })
-const error = instance.getBoolean('showError') ? instance.getString('error') : undefined
+const error = instance.getBoolean('showError') ? instance.findInstance('Error').getString('message') : undefined
 
 // Options come from the Radio templates. Figma has no option value, so it is the lowercased label.
 const options = instance
