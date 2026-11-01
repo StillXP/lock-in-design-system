@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lockin.design/schema/proposal.schema.json",
+  "title": "Lock In proposal",
+  "description": "An intake request for a change to Lock In. The `intake` block explains why the change is needed and tracks its status. For components, `spec` is a draft that must already pass packages/specs/schema/component.schema.json, so accepting a proposal means finishing the draft, not rewriting it.",
+  "type": "object",
+  "required": ["intake"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "intake": {
+      "type": "object",
+      "required": ["id", "title", "kind", "status", "submitted", "problem", "evidence", "closestExisting", "openQuestions"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^LIP-\\d{3,}$", "description": "Lock In Proposal number, e.g. LIP-001. Never reused." },
+        "title": { "type": "string" },
+        "kind": { "enum": ["component", "variant", "token", "icon", "pattern", "change"], "description": "component: new component. variant: new variant or prop on an existing one. token: new or changed token. icon: new glyph. pattern: a documented composition, not a component. change: fix or behaviour change to something that exists." },
+        "status": { "enum": ["proposed", "triage", "accepted", "in-design", "in-code", "released", "declined"], "description": "Mirrors the status:* label on the GitHub issue." },
+        "submitted": {
+          "type": "object",
+          "required": ["by", "date", "from"],
+          "additionalProperties": false,
+          "properties": {
+            "by": { "type": "string", "description": "Person, or \"agent (on behalf of <person>)\"." },
+            "date": { "type": "string", "format": "date" },
+            "from": { "type": "string", "description": "Product or repo where the need came up." }
+          }
+        },
+        "problem": { "type": "string", "description": "Why it is needed: the user or product problem, in plain words." },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Concrete places that need it today. Reuse across products is what triage weighs most.",
+          "items": {
+            "type": "object",
+            "required": ["product", "where"],
+            "additionalProperties": false,
+            "properties": {
+              "product": { "type": "string" },
+              "where": { "type": "string", "description": "Screen, flow or file." },
+              "link": { "type": "string", "description": "Figma node URL, code path or page URL." },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "closestExisting": {
+          "type": "array",
+          "description": "Existing Lock In components or tokens that come close, and why extending them is not enough. An empty list means nothing comes close.",
+          "items": {
+            "type": "object",
+            "required": ["name", "whyNotExtend"],
+            "additionalProperties": false,
+            "properties": { "name": { "type": "string" }, "whyNotExtend": { "type": "string" } }
+          }
+        },
+        "standIn": {
+          "type": "object",
+          "description": "What the product uses today while the proposal is open.",
+          "additionalProperties": false,
+          "properties": {
+            "description": { "type": "string" },
+            "figma": { "type": "string" },
+            "code": { "type": "string" }
+          }
+        },
+        "figmaApi": {
+          "type": "array",
+          "description": "Proposed Figma component properties. Becomes spec.figma.props once the library component exists.",
+          "items": {
+            "type": "object",
+            "required": ["property", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "property": { "type": "string" },
+              "type": { "enum": ["VARIANT", "BOOLEAN", "TEXT", "INSTANCE_SWAP"] },
+              "values": { "type": "array", "items": { "type": "string" } },
+              "default": { "type": ["string", "boolean"] },
+              "mapsTo": { "type": "string", "description": "Code prop it mirrors, if any." }
+            }
+          }
+        },
+        "contrast": {
+          "type": "array",
+          "description": "New colour pairings and their measured ratios (from check_contrast).",
+          "items": {
+            "type": "object",
+            "required": ["foreground", "background", "ratio", "passes"],
+            "additionalProperties": false,
+            "properties": {
+              "foreground": { "type": "string" },
+              "background": { "type": "string" },
+              "ratio": { "type": "number" },
+              "passes": { "type": "string" }
+            }
+          }
+        },
+        "openQuestions": { "type": "array", "items": { "type": "string" } },
+        "resolved": {
+          "type": "array",
+          "description": "Open questions answered in triage. Move a question here with its answer instead of deleting it.",
+          "items": {
+            "type": "object",
+            "required": ["question", "answer", "by", "date"],
+            "additionalProperties": false,
+            "properties": {
+              "question": { "type": "string" },
+              "answer": { "type": "string" },
+              "by": { "type": "string" },
+              "date": { "type": "string", "format": "date" }
+            }
+          }
+        },
+        "prototype": { "type": "string", "description": "Link to the interactive prototype page." },
+        "issue": { "type": "string", "description": "GitHub issue URL." },
+        "decision": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["outcome", "date", "by"],
+          "properties": {
+            "outcome": { "enum": ["accepted", "declined", "merged-into"] },
+            "date": { "type": "string", "format": "date" },
+            "by": { "type": "string" },
+            "note": { "type": "string" }
+          }
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "description": "Draft component spec. Validated against packages/specs/schema/component.schema.json by proposals/validate.mjs. Required when kind is component."
+    }
+  }
+}
