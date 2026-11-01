@@ -1,5 +1,5 @@
 {
-  "$schema": "./proposal.schema.json",
+  "$schema": "../packages/specs/schema/proposal.schema.json",
   "intake": {
     "id": "LIP-001",
     "title": "Textarea: multi-line text field",

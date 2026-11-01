@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { hasRole, type Principal } from './auth.js';
 import type { Db } from './db.js';
 import { listChanges, listReleases } from './history.js';
+import { evidenceItem, submitProposalShape } from './proposals.js';
 import { HttpError, type DesignSystemStore } from './store.js';
 
 const json = (data: unknown) => ({ content: [{ type: 'text' as const, text: JSON.stringify(data, null, 2) }] });
@@ -22,7 +23,8 @@ Workflow for building UI:
 1. search_design_system or list_components to find the right component.
 2. get_component for its full spec: props, states, tokens, accessibility rules, do/don't and examples. Follow the spec exactly.
 3. Style custom UI only with semantic tokens (get_tokens prefix "color.text", "color.background", "space", "typography"...). Never hard-code hex values or use base palette tokens (color.blue.600) directly.
-4. Verify any new color pairing with check_contrast (WCAG AA: 4.5:1 text, 3:1 UI).`;
+4. Verify any new color pairing with check_contrast (WCAG AA: 4.5:1 text, 3:1 UI).
+5. If Lock In has nothing that fits and you build a local stand-in, check list_proposals. Add your case to a matching proposal with add_proposal_evidence, or file a new one with submit_proposal.`;
 
 export function createMcpServer(store: DesignSystemStore, db: Db, principal: Principal) {
   const server = new McpServer(
@@ -146,7 +148,7 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
       title: 'Get change history',
       description: 'Tracked changes (newest first) and releases. Filter by entity to see a component or token history.',
       inputSchema: {
-        entityType: z.enum(['token', 'component', 'doc', 'release']).optional(),
+        entityType: z.enum(['token', 'component', 'doc', 'release', 'proposal']).optional(),
         entityId: z.string().optional(),
         unreleased: z.boolean().optional().describe('Only changes not yet in a release'),
         limit: z.number().int().min(1).max(200).default(30),
@@ -154,6 +156,31 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
       annotations: readOnly,
     },
     (args) => run(() => ({ releases: listReleases(db), changes: listChanges(db, args) })),
+  );
+
+  server.registerTool(
+    'list_proposals',
+    {
+      title: 'List proposals',
+      description: 'Lock In proposals (LIP): requested components, variants, tokens, icons, patterns and changes, with status (proposed → triage → accepted → in-design → in-code → released, or declined). Check here before filing a new one.',
+      inputSchema: {
+        status: z.enum(['proposed', 'triage', 'accepted', 'in-design', 'in-code', 'released', 'declined']).optional(),
+        kind: z.enum(['component', 'variant', 'token', 'icon', 'pattern', 'change']).optional(),
+      },
+      annotations: readOnly,
+    },
+    ({ status, kind }) => run(() => store.proposals().filter((p) => (!status || p.status === status) && (!kind || p.kind === kind))),
+  );
+
+  server.registerTool(
+    'get_proposal',
+    {
+      title: 'Get a proposal',
+      description: 'Full proposal: problem, evidence, closest existing component, stand-in, open and resolved questions, decision, and the draft spec for component proposals.',
+      inputSchema: { id: z.string().describe('Proposal id (LIP-001), file slug (textarea) or component name') },
+      annotations: readOnly,
+    },
+    ({ id }) => run(() => store.proposal(id)),
   );
 
   // ---------- write tools (editor+) ----------
@@ -192,6 +219,29 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
         annotations: write,
       },
       ({ name, summary, ...input }) => run(() => store.saveToken(name, input, `${principal.name} (mcp)`, summary)),
+    );
+
+    server.registerTool(
+      'submit_proposal',
+      {
+        title: 'File a Lock In proposal',
+        description:
+          'Files an intake request for something Lock In is missing. The hub assigns the LIP id, sets status "proposed", validates it (component proposals need a draft spec that passes the component schema) and writes proposals/<slug>.json. It opens a GitHub issue when the hub has a GitHub token. Rejected with 409 if a proposal or component already covers it; then use add_proposal_evidence or propose a variant/change. Before filing: search_design_system and list_proposals; run check_contrast for new color pairings.',
+        inputSchema: submitProposalShape,
+        annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+      },
+      (input) => run(() => store.submitProposal(input, `${principal.name} (mcp)`)),
+    );
+
+    server.registerTool(
+      'add_proposal_evidence',
+      {
+        title: 'Add evidence to a proposal',
+        description: 'Adds places that need an existing proposal (product, screen/file, link). Entries already listed for the same product and place are skipped. Not allowed on released or declined proposals.',
+        inputSchema: { id: z.string().describe('Proposal id, slug or component name'), evidence: z.array(evidenceItem).min(1) },
+        annotations: write,
+      },
+      ({ id, evidence }) => run(() => store.addProposalEvidence(id, evidence, `${principal.name} (mcp)`)),
     );
 
     server.registerTool(

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS api_keys (
 
 CREATE TABLE IF NOT EXISTS changes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  entity_type TEXT NOT NULL,      -- token | component | doc | release
+  entity_type TEXT NOT NULL,      -- token | component | doc | release | proposal
   entity_id TEXT NOT NULL,
   action TEXT NOT NULL,           -- create | update | release
   version_from TEXT,

@@ -15,12 +15,21 @@
     "./validate": {
       "types": "./scripts/validate.d.ts",
       "default": "./scripts/validate.mjs"
-    }
+    },
+    "./proposals": {
+      "types": "./scripts/proposals.d.ts",
+      "default": "./scripts/proposals.mjs"
+    },
+    "./schema/proposal": "./schema/proposal.schema.json"
   },
   "files": [
     "dist",
     "components",
-    "schema"
+    "schema",
+    "scripts/validate.mjs",
+    "scripts/validate.d.ts",
+    "scripts/proposals.mjs",
+    "scripts/proposals.d.ts"
   ],
   "scripts": {
     "build": "node scripts/validate.mjs --build",
@@ -31,7 +40,8 @@
   },
   "dependencies": {
     "@lockin/tokens": "0.1.0",
-    "ajv": "^8.17.0"
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.1"
   },
   "devDependencies": {
     "typescript": "^5.9.0"

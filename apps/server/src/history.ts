@@ -1,6 +1,6 @@
 import { now, type Db } from './db.js';
 
-export type EntityType = 'token' | 'component' | 'doc' | 'release';
+export type EntityType = 'token' | 'component' | 'doc' | 'release' | 'proposal';
 
 export interface DiffEntry {
   path: string;
