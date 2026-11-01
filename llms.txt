@@ -23,7 +23,7 @@
 
 ## Components (by atomic level; every spec has a `level`)
 - Atoms: Button, Icon, Link, Checkbox, Toggle, Tag
-- Molecules: InputField, Search, Select, RadioGroup (radio-button), Dropdown, Tabs
+- Molecules: InputField, Textarea, Search, Select, RadioGroup (radio-button), Dropdown, Tabs
 - Organisms: DataTable, Modal
 - Templates and pages are not part of the system; build them in your project from organisms, molecules and atoms.
 

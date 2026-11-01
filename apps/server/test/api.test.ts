@@ -68,9 +68,9 @@ describe('auth', () => {
 });
 
 describe('read API', () => {
-  test('lists all 14 components with required spec fields', async () => {
+  test('lists all 15 components with required spec fields', async () => {
     const { body } = await api('GET', '/api/components?full=true', keys.viewer);
-    assert.equal(body.length, 14);
+    assert.equal(body.length, 15);
     for (const c of body) {
       for (const field of ['name', 'import', 'status', 'version', 'purpose', 'props', 'states', 'tokens', 'accessibility', 'variants', 'usage']) {
         assert.ok(field in c, `${c.name} missing ${field}`);

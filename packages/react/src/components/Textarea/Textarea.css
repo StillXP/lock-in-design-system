@@ -1,0 +1,61 @@
+/* Field + control chrome lives in styles/base.css (.ds-field, .ds-control). */
+.ds-textarea .ds-control {
+  align-items: stretch;
+  padding-block: var(--ds-space-sm);
+}
+
+.ds-textarea__input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  /* 16px minimum prevents iOS zoom-on-focus */
+  font: var(--ds-typography-body-md);
+  /* min-height (rows) and max-height (maxRows) are set inline from --ds-font-line-height-normal */
+  resize: vertical;
+}
+
+.ds-textarea__input::placeholder {
+  color: var(--ds-color-text-placeholder);
+  opacity: 1;
+}
+
+.ds-textarea__input--no-resize {
+  resize: none;
+}
+
+.ds-textarea__input--auto-grow {
+  overflow-y: hidden;
+}
+
+.ds-textarea__input--auto-grow.is-capped {
+  overflow-y: auto;
+}
+
+.ds-textarea__input:disabled {
+  cursor: not-allowed;
+  resize: none;
+}
+
+.ds-textarea__footer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-sm);
+}
+
+.ds-textarea__count {
+  margin: 0;
+  margin-inline-start: auto;
+  font: var(--ds-typography-body-sm);
+  color: var(--ds-color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ds-textarea__count.is-near {
+  color: var(--ds-color-text-warning);
+}

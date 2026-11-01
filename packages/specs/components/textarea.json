@@ -1,0 +1,515 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "name": "Textarea",
+  "slug": "textarea",
+  "import": {
+    "web": "import { Textarea } from '@lockin/react';",
+    "native": "import { Textarea } from '@lockin/react-native';"
+  },
+  "figma": {
+    "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
+    "nodeId": "177:226",
+    "props": [
+      {
+        "code": [
+          "label"
+        ],
+        "figma": "label",
+        "figmaType": "TEXT",
+        "figmaDefault": "Description",
+        "status": "aligned",
+        "note": "On the exposed Label row instance. Figma holds text only; web code can also take elements."
+      },
+      {
+        "code": [
+          "hideLabel"
+        ],
+        "figma": "showLabel",
+        "figmaType": "BOOLEAN",
+        "figmaDefault": true,
+        "status": "differs",
+        "note": "Inverted: hideLabel = !showLabel."
+      },
+      {
+        "code": [
+          "hint"
+        ],
+        "figma": "hint",
+        "figmaType": "TEXT",
+        "figmaDefault": "Shown on the public tournament page.",
+        "status": "aligned",
+        "note": "On the exposed Hint instance. Needs showHint on. Shown above the control, as in code."
+      },
+      {
+        "code": [],
+        "figma": "showHint",
+        "figmaType": "BOOLEAN",
+        "figmaDefault": false,
+        "status": "figma-only",
+        "note": "Visibility toggle for hint."
+      },
+      {
+        "code": [
+          "error"
+        ],
+        "figma": "error",
+        "figmaType": "TEXT",
+        "figmaDefault": "Keep the description under 500 characters.",
+        "status": "differs",
+        "note": "Same name, different trigger. Figma shows the text when state=invalid; in code, setting error makes the field invalid."
+      },
+      {
+        "code": [
+          "rows"
+        ],
+        "figma": "rows",
+        "figmaType": "VARIANT",
+        "figmaValues": [
+          "3",
+          "5"
+        ],
+        "figmaDefault": "3",
+        "status": "differs",
+        "note": "Code takes any number; Figma has 3 and 5. Resize the Control frame for other heights."
+      },
+      {
+        "code": [
+          "autoGrow"
+        ],
+        "status": "code-only",
+        "note": "Behaviour. Show the grown height by resizing the Control frame."
+      },
+      {
+        "code": [
+          "maxRows"
+        ],
+        "status": "code-only",
+        "note": "Only applies with autoGrow."
+      },
+      {
+        "code": [
+          "resize"
+        ],
+        "status": "code-only",
+        "note": "Web only. The drag handle is not drawn in Figma."
+      },
+      {
+        "code": [
+          "maxLength"
+        ],
+        "figma": "count",
+        "figmaType": "TEXT",
+        "figmaDefault": "86 / 500",
+        "status": "differs",
+        "note": "Figma holds the counter text (\"86 / 500\"); code derives it from the value length and maxLength. Needs showCount on."
+      },
+      {
+        "code": [
+          "showCount"
+        ],
+        "figma": "showCount",
+        "figmaType": "BOOLEAN",
+        "figmaDefault": false,
+        "status": "aligned",
+        "note": "Same name and default."
+      },
+      {
+        "code": [
+          "required"
+        ],
+        "figma": "required",
+        "figmaType": "BOOLEAN",
+        "figmaDefault": false,
+        "status": "aligned",
+        "note": "On the exposed Label row instance. Shows the asterisk."
+      },
+      {
+        "code": [
+          "showOptional"
+        ],
+        "figma": "showOptional",
+        "figmaType": "BOOLEAN",
+        "figmaDefault": false,
+        "status": "aligned",
+        "note": "On the exposed Label row instance."
+      },
+      {
+        "code": [
+          "value / defaultValue"
+        ],
+        "figma": "value",
+        "figmaType": "TEXT",
+        "figmaDefault": "Open to all skill levels. Cash payouts in advanced divisions, trophies for all.",
+        "status": "differs",
+        "note": "Figma value is sample text for the filled and invalid states. There is no controlled / uncontrolled split."
+      },
+      {
+        "code": [
+          "onChange"
+        ],
+        "status": "code-only",
+        "note": "Web only. Behaviour."
+      },
+      {
+        "code": [
+          "onChangeText"
+        ],
+        "status": "code-only",
+        "note": "Native only. Behaviour."
+      },
+      {
+        "code": [
+          "disabled"
+        ],
+        "figma": "state=disabled",
+        "figmaType": "VARIANT",
+        "status": "differs",
+        "note": "disabled=true in code is state=disabled in Figma."
+      },
+      {
+        "code": [],
+        "figma": "placeholder",
+        "figmaType": "TEXT",
+        "figmaDefault": "Tell players what to expect",
+        "status": "figma-only",
+        "note": "The standard textarea placeholder attribute in code. It is passed through, so the spec does not list it."
+      },
+      {
+        "code": [],
+        "figma": "state",
+        "figmaType": "VARIANT",
+        "figmaValues": [
+          "default",
+          "hover",
+          "focus",
+          "filled",
+          "invalid",
+          "disabled"
+        ],
+        "figmaDefault": "default",
+        "status": "figma-only",
+        "note": "Figma-only axis for specs and prototypes. invalid comes from the error prop, disabled from the disabled prop. near limit is shown with showCount and a count close to the limit."
+      }
+    ]
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "category": "form",
+  "level": "molecule",
+  "purpose": "Multi-line text entry for free text longer than a line (descriptions, notes, comments), with the same label, hint, error and counter wiring as InputField.",
+  "props": [
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Visible label. Placeholders are not labels."
+    },
+    {
+      "name": "hideLabel",
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "description": "Visually hide the label (keeps the accessible name)."
+    },
+    {
+      "name": "hint",
+      "type": "ReactNode",
+      "required": false,
+      "description": "Guidance about what to write, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "type": "ReactNode",
+      "required": false,
+      "description": "Error message; sets aria-invalid. Say how to fix it."
+    },
+    {
+      "name": "rows",
+      "type": "number",
+      "default": 3,
+      "required": false,
+      "description": "Visible lines before scrolling (the minimum height when autoGrow is on)."
+    },
+    {
+      "name": "autoGrow",
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "description": "Grow with the content up to maxRows, then scroll."
+    },
+    {
+      "name": "maxRows",
+      "type": "number",
+      "default": 8,
+      "required": false,
+      "description": "Upper limit for autoGrow."
+    },
+    {
+      "name": "resize",
+      "type": "'vertical' | 'none'",
+      "default": "vertical",
+      "required": false,
+      "description": "Whether the user can drag to resize. Ignored when autoGrow is on.",
+      "platforms": [
+        "web"
+      ]
+    },
+    {
+      "name": "maxLength",
+      "type": "number",
+      "required": false,
+      "description": "Hard character limit. Pair with showCount so people can see it."
+    },
+    {
+      "name": "showCount",
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "description": "Show a “86 / 500” counter under the field. Needs maxLength."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "required": false,
+      "description": "Marks required with * and aria-required."
+    },
+    {
+      "name": "showOptional",
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "description": "Show '(optional)' instead; use when most fields are required."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "string",
+      "required": false,
+      "description": "Controlled / uncontrolled value."
+    },
+    {
+      "name": "onChange",
+      "type": "(event) => void",
+      "required": false,
+      "description": "Change handler.",
+      "platforms": [
+        "web"
+      ]
+    },
+    {
+      "name": "onChangeText",
+      "type": "(text: string) => void",
+      "required": false,
+      "description": "Change handler.",
+      "platforms": [
+        "native"
+      ]
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "description": "Disables the field."
+    }
+  ],
+  "states": [
+    {
+      "name": "default",
+      "description": "border.strong outline, rows × line height tall."
+    },
+    {
+      "name": "hover",
+      "description": "Darker border, same as InputField."
+    },
+    {
+      "name": "focus",
+      "description": "Focus ring + border.selected on the control."
+    },
+    {
+      "name": "filled",
+      "description": "Has a value; counter shows the length when showCount is on."
+    },
+    {
+      "name": "near limit",
+      "description": "Within 10% of maxLength: counter turns text.warning and is announced once."
+    },
+    {
+      "name": "invalid",
+      "description": "2px border.danger, error message with icon below."
+    },
+    {
+      "name": "disabled",
+      "description": "Disabled background and text; not resizable."
+    }
+  ],
+  "tokens": [
+    {
+      "token": "color.surface.default",
+      "usage": "Control background."
+    },
+    {
+      "token": "color.border.strong",
+      "usage": "Border (≥3:1)."
+    },
+    {
+      "token": "color.border.selected",
+      "usage": "Focused border."
+    },
+    {
+      "token": "color.border.danger",
+      "usage": "Invalid border."
+    },
+    {
+      "token": "color.focus.ring",
+      "usage": "Focus ring."
+    },
+    {
+      "token": "color.text.primary",
+      "usage": "Entered text."
+    },
+    {
+      "token": "color.text.placeholder",
+      "usage": "Placeholder text."
+    },
+    {
+      "token": "color.text.secondary",
+      "usage": "Hint and counter."
+    },
+    {
+      "token": "color.text.warning",
+      "usage": "Counter within 10% of maxLength."
+    },
+    {
+      "token": "color.text.danger",
+      "usage": "Error message."
+    },
+    {
+      "token": "color.intent.disabled.bg",
+      "usage": "Disabled background."
+    },
+    {
+      "token": "color.text.disabled",
+      "usage": "Disabled text."
+    },
+    {
+      "token": "space.sm",
+      "usage": "Inner padding (block and inline)."
+    },
+    {
+      "token": "space.2xs",
+      "usage": "Gap between label, control, hint and counter."
+    },
+    {
+      "token": "radius.md",
+      "usage": "Corner radius."
+    },
+    {
+      "token": "border.width.thin",
+      "usage": "Default border."
+    },
+    {
+      "token": "border.width.thick",
+      "usage": "Invalid border."
+    },
+    {
+      "token": "typography.body.md",
+      "usage": "Entered text: 16px minimum prevents iOS zoom."
+    },
+    {
+      "token": "typography.body.sm",
+      "usage": "Hint and counter."
+    },
+    {
+      "token": "typography.label.md",
+      "usage": "Label."
+    },
+    {
+      "token": "font.lineHeight.normal",
+      "usage": "Line height used to size rows / maxRows."
+    }
+  ],
+  "accessibility": {
+    "role": "textbox, aria-multiline (native <textarea>) / TextInput multiline",
+    "keyboard": [
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Move focus in and out."
+      },
+      {
+        "keys": "Enter",
+        "action": "Inserts a new line. It never submits the form."
+      },
+      {
+        "keys": "Ctrl/Cmd+Enter",
+        "action": "Not handled by Textarea; a form may opt in to submit with it."
+      }
+    ],
+    "screenReader": [
+      "Announces label, required state, “multi-line”, value, then hint, counter and error via aria-describedby.",
+      "The counter is not a live region on every keystroke. A polite live region announces “20 characters left” once when the 10% threshold is crossed and “Character limit reached” at the limit."
+    ],
+    "focus": "Focus ring on the whole control (focus-within), same as InputField.",
+    "touchTarget": "At least 44px tall on touch (rows ≥ 2 always exceeds it).",
+    "wcag": [
+      "1.3.1 Info and Relationships",
+      "1.4.4 Resize Text",
+      "1.4.10 Reflow",
+      "1.4.11 Non-text Contrast",
+      "2.1.1 Keyboard",
+      "2.4.6 Headings and Labels",
+      "3.3.1 Error Identification",
+      "3.3.2 Labels or Instructions",
+      "3.3.3 Error Suggestion",
+      "4.1.2 Name, Role, Value",
+      "4.1.3 Status Messages"
+    ],
+    "notes": [
+      "Validate on blur or submit, not on every keystroke.",
+      "If maxLength is set, say the limit in the hint or show the counter; silently blocking typing fails 3.3.2.",
+      "Keep the resize handle at least 24×24 and don't remove it unless autoGrow is on."
+    ]
+  },
+  "variants": [
+    {
+      "name": "default",
+      "description": "Fixed rows, user-resizable vertically.",
+      "useWhen": "Most free-text fields."
+    },
+    {
+      "name": "with counter",
+      "description": "maxLength + showCount shows “86 / 500”.",
+      "useWhen": "Text has a real limit (public descriptions, SMS-length notes)."
+    },
+    {
+      "name": "auto-grow",
+      "description": "Grows from rows to maxRows, then scrolls.",
+      "useWhen": "Comments and notes where length varies a lot."
+    }
+  ],
+  "usage": {
+    "do": [
+      "Use Textarea when answers are usually longer than one line; use InputField otherwise.",
+      "Size rows to the expected answer (3 for a short description, 5–6 for notes).",
+      "Show the limit with showCount whenever maxLength is set."
+    ],
+    "dont": [
+      "Don't use the placeholder as the label or as the only instructions.",
+      "Don't make Enter submit the form.",
+      "Don't disable resize on a fixed-height field that people may need to read back."
+    ],
+    "related": [
+      {
+        "name": "InputField",
+        "reason": "Single-line text; shares the field chrome."
+      },
+      {
+        "name": "Select",
+        "reason": "Choosing from predefined values instead of writing them."
+      }
+    ],
+    "example": {
+      "web": "<Textarea label=\"Description\" showOptional hint=\"Shown on the public tournament page.\" rows={3} maxLength={500} showCount />\n<Textarea label=\"Match notes\" autoGrow maxRows={6} error={errors.notes} />",
+      "native": "<Textarea label=\"Description\" value={desc} onChangeText={setDesc} maxLength={500} showCount />"
+    }
+  }
+}

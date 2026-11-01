@@ -4,7 +4,7 @@
     "id": "LIP-001",
     "title": "Textarea: multi-line text field",
     "kind": "component",
-    "status": "proposed",
+    "status": "in-code",
     "submitted": {
       "by": "agent (on behalf of Andrew Still)",
       "date": "2026-11-01",
@@ -183,7 +183,13 @@
         "by": "Andrew Still",
         "date": "2026-11-01"
       }
-    ]
+    ],
+    "decision": {
+      "outcome": "accepted",
+      "date": "2026-11-01",
+      "by": "Andrew Still",
+      "note": "Accepted. Built on feat/textarea: spec packages/specs/components/textarea.json, React + React Native, stories, Code Connect, Figma Textarea page (node 177:226). Hint moved above the control in Figma InputField and Select in the same change."
+    }
   },
   "spec": {
     "name": "Textarea",
