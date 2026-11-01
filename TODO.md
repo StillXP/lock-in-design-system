@@ -15,7 +15,7 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Design system
 
-- [ ] Proposals backlog: LIP-001 Textarea (#21) is built on feat/textarea; after it merges, publish the Figma library, set LIP-001 to released and swap VolleyXP's Field / Textarea stand-in for the library component. Then file the other gaps found in VolleyXP's Bracket Creator (Stepper, ProgressBar, FileUpload, DatePicker, Card, DescriptionList, Callout, upload/arrow icons, dashed-border, progress-track and layout tokens). Full list: "Lock In gaps / Bracket Creator" frame in the VolleyXP Figma file.
+- [ ] Proposals backlog: LIP-001 Textarea is released. Next, file the other gaps found in VolleyXP's Bracket Creator (Stepper, ProgressBar, FileUpload, DatePicker, Card, DescriptionList, Callout, upload/arrow icons, dashed-border, progress-track and layout tokens). Full list: "Lock In gaps / Bracket Creator" frame in the VolleyXP Figma file.
 - [ ] Select's open listbox is drawn by the browser/OS, so it can't be snapshotted. Decide whether that is acceptable or whether Select needs a custom listbox.
 
 ## Claude Design sync (`.design-sync/`)

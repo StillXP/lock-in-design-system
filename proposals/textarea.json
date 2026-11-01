@@ -4,7 +4,7 @@
     "id": "LIP-001",
     "title": "Textarea: multi-line text field",
     "kind": "component",
-    "status": "in-code",
+    "status": "released",
     "submitted": {
       "by": "agent (on behalf of Andrew Still)",
       "date": "2026-11-01",
@@ -188,7 +188,7 @@
       "outcome": "accepted",
       "date": "2026-11-01",
       "by": "Andrew Still",
-      "note": "Accepted. Built on feat/textarea: spec packages/specs/components/textarea.json, React + React Native, stories, Code Connect, Figma Textarea page (node 177:226). Hint moved above the control in Figma InputField and Select in the same change."
+      "note": "Released: Textarea 0.1.0 in @lockin/react and @lockin/react-native (#23), Code Connect fixed (#24, #25) and published, Figma library published 2026-11-01. VolleyXP Bracket Creator now uses the library Textarea."
     }
   },
   "spec": {
