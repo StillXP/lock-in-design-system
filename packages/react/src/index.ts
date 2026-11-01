@@ -5,6 +5,7 @@ export { Checkbox, type CheckboxProps } from './components/Checkbox/Checkbox';
 export { RadioGroup, Radio, type RadioGroupProps, type RadioProps, type RadioOption } from './components/Radio/Radio';
 export { Toggle, type ToggleProps } from './components/Toggle/Toggle';
 export { InputField, type InputFieldProps } from './components/InputField/InputField';
+export { Textarea, type TextareaProps } from './components/Textarea/Textarea';
 export { Search, type SearchProps } from './components/Search/Search';
 export { Select, type SelectProps, type SelectOption, type SelectOptionGroup } from './components/Select/Select';
 export { Dropdown, type DropdownProps, type DropdownItem } from './components/Dropdown/Dropdown';
