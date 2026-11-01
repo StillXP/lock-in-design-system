@@ -1,0 +1,52 @@
+name: Lock In proposal (LIP)
+description: Propose a new component, variant, token, icon or pattern, or a change to an existing one.
+title: "LIP-___: "
+labels: ["proposal", "status:proposed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Proposals are tracked as `proposals/<slug>.json` in this repo. Agents run `/ds-propose`, which fills in the file, validates it, builds a prototype page and opens this issue for you. Filing by hand? Fill in what you can; the draft spec can come later.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options: [component, variant, token, icon, pattern, change]
+    validations: { required: true }
+  - type: input
+    id: from
+    attributes:
+      label: Where did this come up?
+      description: Product and screen or flow.
+      placeholder: "VolleyXP, Bracket Creator step 1"
+    validations: { required: true }
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Why is it needed? Describe the user or product problem in plain words.
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence of reuse
+      description: Every place that needs it today, with Figma or code links. Reuse across products is what triage weighs most.
+    validations: { required: true }
+  - type: textarea
+    id: closest
+    attributes:
+      label: Closest existing Lock In component or token, and why it can't be extended
+    validations: { required: true }
+  - type: textarea
+    id: spec
+    attributes:
+      label: Props, states, tokens, accessibility
+      description: Rough is fine. The proposal file holds the full draft spec.
+  - type: input
+    id: prototype
+    attributes:
+      label: Prototype link
+  - type: textarea
+    id: questions
+    attributes:
+      label: Open questions
