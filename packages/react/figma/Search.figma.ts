@@ -4,7 +4,8 @@
 import figma from 'figma'
 const instance = figma.selectedInstance
 
-const label = instance.getString('label')
+// label lives on the exposed Label (Field / Label).
+const label = instance.findInstance('Label').getString('label')
 const showLabel = instance.getBoolean('showLabel')
 const placeholder = instance.getString('placeholder')
 const size = instance.getEnum('size', { md: 'md', sm: 'sm', lg: 'lg' })
