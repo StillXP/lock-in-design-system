@@ -167,7 +167,7 @@
     "resolved": [
       {
         "question": "Hint position: InputField code renders the hint above the control, but the Figma InputField and the VolleyXP designs put it below. This draft follows the code (above); decide once for every field.",
-        "answer": "Follow the code: hint above the control for every field. Figma InputField / Select and product designs that show the hint below should be updated to match.",
+        "answer": "Follow the code: hint above the control for every field. When Textarea is built, also move the hint above the control in the Figma InputField and Select components (and the VolleyXP stand-ins) in the same change; no separate proposal.",
         "by": "Andrew Still",
         "date": "2026-11-01"
       },
