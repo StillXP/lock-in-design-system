@@ -34,6 +34,7 @@ The level only organizes the system. Every component imports from `@lockin/react
 | Component | Category | Use it to… |
 | --- | --- | --- |
 | InputField | form | Enter a single line of text |
+| Textarea | form | Enter text longer than a line |
 | Search | form | Search or filter content |
 | Select | form | Pick one value from a list |
 | RadioGroup (Radio Button) | form | Pick exactly one of a few visible options |
