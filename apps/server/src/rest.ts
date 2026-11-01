@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createApiKey, listApiKeys, requireRole, revokeApiKey, ROLES } from './auth.js';
 import type { Db } from './db.js';
 import { getRelease, listChanges, listReleases } from './history.js';
+import { evidenceBody, submitProposalBody } from './proposals.js';
 import { HttpError, type DesignSystemStore } from './store.js';
 
 const Bump = z.enum(['major', 'minor', 'patch']);
@@ -46,6 +47,10 @@ export function restRouter(store: DesignSystemStore, db: Db): Router {
         'GET  /api/components/:name/history',
         'GET  /api/components/:name/stories',
         'GET  /api/icons?query=',
+        'GET  /api/proposals',
+        'GET  /api/proposals/:id           (LIP-001, slug or component name)',
+        'POST /api/proposals               (editor)',
+        'POST /api/proposals/:id/evidence  (editor)',
         'GET  /api/docs',
         'GET  /api/docs/:slug?format=markdown|html',
         'PUT  /api/docs/:slug              (editor)',
@@ -145,6 +150,22 @@ export function restRouter(store: DesignSystemStore, db: Db): Router {
   r.get('/components/:name/stories', viewer, h((req, res) => res.json(store.componentStories(String(req.params.name)))));
 
   r.get('/icons', viewer, h((req, res) => res.json(store.icons(str(req.query.query)))));
+
+  // ----- proposals (LIP) -----
+  r.get('/proposals', viewer, h((_req, res) => res.json(store.proposals())));
+  r.get('/proposals/:id', viewer, h((req, res) => res.json(store.proposal(String(req.params.id)))));
+  r.post(
+    '/proposals',
+    editor,
+    h(async (req, res) => {
+      res.status(201).json(await store.submitProposal(submitProposalBody.parse(req.body), actorOf(req)));
+    }),
+  );
+  r.post(
+    '/proposals/:id/evidence',
+    editor,
+    h((req, res) => res.json(store.addProposalEvidence(String(req.params.id), evidenceBody.parse(req.body).evidence, actorOf(req)))),
+  );
 
   // ----- docs -----
   r.get('/docs', viewer, h((_req, res) => res.json(store.docs())));

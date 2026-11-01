@@ -14,6 +14,8 @@ export const config = {
   publicRead: process.env.DS_PUBLIC_READ !== 'false',
   /** Role granted to the local stdio MCP server (it runs as you, on your machine). */
   stdioRole: (process.env.DS_STDIO_ROLE ?? 'editor') as Role,
+  /** Optional: open a GitHub issue for each submitted proposal. Needs a token with issues:write on the repo. */
+  github: { token: process.env.DS_GITHUB_TOKEN ?? '', repo: process.env.DS_GITHUB_REPO ?? '' },
   paths: {
     tokensSrc: join(REPO_ROOT, 'packages', 'tokens', 'src'),
     tokensDist: join(REPO_ROOT, 'packages', 'tokens', 'dist'),
@@ -22,6 +24,8 @@ export const config = {
     storybook: join(REPO_ROOT, 'apps', 'storybook', 'storybook-static'),
     specs: join(REPO_ROOT, 'packages', 'specs', 'components'),
     specSchema: join(REPO_ROOT, 'packages', 'specs', 'schema', 'component.schema.json'),
+    /** Lock In proposals (LIP), one JSON file each. */
+    proposals: join(REPO_ROOT, 'proposals'),
     docs: join(REPO_ROOT, 'docs'),
     manifest: join(REPO_ROOT, 'design-system.json'),
     changelog: join(REPO_ROOT, 'CHANGELOG.md'),

@@ -425,6 +425,71 @@ async function docView(slug) {
   });
 }
 
+// ---------- proposals (LIP) ----------
+
+const PROPOSAL_TONE = { proposed: 'warning', triage: 'info', accepted: 'brand', 'in-design': 'info', 'in-code': 'info', released: 'success', declined: 'danger' };
+const PROPOSAL_FLOW = ['proposed', 'triage', 'accepted', 'in-design', 'in-code', 'released'];
+const extLink = (href, label) =>
+  /^https?:\/\//.test(href ?? '') ? `<a class="ds-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(label)}<span class="ds-visually-hidden"> (opens in a new tab)</span></a>` : esc(href ?? '');
+
+async function proposalsView() {
+  const list = await api('/proposals');
+  const open = list.filter((p) => !['released', 'declined'].includes(p.status));
+  const rows = (items) =>
+    items.map((p) => [
+      `<a class="ds-link" href="#/proposals/${esc(p.slug)}">${esc(p.id)}</a>`,
+      esc(p.title),
+      tag(p.kind),
+      tag(p.status, PROPOSAL_TONE[p.status]),
+      esc(p.from),
+      esc(String(p.evidence)),
+      esc(p.submitted),
+    ]);
+  const headers = ['ID', 'Title', 'Kind', 'Status', 'From', 'Evidence', 'Filed'];
+  render(
+    'Proposals',
+    `<h1>Proposals</h1>
+    <p class="lead">Requests to add or change something in Lock In, found while building products. Each one carries the problem, where it is needed, and (for components) a draft spec that already passes validation.</p>
+    <p class="muted">Lifecycle: ${PROPOSAL_FLOW.map((s) => tag(s, PROPOSAL_TONE[s])).join(' → ')} (or ${tag('declined', 'danger')}). Agents file with the <code>submit_proposal</code> MCP tool; people use the “Lock In proposal” GitHub issue form.</p>
+    <h2>Open (${open.length})</h2>${table('Open proposals', headers, rows(open))}
+    <h2>Closed (${list.length - open.length})</h2>${table('Released and declined proposals', headers, rows(list.filter((p) => !open.includes(p))))}`,
+  );
+}
+
+async function proposalView(slug) {
+  const p = await api(`/proposals/${encodeURIComponent(slug)}`);
+  const i = p.intake;
+  const history = await api(`/changes?entityType=proposal&entityId=${encodeURIComponent(i.id)}`);
+  let componentLink = '';
+  if (i.status === 'released' && p.spec?.slug) {
+    componentLink = await api(`/components/${encodeURIComponent(p.spec.slug)}`)
+      .then((c) => `<p>${tag('released', 'success')} Now a component: <a class="ds-link" href="#/components/${esc(c.slug)}">${esc(c.name)} v${esc(c.version)}</a></p>`)
+      .catch(() => '');
+  }
+  const list = (items) => (items?.length ? `<ul>${items.join('')}</ul>` : '<p class="muted">None.</p>');
+  const spec = p.spec;
+  render(
+    `${i.id} ${i.title}`,
+    `<p><a class="ds-link ds-link--subtle" href="#/proposals">Proposals</a></p>
+    <h1>${esc(i.id)}: ${esc(i.title)}</h1>
+    <p class="row">${tag(i.status, PROPOSAL_TONE[i.status])} ${tag(i.kind)} ${tag(`from ${i.submitted.from}`)}</p>
+    <p class="muted">Filed ${esc(i.submitted.date)} by ${esc(i.submitted.by)}${i.issue ? ` · ${extLink(i.issue, 'GitHub issue')}` : ''}${i.prototype ? ` · ${extLink(i.prototype, 'Prototype')}` : ''}</p>
+    ${componentLink}
+    <h2>Problem</h2><p class="lead">${esc(i.problem)}</p>
+    <h2>Evidence</h2>${table(`${i.id} evidence`, ['Product', 'Where', 'Note'], i.evidence.map((e) => [esc(e.product), e.link ? extLink(e.link, e.where) : esc(e.where), esc(e.note ?? '—')]))}
+    <h2>Why not extend what exists</h2>${list(i.closestExisting.map((c) => `<li><strong>${esc(c.name)}.</strong> ${esc(c.whyNotExtend)}</li>`))}
+    ${i.standIn ? `<h2>Stand-in today</h2><p>${esc(i.standIn.description ?? '')}${i.standIn.figma ? ` ${extLink(i.standIn.figma, 'Figma')}` : ''}${i.standIn.code ? ` <code>${esc(i.standIn.code)}</code>` : ''}</p>` : ''}
+    <h2>Open questions</h2>${list(i.openQuestions.map((q) => `<li>${esc(q)}</li>`))}
+    ${i.resolved?.length ? `<h2>Decided</h2>${list(i.resolved.map((r) => `<li><strong>${esc(r.question)}</strong><br />${esc(r.answer)} <span class="muted">(${esc(r.by)}, ${esc(r.date)})</span></li>`))}` : ''}
+    ${i.decision ? `<h2>Decision</h2><p>${tag(i.decision.outcome, i.decision.outcome === 'declined' ? 'danger' : 'success')} ${esc(i.decision.date)} by ${esc(i.decision.by)}</p>${i.decision.note ? `<p>${esc(i.decision.note)}</p>` : ''}` : ''}
+    ${i.contrast?.length ? `<h2>Contrast checks</h2>${table(`${i.id} contrast`, ['Foreground', 'Background', 'Ratio', 'Result'], i.contrast.map((c) => [`<code>${esc(c.foreground)}</code>`, `<code>${esc(c.background)}</code>`, esc(`${c.ratio}:1`), esc(c.passes)]))}` : ''}
+    ${i.figmaApi?.length ? `<h2>Proposed Figma properties</h2>${table(`${i.id} Figma properties`, ['Property', 'Type', 'Maps to'], i.figmaApi.map((f) => [`<code>${esc(f.property)}</code>`, esc(`${f.type}${f.values ? `: ${f.values.join(', ')}` : ''}`), esc(f.mapsTo ?? 'Figma only')]))}` : ''}
+    ${spec ? `<h2>Draft spec: ${esc(spec.name)}</h2><p class="row">${tag(spec.level)} ${tag(spec.category)} ${tag(`v${spec.version}`)}</p><p>${esc(spec.purpose)}</p>${table(`${spec.name} draft props`, ['Prop', 'Type', 'Default', 'Description'], spec.props.map((x) => [`<code>${esc(x.name)}</code>`, `<code>${esc(x.type)}</code>`, x.default === undefined ? '—' : `<code>${esc(JSON.stringify(x.default))}</code>`, esc(x.description)]))}` : ''}
+    <h2>History</h2>${table(`${i.id} history`, ['Date', 'Change', 'By'], history.map((h) => [esc(date(h.createdAt)), esc(h.summary ?? h.action), esc(h.actor)]), { rowHeader: false })}
+    <h2>Raw proposal (JSON)</h2>${code(JSON.stringify({ intake: p.intake, spec: p.spec }, null, 2))}`,
+  );
+}
+
 async function changesView() {
   const [changes, releases, pending] = await Promise.all([api('/changes?limit=100'), api('/releases'), api('/changes?unreleased=true&limit=500')]);
   render(
@@ -532,6 +597,8 @@ const routes = [
   [/^\/tokens$/, tokensView],
   [/^\/components$/, componentsView],
   [/^\/components\/([\w-]+)$/, componentView],
+  [/^\/proposals$/, proposalsView],
+  [/^\/proposals\/([\w-]+)$/, proposalView],
   [/^\/docs$/, docsView],
   [/^\/docs\/([\w-]+)$/, docView],
   [/^\/changes$/, changesView],

@@ -11,11 +11,14 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 
 const repo = resolve(import.meta.dirname, '../../..');
 const root = mkdtempSync(join(tmpdir(), 'lockin-test-'));
-for (const rel of ['packages/tokens/src', 'packages/specs/components', 'packages/specs/schema', 'docs', 'design-system.json', 'llms.txt']) {
+for (const rel of ['packages/tokens/src', 'packages/specs/components', 'packages/specs/schema', 'docs', 'proposals', 'design-system.json', 'llms.txt']) {
   cpSync(join(repo, rel), join(root, rel), { recursive: true });
 }
 process.env.DS_REPO_ROOT = root;
 process.env.DS_DATA_DIR = join(root, 'data');
+// Never call GitHub from tests.
+delete process.env.DS_GITHUB_TOKEN;
+delete process.env.DS_GITHUB_REPO;
 
 const { openDb } = await import('../src/db.js');
 const { createApiKey } = await import('../src/auth.js');
@@ -300,6 +303,106 @@ describe('css variable names', () => {
     assert.equal(tokens.find((t) => t.name === 'color.text.linkHover')?.cssVar, '--ds-color-text-link-hover');
     assert.equal(tokens.find((t) => t.name === 'zIndex.modal')?.cssVar, '--ds-z-index-modal');
     assert.equal(tokens.filter((t) => /[A-Z]/.test(t.cssVar)).length, 0);
+  });
+});
+
+describe('proposals', () => {
+  const pattern = {
+    title: 'Repeatable field row',
+    kind: 'pattern',
+    from: 'VolleyXP',
+    problem: 'Organizers add and remove courts in a list; every product rebuilds the add/remove row by hand.',
+    evidence: [{ product: 'VolleyXP', where: 'Bracket Creator, step 2 Venue: courts', link: 'https://www.figma.com/design/x?node-id=264-315' }],
+    closestExisting: [{ name: 'InputField', whyNotExtend: 'A single field; the pattern is a list of rows with add and remove.' }],
+    openQuestions: ['Should rows be reorderable?'],
+  };
+
+  test('lists proposals and reads one by id, slug or component name', async () => {
+    const list = await api('GET', '/api/proposals', keys.viewer);
+    assert.equal(list.status, 200);
+    const lip1 = list.body.find((p: { id: string }) => p.id === 'LIP-001');
+    assert.ok(lip1, 'LIP-001 is listed');
+    assert.equal(lip1.slug, 'textarea');
+    for (const key of ['LIP-001', 'textarea', 'Textarea']) {
+      const one = await api('GET', `/api/proposals/${key}`, keys.viewer);
+      assert.equal(one.status, 200, key);
+      assert.equal(one.body.intake.id, 'LIP-001');
+    }
+    assert.equal((await api('GET', '/api/proposals/LIP-999', keys.viewer)).status, 404);
+  });
+
+  test('editors file proposals; the hub assigns the id, status and submitter', async () => {
+    assert.equal((await api('POST', '/api/proposals', keys.viewer, pattern)).status, 403);
+    const res = await api('POST', '/api/proposals', keys.editor, { ...pattern, onBehalfOf: 'Andrew' });
+    assert.equal(res.status, 201, JSON.stringify(res.body));
+    const { intake } = res.body.proposal;
+    assert.match(intake.id, /^LIP-\d{3}$/);
+    assert.notEqual(intake.id, 'LIP-001');
+    assert.equal(intake.status, 'proposed');
+    assert.equal(intake.submitted.by, 'test-editor (on behalf of Andrew)');
+    assert.equal(res.body.proposal.slug, 'repeatable-field-row');
+    assert.ok(res.body.issue.skipped, 'no GitHub token in tests, so no issue');
+    assert.ok(existsSync(join(root, 'proposals', 'repeatable-field-row.json')));
+    const logged = await api('GET', `/api/changes?entityType=proposal&entityId=${intake.id}`, keys.viewer);
+    assert.equal(logged.body[0].action, 'create');
+  });
+
+  test('rejects duplicates of a proposal or an existing component', async () => {
+    const dup = await api('POST', '/api/proposals', keys.editor, pattern);
+    assert.equal(dup.status, 409);
+    assert.match(dup.body.error, /add_proposal_evidence/);
+    const spec = { ...store.component('tag'), status: 'experimental' };
+    const existing = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Tag', kind: 'component', spec });
+    assert.equal(existing.status, 409);
+    assert.match(existing.body.error, /already has Tag/);
+  });
+
+  test('validates component proposals and their draft spec', async () => {
+    const noSpec = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Stepper', kind: 'component' });
+    assert.equal(noSpec.status, 422);
+    assert.ok(noSpec.body.details.includes('component proposals need a draft spec'));
+    const { figma: _figma, ...tag } = store.component('tag');
+    const spec = { ...tag, name: 'Stepper', slug: 'stepper', status: 'experimental', tokens: [{ token: 'color.not.a.token', usage: 'x' }] };
+    const badToken = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Stepper', kind: 'component', spec });
+    assert.equal(badToken.status, 422);
+    assert.ok(badToken.body.details.some((e: string) => e.includes('unknown token')));
+    assert.ok(!existsSync(join(root, 'proposals', 'stepper.json')), 'nothing written when invalid');
+  });
+
+  test('adds evidence once, and not to released proposals', async () => {
+    const more = [{ product: 'Lock In hub', where: 'Settings: allowed origins list' }];
+    const first = await api('POST', '/api/proposals/repeatable-field-row/evidence', keys.editor, { evidence: more });
+    assert.equal(first.status, 200);
+    assert.equal(first.body.added, 1);
+    const again = await api('POST', '/api/proposals/repeatable-field-row/evidence', keys.editor, { evidence: more });
+    assert.equal(again.body.added, 0);
+    assert.equal((await api('POST', '/api/proposals/LIP-001/evidence', keys.editor, { evidence: more })).status, 409);
+  });
+
+  test('MCP: viewers list and read proposals; editors can file them', async () => {
+    const connectAs = async (key: string) => {
+      const client = new Client({ name: 'test', version: '1.0.0' });
+      await client.connect(new StreamableHTTPClientTransport(new URL(`${base}/mcp`), { requestInit: { headers: { authorization: `Bearer ${key}` } } }));
+      return client;
+    };
+    const text = (res: Record<string, unknown>) => (res.content as Array<{ text: string }>)[0].text;
+
+    const viewer = await connectAs(keys.viewer);
+    const viewerTools = (await viewer.listTools()).tools.map((t) => t.name);
+    assert.ok(viewerTools.includes('list_proposals') && viewerTools.includes('get_proposal'));
+    assert.ok(!viewerTools.includes('submit_proposal') && !viewerTools.includes('add_proposal_evidence'));
+    const listed = await viewer.callTool({ name: 'list_proposals', arguments: { status: 'released' } });
+    assert.ok(JSON.parse(text(listed)).some((p: { id: string }) => p.id === 'LIP-001'));
+    await viewer.close();
+
+    const editor = await connectAs(keys.editor);
+    const icon = { ...pattern, title: 'Upload icon', kind: 'icon', slug: 'icon-upload' };
+    const filed = await editor.callTool({ name: 'submit_proposal', arguments: icon });
+    assert.ok(!filed.isError, text(filed));
+    assert.equal(JSON.parse(text(filed)).proposal.intake.submitted.by, 'test-editor (mcp)');
+    const dup = await editor.callTool({ name: 'submit_proposal', arguments: icon });
+    assert.ok(dup.isError);
+    await editor.close();
   });
 });
 
