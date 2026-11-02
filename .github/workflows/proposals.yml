@@ -93,7 +93,8 @@ jobs:
         if: steps.embedded.outputs.found == 'invalid'
         env:
           ERRORS: ${{ steps.embedded.outputs.errors }}
-        run: gh issue comment "$NUMBER" --body "The proposal embedded in this issue doesn't validate, so no PR was opened: $ERRORS"
+        run: |
+          gh issue comment "$NUMBER" --body "The proposal embedded in this issue doesn't validate, so no PR was opened: $ERRORS"
 
       - name: Ask for a local draft
         if: steps.embedded.outputs.found == 'false' && (env.HAS_CLAUDE != 'true' || env.TRUSTED != 'true')
