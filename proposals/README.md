@@ -6,6 +6,10 @@ Intake for changes to Lock In: new components, variants, tokens, icons and patte
 
 `proposed → triage → accepted → in-design → in-code → released`, or `declined`.
 
+![Proposal lifecycle: a hub or agent (submit_proposal) or the GitHub issue form files a proposal, which moves from Proposed through Triage, Accepted and In code to Released, with an optional In design route (Figma first, then code) and Declined as the other outcome. Each status label the owner adds runs the Proposals workflow, which mirrors it into proposals/<slug>.json.](../docs/diagrams/proposal-lifecycle.svg)
+
+[Open full size](../docs/diagrams/proposal-lifecycle.html)
+
 The `intake.status` field and the issue's `status:*` label always match. Only the design system owner moves a proposal past `triage`.
 
 ## What a proposal contains
