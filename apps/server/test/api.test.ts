@@ -489,6 +489,24 @@ describe('MCP over HTTP', () => {
     assert.ok(JSON.parse((contrast.content as Array<{ text: string }>)[0].text).passes['AA normal text (4.5:1)']);
     await client.close();
   });
+  test('proposal playbook prompts carry the docs, for any MCP client', async () => {
+    const client = await connect(keys.viewer);
+    const names = (await client.listPrompts()).prompts.map((p) => p.name);
+    for (const name of ['build_with_lockin', 'propose_to_lockin', 'build_proposal']) assert.ok(names.includes(name), name);
+    const text = async (name: string, args: Record<string, string>) =>
+      ((await client.getPrompt({ name, arguments: args })).messages[0].content as { text: string }).text;
+    const propose = await text('propose_to_lockin', { need: 'a stepper', issue: '42' });
+    assert.match(propose, /^Propose to Lock In: a stepper/);
+    assert.match(propose, /issue #42/);
+    assert.ok(propose.includes(readFileSync(join(root, 'docs', 'propose.md'), 'utf8')), 'embeds docs/propose.md');
+    const build = await text('build_proposal', { id: 'LIP-001', part: 'figma' });
+    assert.match(build, /^Build LIP-001 .*proposals\/textarea\.json/);
+    assert.match(build, /sections 0, 2 and 3/);
+    assert.ok(build.includes('# Building an accepted proposal'));
+    // Playbooks are tool-neutral: they don't depend on one agent's commands or publishing tools.
+    for (const doc of [propose, build]) assert.doesNotMatch(doc, /Claude Code|Artifact tool|\/ds-(propose|build)/);
+    await client.close();
+  });
   test('rejects unauthenticated MCP requests', async () => {
     const res = await fetch(`${base}/mcp`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });
     assert.equal(res.status, 401);
