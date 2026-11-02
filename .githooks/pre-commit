@@ -1,0 +1,11 @@
+#!/bin/sh
+# Keeps commits off main for everyone: people and any AI agent (see AGENTS.md, "Git workflow").
+# Enabled by `npm install` (the root "prepare" script sets core.hooksPath to .githooks).
+branch=$(git branch --show-current 2>/dev/null)
+case "$branch" in
+  main|master)
+    echo "Blocked: you are on $branch. Create a branch first (git switch -c type/short-description)." >&2
+    exit 1
+    ;;
+esac
+exit 0
