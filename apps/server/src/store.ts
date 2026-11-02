@@ -13,7 +13,7 @@ import {
   type RawToken,
 } from '@lockin/tokens/lib/resolve';
 import { validateSpec } from '@lockin/specs/validate';
-import { loadProposals, nextProposalId, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
+import { loadProposals, nextProposalId, proposalIssueBody, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
 import { Marked } from 'marked';
 import { config } from './config.js';
 import type { Db } from './db.js';
@@ -494,18 +494,8 @@ export class DesignSystemStore {
     const { token, repo } = config.github;
     if (!token || !repo) return { skipped: 'Set DS_GITHUB_TOKEN and DS_GITHUB_REPO to open GitHub issues automatically.' };
     const i = p.intake;
-    const list = (items: string[]) => items.map((x) => `- ${x}`).join('\n') || '- (none)';
-    const body = [
-      `**Proposal file:** \`proposals/${slug}.json\` (written by the hub; commit it with a PR)`,
-      `**Kind:** ${i.kind}   **From:** ${i.submitted.from}   **Submitted:** ${i.submitted.date} by ${i.submitted.by}`,
-      i.prototype ? `**Prototype:** ${i.prototype}` : '',
-      `### Problem\n${i.problem}`,
-      `### Evidence\n${list(i.evidence.map((e) => `**${e.product}**: ${e.link ? `[${e.where}](${e.link})` : e.where}${e.note ? ` · ${e.note}` : ''}`))}`,
-      `### Closest existing\n${list(i.closestExisting.map((c) => `**${c.name}**: ${c.whyNotExtend}`))}`,
-      `### Open questions\n${list(i.openQuestions)}`,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
+    // Embeds the proposal file; the Proposals workflow turns the issue into a PR that adds it.
+    const body = proposalIssueBody(p, slug);
     try {
       const res = await fetch(`https://api.github.com/repos/${repo}/issues`, {
         method: 'POST',

@@ -129,7 +129,7 @@ When Lock In has nothing that fits, agents file a **proposal (LIP)** instead of 
 2. Otherwise, `submit_proposal` with the problem, evidence (Figma or code links), the closest existing component and why it can't be extended, the stand-in, open questions and, for components, a draft spec (`status: "experimental"`, checked like any spec). Run `check_contrast` for new color pairings first.
 3. The hub assigns the next `LIP-NNN`, sets `status: proposed`, writes `proposals/<slug>.json`, logs the change and, when `DS_GITHUB_TOKEN` and `DS_GITHUB_REPO` are set, opens the GitHub issue with the `proposal`, `status:proposed` and `kind:*` labels.
 
-The file is written to the hub's working tree like any other edit, so commit it with a PR. Triage (accept or decline) stays with the design system owner. See `proposals/README.md` for the lifecycle.
+The file is written to the hub's working tree, and the issue embeds it: with GitHub configured, the Proposals workflow turns the issue into a PR, so nothing needs committing from the hub's machine. Without GitHub, commit the file with a PR yourself. Triage (accept or decline) stays with the design system owner. See `proposals/README.md` for the lifecycle.
 
 ## Versioning & change tracking
 

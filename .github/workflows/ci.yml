@@ -85,3 +85,6 @@ jobs:
 
       - name: Server tests
         run: npm test -w @lockin/server
+
+      - name: Proposal workflow script tests
+        run: npm run test:proposals

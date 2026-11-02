@@ -36,7 +36,7 @@
     "validate": "node scripts/validate.mjs",
     "check:code": "node scripts/check-code.mjs",
     "check:figma": "node scripts/check-figma.mjs",
-    "test": "node --test test/check-code.test.mjs test/check-figma.test.mjs"
+    "test": "node --test test/check-code.test.mjs test/check-figma.test.mjs test/proposals.test.mjs"
   },
   "dependencies": {
     "@lockin/tokens": "0.1.0",
