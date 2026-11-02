@@ -24,6 +24,7 @@
     "build:storybook": "npm run build -w @lockin/storybook",
     "test": "npm test -w @lockin/server && npm test -w @lockin/specs && npm test -w @lockin/storybook && npm run test:proposals",
     "validate:proposals": "node proposals/validate.mjs",
+    "prepare": "git config core.hooksPath .githooks || true",
     "test:proposals": "node --test proposals/ci.test.mjs"
   },
   "engines": {
