@@ -36,9 +36,9 @@
         <!-- Band notes -->
         <g fill="#4b5260" font-size="13" font-style="italic" font-family="'Instrument Serif', 'Noto Serif', serif">
           <text x="432" y="96">The hub embeds the proposal file in its issue, so the workflow only opens the PR.</text>
-          <text x="432" y="114">Form issues need drafting: Claude in CI, or /ds-propose in Claude Code.</text>
+          <text x="432" y="114">Form issues need drafting: a CI agent, or any agent running docs/propose.md.</text>
           <text x="432" y="520">Each status label runs proposals.yml, which mirrors it into proposals/&lt;slug&gt;.json</text>
-          <text x="432" y="538">with a small PR. BUILD runs Claude in CI, or waits for /ds-build without a token.</text>
+          <text x="432" y="538">with a small PR. BUILD runs a CI agent, or waits for docs/build-proposal.md.</text>
         </g>
 
         <!-- Transitions (drawn before states) -->
@@ -142,7 +142,7 @@
         <line x1="32" y1="596" x2="968" y2="596" stroke="#1c2028" stroke-width="0.8" stroke-opacity="0.1"/>
         <text x="32" y="620" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
         <g transform="translate(104,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner adds status label</text></g>
-        <g transform="translate(296,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Workflow or Claude</text></g>
+        <g transform="translate(296,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Workflow or agent</text></g>
         <g transform="translate(460,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Optional route</text></g>
         <g transform="translate(596,612)"><rect x="0" y="0" width="20" height="12" rx="2" fill="#2563eb" stroke="#2563eb" fill-opacity="0.08"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner gate</text></g>
         <g transform="translate(708,612)"><circle cx="8" cy="6" r="6" fill="none" stroke="#1c2028"/><circle cx="8" cy="6" r="3.5" fill="#1c2028"/><text x="24" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Issue closed</text></g>
