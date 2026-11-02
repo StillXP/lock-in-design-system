@@ -14,6 +14,11 @@ const root = mkdtempSync(join(tmpdir(), 'lockin-test-'));
 for (const rel of ['packages/tokens/src', 'packages/specs/components', 'packages/specs/schema', 'docs', 'proposals', 'design-system.json', 'llms.txt']) {
   cpSync(join(repo, rel), join(root, rel), { recursive: true });
 }
+// Prototype pages inline the built arena theme and the shared field CSS (run `npm run build` first).
+for (const rel of ['packages/tokens/dist/css/themes/arena.css', 'packages/react/src/styles/base.css']) {
+  mkdirSync(join(root, rel, '..'), { recursive: true });
+  cpSync(join(repo, rel), join(root, rel));
+}
 process.env.DS_REPO_ROOT = root;
 process.env.DS_DATA_DIR = join(root, 'data');
 // Never call GitHub from tests.
@@ -331,6 +336,27 @@ describe('proposals', () => {
     assert.equal((await api('GET', '/api/proposals/LIP-999', keys.viewer)).status, 404);
   });
 
+  test('serves prototype pages from the hub, sandboxed', async () => {
+    const one = await api('GET', '/api/proposals/LIP-001', keys.viewer);
+    assert.equal(one.body.prototypePage, '/proposals/textarea/prototype');
+    const get = (path: string, key?: string) => fetch(`${base}${path}`, { headers: key ? { authorization: `Bearer ${key}` } : {} });
+    assert.equal((await get('/proposals/textarea/prototype')).status, 401, 'needs a key when public read is off');
+    const res = await get('/proposals/LIP-001/prototype', keys.viewer);
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get('content-type') ?? '', /text\/html/);
+    assert.match(res.headers.get('content-security-policy') ?? '', /^sandbox allow-scripts;/);
+    const html = await res.text();
+    assert.ok(!html.includes('/*__TOKENS__*/') && !html.includes('/*__PROPOSAL__*/'), 'placeholders are filled');
+    assert.match(html, /--ds-color-/, 'inlines the token CSS');
+    const embedded = html.match(/const PROPOSAL = (.*);\r?\n/)?.[1] ?? '';
+    assert.ok(!embedded.includes('<'), 'proposal JSON escapes "<" so text cannot close the script');
+    assert.equal(JSON.parse(embedded).intake.id, 'LIP-001');
+    // Proposals without a page template have no prototype.
+    writeFileSync(join(root, 'proposals', 'no-page.json'), readFileSync(join(root, 'proposals', 'textarea.json'), 'utf8').replace('"LIP-001"', '"LIP-900"'));
+    assert.equal((await get('/proposals/no-page/prototype', keys.viewer)).status, 404);
+    rmSync(join(root, 'proposals', 'no-page.json'));
+  });
+
   test('editors file proposals; the hub assigns the id, status and submitter', async () => {
     assert.equal((await api('POST', '/api/proposals', keys.viewer, pattern)).status, 403);
     const res = await api('POST', '/api/proposals', keys.editor, { ...pattern, onBehalfOf: 'Andrew' });
@@ -461,6 +487,24 @@ describe('MCP over HTTP', () => {
     assert.ok(resources.some((r) => r.uri === 'ds://components/data-table'));
     const contrast = await client.callTool({ name: 'check_contrast', arguments: { foreground: 'color.intent.primary.text', background: 'color.intent.primary.bg' } });
     assert.ok(JSON.parse((contrast.content as Array<{ text: string }>)[0].text).passes['AA normal text (4.5:1)']);
+    await client.close();
+  });
+  test('proposal playbook prompts carry the docs, for any MCP client', async () => {
+    const client = await connect(keys.viewer);
+    const names = (await client.listPrompts()).prompts.map((p) => p.name);
+    for (const name of ['build_with_lockin', 'propose_to_lockin', 'build_proposal']) assert.ok(names.includes(name), name);
+    const text = async (name: string, args: Record<string, string>) =>
+      ((await client.getPrompt({ name, arguments: args })).messages[0].content as { text: string }).text;
+    const propose = await text('propose_to_lockin', { need: 'a stepper', issue: '42' });
+    assert.match(propose, /^Propose to Lock In: a stepper/);
+    assert.match(propose, /issue #42/);
+    assert.ok(propose.includes(readFileSync(join(root, 'docs', 'propose.md'), 'utf8')), 'embeds docs/propose.md');
+    const build = await text('build_proposal', { id: 'LIP-001', part: 'figma' });
+    assert.match(build, /^Build LIP-001 .*proposals\/textarea\.json/);
+    assert.match(build, /sections 0, 2 and 3/);
+    assert.ok(build.includes('# Building an accepted proposal'));
+    // Playbooks are tool-neutral: they don't depend on one agent's commands or publishing tools.
+    for (const doc of [propose, build]) assert.doesNotMatch(doc, /Claude Code|Artifact tool|\/ds-(propose|build)/);
     await client.close();
   });
   test('rejects unauthenticated MCP requests', async () => {

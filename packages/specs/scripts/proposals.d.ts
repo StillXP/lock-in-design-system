@@ -33,4 +33,5 @@ export declare function loadProposals(dir: string): Array<{ file: string; slug: 
 export declare function nextProposalId(proposals: Proposal[]): string;
 export declare function duplicateIds(entries: Array<{ slug: string; proposal: Proposal }>): string[];
 export declare function proposalIssueBody(proposal: Proposal, slug: string): string;
+export declare function renderPrototype(paths: { repoRoot: string; proposalsDir?: string }, slug: string): string | null;
 export declare function proposalFromIssueBody(body: string | null | undefined): { slug: string; proposal: Proposal } | null;

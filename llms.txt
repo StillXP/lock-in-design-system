@@ -7,6 +7,7 @@
 - MCP over stdio (local): `npx tsx apps/server/src/stdio.ts`
 - Tools: search_design_system, list_components, get_component, get_tokens, get_token, check_contrast, list_icons, list_docs, get_doc, get_changelog, list_proposals, get_proposal (+ update_component, update_token, update_doc, submit_proposal, add_proposal_evidence for editors)
 - Resources: ds://overview, ds://tokens/{light|dark}, ds://components/{slug}, ds://docs/{slug}
+- Prompts: build_with_lockin (build UI), propose_to_lockin (file a proposal), build_proposal (build an accepted one). Works with any MCP client.
 
 ## REST (same data)
 - GET /api/components, /api/components/{slug}
@@ -14,6 +15,7 @@
 - GET /api/search?q=..., /api/contrast?fg=..&bg=..&mode=dark
 - GET /api/docs, /api/docs/{slug}
 - GET /api/proposals, /api/proposals/{id}; POST /api/proposals (editor)
+- Agent playbooks (plain Markdown, any agent): GET /api/docs/propose, /api/docs/build-proposal
 
 ## Rules for building UI with Lock In
 1. Use a Lock In component when one fits; read its spec (get_component) and follow props, accessibility and usage do/don't exactly.
@@ -21,7 +23,7 @@
 3. Web: CSS variables `--ds-<token path>` with dots as dashes and camelCase as kebab-case (color.text.linkHover is `--ds-color-text-link-hover`; get_token returns the exact `cssVar`). Native: `const { t } = useTheme(); t.color.text.primary`.
 4. Every form control needs a visible label; never convey meaning by color alone; keep focus visible; touch targets ≥ 44px.
 5. Check any new color pairing with check_contrast (4.5:1 text, 3:1 UI).
-6. Nothing fits? Check list_proposals, then add_proposal_evidence to a matching proposal or submit_proposal a new one. Don't keep a private workaround.
+6. Nothing fits? Check list_proposals, then add_proposal_evidence to a matching proposal or submit_proposal a new one (steps: the propose_to_lockin prompt or docs/propose.md). Don't keep a private workaround.
 
 ## Components (by atomic level; every spec has a `level`)
 - Atoms: Button, Icon, Link, Checkbox, Toggle, Tag

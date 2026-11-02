@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Proposals are tracked as `proposals/<slug>.json` in this repo. Agents run `/ds-propose`, which fills in the file, validates it, builds a prototype page and opens this issue for you. Filing by hand? Fill in what you can; the draft spec can come later.
+        Proposals are tracked as `proposals/<slug>.json` in this repo. AI agents with the `lockin` MCP follow `docs/propose.md` (MCP prompt `propose_to_lockin`), which fills in the file, validates it, builds a prototype page and opens this issue for you. Filing by hand? Fill in what you can; the draft spec can come later.
   - type: dropdown
     id: kind
     attributes:

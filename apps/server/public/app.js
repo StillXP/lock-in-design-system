@@ -473,7 +473,7 @@ async function proposalView(slug) {
     `<p><a class="ds-link ds-link--subtle" href="#/proposals">Proposals</a></p>
     <h1>${esc(i.id)}: ${esc(i.title)}</h1>
     <p class="row">${tag(i.status, PROPOSAL_TONE[i.status])} ${tag(i.kind)} ${tag(`from ${i.submitted.from}`)}</p>
-    <p class="muted">Filed ${esc(i.submitted.date)} by ${esc(i.submitted.by)}${i.issue ? ` · ${extLink(i.issue, 'GitHub issue')}` : ''}${i.prototype ? ` · ${extLink(i.prototype, 'Prototype')}` : ''}</p>
+    <p class="muted">Filed ${esc(i.submitted.date)} by ${esc(i.submitted.by)}${i.issue ? ` · ${extLink(i.issue, 'GitHub issue')}` : ''}${p.prototypePage ? ` · <a class="ds-link" href="${esc(p.prototypePage)}" target="_blank" rel="noopener">Prototype<span class="ds-visually-hidden"> (opens in a new tab)</span></a>` : ''}${i.prototype ?` · ${extLink(i.prototype, p.prototypePage ? 'Prototype (external copy)' : 'Prototype')}` : ''}</p>
     ${componentLink}
     <h2>Problem</h2><p class="lead">${esc(i.problem)}</p>
     <h2>Evidence</h2>${table(`${i.id} evidence`, ['Product', 'Where', 'Note'], i.evidence.map((e) => [esc(e.product), e.link ? extLink(e.link, e.where) : esc(e.where), esc(e.note ?? '—')]))}
@@ -527,7 +527,7 @@ async function settingsView() {
       <div id="new-key"></div>
       ${table('API keys', ['Name', 'Role', 'Prefix', 'Created', 'Last used', 'Status', ''], keys.map((k) => [esc(k.name), esc(k.role), `<code>${esc(k.prefix)}…</code>`, esc(date(k.created_at)), esc(k.last_used_at ? date(k.last_used_at) : '—'), k.revoked_at ? tag('revoked', 'danger') : tag('active', 'success'), k.revoked_at ? '' : btn('Revoke', { variant: 'danger', size: 'sm', attrs: `data-revoke="${esc(k.id)}" aria-label="Revoke key ${esc(k.name)}"` })]))}
       <h3>Create a key</h3>
-      <form class="form" id="key-form">${field('Name', input('key-name', { required: true, placeholder: 'e.g. claude-agent, arena-app' }), { id: 'key-name' })}${field('Role', select('key-role', [['viewer', 'Viewer — read only'], ['editor', 'Editor — modify the system'], ['admin', 'Admin — releases + keys']]), { id: 'key-role' })}<div>${btn('Create key', { type: 'submit' })}</div></form>` : ''}`,
+      <form class="form" id="key-form">${field('Name', input('key-name', { required: true, placeholder: 'e.g. coding-agent, arena-app' }), { id: 'key-name' })}${field('Role', select('key-role', [['viewer', 'Viewer — read only'], ['editor', 'Editor — modify the system'], ['admin', 'Admin — releases + keys']]), { id: 'key-role' })}<div>${btn('Create key', { type: 'submit' })}</div></form>` : ''}`,
   );
   $('#sign-out').addEventListener('click', () => {
     localStorage.removeItem('ds-api-key');
