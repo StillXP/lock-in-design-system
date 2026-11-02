@@ -80,6 +80,27 @@ export function proposalFromIssueBody(body) {
   return { slug: m[1], proposal: JSON.parse(m[2]) };
 }
 
+// ---------- prototype page ----------
+// proposals/page/<slug>.html is a template; the built page inlines the arena theme tokens, Lock In's base
+// field CSS and the proposal JSON, so it renders the real system with no build server. Used by
+// proposals/build-page.mjs (static file for any host) and the hub (GET /proposals/:slug/prototype).
+
+/** The built prototype page for a proposal, or null when it has no page template. */
+export function renderPrototype({ repoRoot, proposalsDir = join(repoRoot, 'proposals') }, slug) {
+  if (!/^[a-z][a-z0-9-]*$/.test(slug)) return null;
+  const template = join(proposalsDir, 'page', `${slug}.html`);
+  const file = join(proposalsDir, `${slug}.json`);
+  if (!existsSync(template) || !existsSync(file)) return null;
+  const proposal = JSON.parse(readFileSync(file, 'utf8'));
+  const tokens = readFileSync(join(repoRoot, 'packages/tokens/dist/css/themes/arena.css'), 'utf8')
+    .replace(/@font-face\s*{[^}]*}\s*/g, ''); // fonts load from Google Fonts in the page
+  const base = readFileSync(join(repoRoot, 'packages/react/src/styles/base.css'), 'utf8');
+  return readFileSync(template, 'utf8')
+    .replace('/*__TOKENS__*/', () => tokens)
+    .replace('/*__BASE__*/', () => base)
+    .replace('/*__PROPOSAL__*/', () => JSON.stringify(proposal).replace(/</g, '\\u003c'));
+}
+
 /** Duplicate ids across a set of proposals: "LIP-002 is used by a.json and b.json". */
 export function duplicateIds(entries) {
   const seen = new Map();

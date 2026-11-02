@@ -48,7 +48,7 @@ Send a key as `Authorization: Bearer ds_…` (or `X-API-Key`). Keys are stored a
 Manage keys from the web UI (Settings, admin only), the API (`/api/keys`), or the CLI:
 
 ```bash
-npm run keys -w @lockin/server -- create --name "claude-agent" --role viewer
+npm run keys -w @lockin/server -- create --name "coding-agent" --role viewer
 npm run keys -w @lockin/server -- list
 npm run keys -w @lockin/server -- revoke --id <id>
 ```
@@ -74,6 +74,7 @@ Read-only agents need no key while public read is on. Give agents that edit the 
 | `GET /api/icons?query=` | viewer | Icon names/keywords |
 | `GET /api/proposals` | viewer | Proposal summaries (id, slug, title, kind, status, from, evidence count, links) |
 | `GET /api/proposals/:id` | viewer | Full proposal by id (`LIP-001`), slug or component name |
+| `GET /proposals/:id/prototype` | viewer | The proposal's prototype page (HTML), when it has a `proposals/page/<slug>.html` template |
 | `POST /api/proposals` | editor | File a proposal: the intake fields plus `spec` for components. The hub assigns the id, status and submitter, validates, writes `proposals/<slug>.json`; 409 for duplicates, 422 if invalid |
 | `POST /api/proposals/:id/evidence` | editor | `{ evidence: [{ product, where, link?, note? }] }`; skips entries already listed; 409 on released/declined |
 | `GET /api/docs` · `GET /api/docs/:slug?format=html` | viewer | Docs |
@@ -91,17 +92,34 @@ curl -H "Authorization: Bearer $DS_KEY" http://127.0.0.1:4400/api/components/but
 
 ### Connect
 
-Local (stdio): best for Claude Code / Cursor on the same machine. The repo's `.mcp.json` registers it as `lockin`. Elsewhere:
+Lock In is a standard MCP server, so any MCP client works: coding agents, IDE assistants, or your own agent built on an MCP SDK. There are two transports:
+
+- **Local (stdio):** the agent runs on the same machine as a checkout of this repo. Command: `npx tsx <repo>/apps/server/src/stdio.ts` (role `editor` by default; set `DS_STDIO_ROLE=viewer` for read-only).
+- **Remote (Streamable HTTP):** the agent talks to a running hub at `https://<hub>/mcp`. Put the hub behind HTTPS first. Reading needs no key while public read is on; editors send `Authorization: Bearer ds_…`.
+
+Most clients take the common `mcpServers` JSON shape:
 
 ```json
-{ "mcpServers": { "lockin": { "command": "npx", "args": ["tsx", "<repo>/apps/server/src/stdio.ts"] } } }
+{
+  "mcpServers": {
+    "lockin": { "command": "npx", "args": ["tsx", "<repo>/apps/server/src/stdio.ts"] },
+    "lockin-remote": { "url": "https://ds.example.com/mcp", "headers": { "Authorization": "Bearer ds_…" } }
+  }
+}
 ```
 
-Remote (HTTP): for agents on other machines (put the hub behind HTTPS first):
+Where that goes, for a few common clients (config formats change, so check your client's docs if one doesn't load):
 
-```bash
-claude mcp add --transport http lockin https://ds.example.com/mcp --header "Authorization: Bearer ds_…"
-```
+| Client | Project config | Notes |
+| --- | --- | --- |
+| Claude Code | `.mcp.json` (this repo has one) | or `claude mcp add --transport http lockin https://ds.example.com/mcp --header "Authorization: Bearer ds_…"` |
+| Cursor | `.cursor/mcp.json` | `mcpServers` shape above |
+| VS Code (Copilot agent mode) | `.vscode/mcp.json` | top-level key is `servers`, and each entry has `"type": "stdio"` or `"type": "http"` |
+| Codex CLI | `~/.codex/config.toml` | `[mcp_servers.lockin]` with `command = "npx"` and `args = ["tsx", "<repo>/apps/server/src/stdio.ts"]` |
+| Gemini CLI | `.gemini/settings.json` | `mcpServers` shape above |
+| No MCP support | — | use the [REST API](#rest-api) and `/llms.txt`; the playbooks are plain Markdown in `docs/` |
+
+Only Claude Code's file is checked in, because this repo's maintainers use it. Add another client's file locally, or in a PR if more people use that client.
 
 ### Tools
 
@@ -119,17 +137,25 @@ claude mcp add --transport http lockin https://ds.example.com/mcp --header "Auth
 | `submit_proposal` / `add_proposal_evidence` | editor | File a proposal or add evidence to an open one (see [Proposals](#proposals)) |
 
 Resources: `ds://overview`, `ds://tokens/{light|dark}`, `ds://components/{slug}`, `ds://docs/{slug}`.
-Prompt: `build_with_lockin` (task, platform).
+Prompts (any client that supports MCP prompts; the playbooks are also plain docs for clients that don't):
+
+| Prompt | Arguments | What |
+| --- | --- | --- |
+| `build_with_lockin` | task, platform | Build UI with Lock In components and tokens |
+| `propose_to_lockin` | need, from?, issue? | File a proposal: the [propose playbook](./propose.md) |
+| `build_proposal` | id, part? (`all`, `code`, `figma`) | Build an accepted proposal: the [build playbook](./build-proposal.md) |
 
 ## Proposals
 
-When Lock In has nothing that fits, agents file a **proposal (LIP)** instead of keeping a private workaround. The server instructions tell agents to do this (step 5).
+When Lock In has nothing that fits, agents file a **proposal (LIP)** instead of keeping a private workaround. The server instructions tell agents to do this (step 5). The full procedure is the [propose playbook](./propose.md) (MCP prompt `propose_to_lockin`); in short:
 
 1. `list_proposals` / `search_design_system`. If a proposal already covers it, `add_proposal_evidence` with your product and screen.
 2. Otherwise, `submit_proposal` with the problem, evidence (Figma or code links), the closest existing component and why it can't be extended, the stand-in, open questions and, for components, a draft spec (`status: "experimental"`, checked like any spec). Run `check_contrast` for new color pairings first.
 3. The hub assigns the next `LIP-NNN`, sets `status: proposed`, writes `proposals/<slug>.json`, logs the change and, when `DS_GITHUB_TOKEN` and `DS_GITHUB_REPO` are set, opens the GitHub issue with the `proposal`, `status:proposed` and `kind:*` labels.
 
-The file is written to the hub's working tree, and the issue embeds it: with GitHub configured, the Proposals workflow turns the issue into a PR, so nothing needs committing from the hub's machine. Without GitHub, commit the file with a PR yourself. Triage (accept or decline) stays with the design system owner. See `proposals/README.md` for the lifecycle.
+The file is written to the hub's working tree, and the issue embeds it: with GitHub configured, the Proposals workflow turns the issue into a PR, so nothing needs committing from the hub's machine. Without GitHub, commit the file with a PR yourself. Triage (accept or decline) stays with the design system owner. See `proposals/README.md` for the lifecycle, and the [build playbook](./build-proposal.md) for what happens after acceptance.
+
+Prototype pages: a proposal with a `proposals/page/<slug>.html` template is served, built, at `/proposals/<slug>/prototype` (viewer role; `prototypePage` in the API response). The page runs in a sandboxed origin, so its scripts can't reach the hub's API or stored key.
 
 ## Versioning & change tracking
 

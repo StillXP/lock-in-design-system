@@ -15,6 +15,7 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Design system
 
+- [ ] Proposal prototype links: `textarea.json` and `stepper.json` point `intake.prototype` at claude.ai Artifacts, which are private by default. Once the hub has a public origin, switch them to `<hub>/proposals/<slug>/prototype` (the hub already serves and links those pages).
 - [ ] Proposals backlog: LIP-001 Textarea is released. Next, file the other gaps found in VolleyXP's Bracket Creator (Stepper, ProgressBar, FileUpload, DatePicker, Card, DescriptionList, Callout, upload/arrow icons, dashed-border, progress-track and layout tokens). Full list: "Lock In gaps / Bracket Creator" frame in the VolleyXP Figma file.
 - [ ] Select's open listbox is drawn by the browser/OS, so it can't be snapshotted. Decide whether that is acceptable or whether Select needs a custom listbox.
 
@@ -26,7 +27,7 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Docs and repo
 
-- [ ] Security follow-ups from the review: the remaining `zod` advisory (GHSA-mrhx-c7xc-m3w5) sits in `@figma/code-connect`'s nested copy, so re-run `npm audit` after each code-connect bump. Serve `/storybook` from a separate origin (it needs `unsafe-inline`/`unsafe-eval` and shares `localStorage` with the hub's API key). Remove the empty `{}` file `fileForNewToken` leaves behind when a new token fails validation. Pin the GitHub Actions in `ci.yml` to commit SHAs. `guard-main.mjs` is regex-based and bypassable, so rely on branch protection.
+- [ ] Security follow-ups from the review: the remaining `zod` advisory (GHSA-mrhx-c7xc-m3w5) sits in `@figma/code-connect`'s nested copy, so re-run `npm audit` after each code-connect bump. Serve `/storybook` from a separate origin (it needs `unsafe-inline`/`unsafe-eval` and shares `localStorage` with the hub's API key). Remove the empty `{}` file `fileForNewToken` leaves behind when a new token fails validation. Pin the GitHub Actions in `ci.yml` to commit SHAs.
 - [ ] Versioning and releases, before the first npm publish: semver tags (`v0.2.0`), GitHub Releases, and Changesets or release-please to turn Conventional Commits into version bumps and `CHANGELOG.md`. Decide whether packages are versioned together or independently.
 
 ## Roadmap (from README)

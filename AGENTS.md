@@ -10,8 +10,20 @@ Connect the `lockin` MCP server (see `docs/mcp-server.md`), then:
 2. `get_component` → follow its `props`, `accessibility` and `usage` (do/dont/related/example) exactly.
 3. Custom styling uses semantic tokens only (`get_tokens` with prefixes like `color.text`, `space`, `typography`). No hex values, no base palette tokens.
 4. `check_contrast` for any new color pairing.
+5. Nothing fits? Don't keep a private workaround: file a proposal (MCP prompt `propose_to_lockin`, or `docs/propose.md`).
 
-Read `llms.txt` for the condensed version.
+Read `llms.txt` for the condensed version. Everything here works with any MCP-capable agent; nothing requires a specific AI tool.
+
+## Agent playbooks
+
+Multi-step procedures live in `docs/` as plain Markdown, so every agent follows the same steps. The hub also serves them (`get_doc`, `ds://docs/<slug>`) and as MCP prompts.
+
+| Playbook | MCP prompt | When |
+| --- | --- | --- |
+| `docs/propose.md` | `propose_to_lockin` | A product needs something Lock In doesn't have |
+| `docs/build-proposal.md` | `build_proposal` | A proposal is labelled `status:accepted` |
+
+Tool-specific shortcuts (for example Claude Code's `/ds-propose` and `/ds-build`) must stay thin wrappers that point at these files. Change the playbook, not the wrapper.
 
 ## Working in this repo
 
@@ -24,7 +36,8 @@ Read `llms.txt` for the condensed version.
 | Native component | `packages/react-native/src/components/<Name>.tsx` | `npm run typecheck -w @lockin/react-native` |
 | Stories | `apps/storybook/src/stories/{atoms,molecules,organisms}/` (components), `foundations/` | `npm run typecheck -w @lockin/storybook && npm test -w @lockin/storybook` (runs every story with axe) |
 | Hub server | `apps/server/src/` | `npm run typecheck -w @lockin/server && npm test -w @lockin/server` |
-| Docs | `docs/*.md` | — |
+| Docs and agent playbooks | `docs/*.md` | `npm test -w @lockin/server` (serves them and the MCP prompts) |
+| Proposals (LIP) | `proposals/<slug>.json`, `proposals/page/<slug>.html`; workflow `.github/workflows/proposals.yml` | `npm run validate:proposals && npm run test:proposals` |
 
 Rules:
 - Keep web and native props in sync and update the spec in the same change. Update the component's stories too.
@@ -41,7 +54,7 @@ Rules:
 
 ## Git workflow
 
-- Never commit or push to `main`. Start every change on a branch named `type/short-description` (`feat/`, `fix/`, `docs/`, `chore/`). A hook in `.claude/hooks/guard-main.mjs` blocks commits and pushes on `main` and force pushes.
+- Never commit or push to `main`. Start every change on a branch named `type/short-description` (`feat/`, `fix/`, `docs/`, `chore/`). Git hooks in `.githooks/` (enabled by `npm install`) block commits on `main`, pushes to `main` and force pushes, whatever tool runs git; GitHub branch protection backs them up. Claude Code also runs `.claude/hooks/guard-main.mjs`, which catches the same commands before they run. Don't bypass them with `--no-verify`.
 - Commit messages and PR titles use Conventional Commits: `type(scope): summary`, with `!` after the type for breaking changes. Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. CI rejects PR titles that don't match.
 - One logical change per commit; put the why in the body.
 - Land changes with a pull request (`gh pr create`), squash-merged, then delete the branch. The PR title becomes the commit on `main`, and the PR template lists what to check.

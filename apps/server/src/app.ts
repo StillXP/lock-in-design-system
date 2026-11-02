@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import express, { type NextFunction, type Request, type Response } from 'express';
-import { authenticate } from './auth.js';
+import { authenticate, requireRole } from './auth.js';
 import { config } from './config.js';
 import type { Db } from './db.js';
 import { createMcpServer } from './mcp.js';
@@ -63,6 +63,24 @@ export function createApp(store: DesignSystemStore, db: Db, opts: { publicRead?:
     },
     express.static(`${config.paths.docs}/diagrams`),
   );
+
+  // Proposal prototype pages, built from proposals/page/<slug>.html on request. They run inline scripts and load
+  // Google Fonts, so they get their own CSP, and `sandbox` gives them an opaque origin: page script can't read the
+  // hub's localStorage (where the web UI keeps its API key) or call the API with the viewer's credentials.
+  app.get('/proposals/:id/prototype', auth, requireRole('viewer'), (req, res, next) => {
+    try {
+      const html = store.proposalPrototype(String(req.params.id));
+      res
+        .set(
+          'Content-Security-Policy',
+          "sandbox allow-scripts; default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:",
+        )
+        .type('html')
+        .send(html);
+    } catch (err) {
+      next(err);
+    }
+  });
 
   // Static Storybook build, embedded by component pages as live examples. Storybook's preview needs
   // inline scripts and styles, so it gets its own CSP and may be framed, but only by the hub itself.

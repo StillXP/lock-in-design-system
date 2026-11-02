@@ -22,12 +22,14 @@ npm run validate:proposals                  # schema + token checks for every pr
 node proposals/build-page.mjs <slug> [out]  # prototype page: inlines arena tokens, base field CSS and the proposal
 ```
 
-`page/<slug>.html` holds the prototype page. The header, evidence, spec tables and questions are generated from the JSON. Only the "Try it" renderer is written per component. Copy an existing page to start a new one.
+`page/<slug>.html` holds the prototype page. The header, evidence, spec tables and questions are generated from the JSON. Only the "Try it" renderer is written per component. Copy an existing page to start a new one. The hub serves the built page at `/proposals/<slug>/prototype`; `build-page.mjs` writes the same page as one static file you can host anywhere.
 
 ## Filing one
 
-- **From any agent with the `lockin` MCP:** `list_proposals` to check for an existing one, then `submit_proposal` (or `add_proposal_evidence`). The hub assigns the id, validates, writes the file and opens the issue. See "Proposals" in `docs/mcp-server.md`.
-- **With Claude Code:** run `/ds-propose <name>` in Claude Code from any product repo. It checks for duplicates (`list_components`, `search_design_system`, the files here), drafts the spec from the stand-in, runs `check_contrast`, validates, builds and publishes the prototype, and opens the issue with the `proposal`, `status:proposed` and `kind:*` labels.
+The steps are in the [propose playbook](../docs/propose.md) and, once accepted, the [build playbook](../docs/build-proposal.md). They work with any agent.
+
+- **From any agent with the `lockin` MCP:** use the `propose_to_lockin` prompt, or follow the playbook: `list_proposals` to check for an existing one, then `submit_proposal` (or `add_proposal_evidence`). The hub assigns the id, validates, writes the file and opens the issue.
+- **Claude Code shortcut:** `/ds-propose <name>` (and `/ds-build LIP-NNN` after acceptance) run the same playbooks.
 - **By hand:** open an issue with the "Lock In proposal" template. A maintainer or agent turns it into a file.
 
 ## Automation (`.github/workflows/proposals.yml`)
@@ -35,13 +37,15 @@ node proposals/build-page.mjs <slug> [out]  # prototype page: inlines arena toke
 | When | What happens |
 | --- | --- |
 | The hub files a proposal (`submit_proposal`) | The issue it opens embeds the proposal file. The workflow writes it to `proposals/<slug>.json` and opens a PR. If the id was taken meanwhile, it takes the next free one and renames the issue. |
-| Someone files the issue form | With `CLAUDE_CODE_OAUTH_TOKEN`: Claude drafts the proposal file, validates it and opens the PR (only for the repo owner, members and collaborators, since issue text is untrusted). Without it: a comment asks for `/ds-propose #N` in Claude Code. |
-| `status:accepted` is added | The decision is recorded. With `CLAUDE_CODE_OAUTH_TOKEN`: Claude builds the component on `feat/<slug>` (spec, React, React Native, stories, docs, checks), opens a **draft** PR and moves the issue to `status:in-code`. Without it: a small PR records the decision and a comment asks for `/ds-build LIP-NNN` in Claude Code. |
+| Someone files the issue form | With a CI agent: it follows the propose playbook ("From an issue form"), drafts the proposal file, validates it and opens the PR (only for the repo owner, members and collaborators, since issue text is untrusted). Without one: a comment asks someone to run the playbook with their agent. |
+| `status:accepted` is added | The decision is recorded. With a CI agent: it follows the build playbook (code only) on `feat/<slug>` (spec, React, React Native, stories, docs, checks), opens a **draft** PR and moves the issue to `status:in-code`. Without one: a small PR records the decision and a comment asks someone to run the build playbook. |
 | `status:triage` / `status:declined` / `status:released` is added | A small PR updates the file's status (and decision). Declined and released close the issue; released also publishes Code Connect when `FIGMA_ACCESS_TOKEN` is set. |
 
 Secrets:
 - `PROPOSALS_BOT_TOKEN` (needed): a fine-grained token with contents, pull requests and issues write access. Without it the workflow falls back to `GITHUB_TOKEN`, which can't open PRs in this repo and whose PRs wouldn't trigger CI.
-- `CLAUDE_CODE_OAUTH_TOKEN` (optional): from `claude setup-token`. It runs the AI steps in CI on a Claude subscription, so no API credits are needed. Leave it out to do those steps in Claude Code sessions instead.
+- `CLAUDE_CODE_OAUTH_TOKEN` (optional): turns on the CI agent, which is Claude Code today (`claude setup-token`; runs on a Claude subscription). Leave it out to run those steps in a local agent session instead.
+
+The CI agent is swappable. The two agent steps only pass a prompt ("follow `docs/<playbook>.md`, with these CI limits") and an allow-list of commands. To use another agent, replace those steps' `uses:`/`with:` with that agent's GitHub Action, and point `HAS_AGENT` at its secret.
 - `FIGMA_ACCESS_TOKEN` (optional): Code Connect publish on release.
 
 The script steps live in `proposals/ci.mjs` (`npm run test:proposals`).

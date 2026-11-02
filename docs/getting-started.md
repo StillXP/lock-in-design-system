@@ -117,13 +117,9 @@ Native tokens are plain numbers (`t.space.md === 16`) and RN-ready shadow object
 
 ## 3. Connect your AI agent
 
-The hub server exposes everything over MCP. See [MCP server & API](./mcp-server.md). For Claude Code, the repo includes a `.mcp.json`; from the repo root:
+The hub server exposes everything over MCP, which works with any MCP-capable agent (Claude Code, Cursor, VS Code, Codex, Gemini CLI, or your own). Agents without MCP can use the REST API and `/llms.txt`. [MCP server & API](./mcp-server.md#connect) has the config for each client. Working in this repo with Claude Code, the checked-in `.mcp.json` already registers `lockin` (check with `claude mcp list`).
 
-```bash
-claude mcp list   # should show "lockin"
-```
-
-In another project, add:
+In another project, add this to your client's MCP config (most use this `mcpServers` shape):
 
 ```json
 {

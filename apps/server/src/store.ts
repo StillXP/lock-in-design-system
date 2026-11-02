@@ -13,9 +13,9 @@ import {
   type RawToken,
 } from '@lockin/tokens/lib/resolve';
 import { validateSpec } from '@lockin/specs/validate';
-import { loadProposals, nextProposalId, proposalIssueBody, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
+import { loadProposals, nextProposalId, proposalIssueBody, renderPrototype, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
 import { Marked } from 'marked';
-import { config } from './config.js';
+import { config, REPO_ROOT } from './config.js';
 import type { Db } from './db.js';
 import { diffJson, listChanges, logChange, markReleased, saveRelease, type DiffEntry } from './history.js';
 
@@ -399,17 +399,31 @@ export class DesignSystemStore {
       component: spec?.name as string | undefined,
       issue: i.issue,
       prototype: i.prototype,
+      prototypePage: this.prototypePage(slug),
     }));
   }
 
+  /** Hub path of a proposal's built prototype page, when it has a proposals/page/<slug>.html template. */
+  private prototypePage(slug: string) {
+    return existsSync(join(config.paths.proposals, 'page', `${slug}.html`)) ? `/proposals/${slug}/prototype` : undefined;
+  }
+
+  /** The built prototype page (HTML). Any agent or reviewer can open it; nothing needs publishing elsewhere. */
+  proposalPrototype(idOrSlug: string) {
+    const { slug } = this.proposal(idOrSlug);
+    const html = renderPrototype({ repoRoot: REPO_ROOT, proposalsDir: config.paths.proposals }, slug);
+    if (!html) throw new HttpError(404, `Proposal "${idOrSlug}" has no prototype page (proposals/page/${slug}.html)`);
+    return html;
+  }
+
   /** One proposal by id (LIP-001), slug (textarea) or component name. */
-  proposal(idOrSlug: string): Proposal & { slug: string } {
+  proposal(idOrSlug: string): Proposal & { slug: string; prototypePage?: string } {
     const key = idOrSlug.toLowerCase();
     const hit = loadProposals(config.paths.proposals).find(
       ({ slug, proposal: p }) => slug === key || p.intake.id.toLowerCase() === key || String(p.spec?.name ?? '').toLowerCase() === key,
     );
     if (!hit) throw new HttpError(404, `Proposal "${idOrSlug}" not found`);
-    return { ...hit.proposal, slug: hit.slug };
+    return { ...hit.proposal, slug: hit.slug, prototypePage: this.prototypePage(hit.slug) };
   }
 
   /**
@@ -465,7 +479,7 @@ export class DesignSystemStore {
   /** Append evidence to an open proposal (skips entries already listed for the same product and place). */
   addProposalEvidence(idOrSlug: string, evidence: ProposalIntake['evidence'], actor: string) {
     const current = this.proposal(idOrSlug);
-    const { slug, ...proposal } = current;
+    const { slug, prototypePage: _page, ...proposal } = current;
     if (['released', 'declined'].includes(proposal.intake.status)) {
       throw new HttpError(409, `${proposal.intake.id} is ${proposal.intake.status}. File a new proposal (kind "change" or "variant") instead.`);
     }
