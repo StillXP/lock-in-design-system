@@ -14,6 +14,11 @@ const root = mkdtempSync(join(tmpdir(), 'lockin-test-'));
 for (const rel of ['packages/tokens/src', 'packages/specs/components', 'packages/specs/schema', 'docs', 'proposals', 'design-system.json', 'llms.txt']) {
   cpSync(join(repo, rel), join(root, rel), { recursive: true });
 }
+// Prototype pages inline the built arena theme and the shared field CSS (run `npm run build` first).
+for (const rel of ['packages/tokens/dist/css/themes/arena.css', 'packages/react/src/styles/base.css']) {
+  mkdirSync(join(root, rel, '..'), { recursive: true });
+  cpSync(join(repo, rel), join(root, rel));
+}
 process.env.DS_REPO_ROOT = root;
 process.env.DS_DATA_DIR = join(root, 'data');
 // Never call GitHub from tests.
@@ -329,6 +334,27 @@ describe('proposals', () => {
       assert.equal(one.body.intake.id, 'LIP-001');
     }
     assert.equal((await api('GET', '/api/proposals/LIP-999', keys.viewer)).status, 404);
+  });
+
+  test('serves prototype pages from the hub, sandboxed', async () => {
+    const one = await api('GET', '/api/proposals/LIP-001', keys.viewer);
+    assert.equal(one.body.prototypePage, '/proposals/textarea/prototype');
+    const get = (path: string, key?: string) => fetch(`${base}${path}`, { headers: key ? { authorization: `Bearer ${key}` } : {} });
+    assert.equal((await get('/proposals/textarea/prototype')).status, 401, 'needs a key when public read is off');
+    const res = await get('/proposals/LIP-001/prototype', keys.viewer);
+    assert.equal(res.status, 200);
+    assert.match(res.headers.get('content-type') ?? '', /text\/html/);
+    assert.match(res.headers.get('content-security-policy') ?? '', /^sandbox allow-scripts;/);
+    const html = await res.text();
+    assert.ok(!html.includes('/*__TOKENS__*/') && !html.includes('/*__PROPOSAL__*/'), 'placeholders are filled');
+    assert.match(html, /--ds-color-/, 'inlines the token CSS');
+    const embedded = html.match(/const PROPOSAL = (.*);\r?\n/)?.[1] ?? '';
+    assert.ok(!embedded.includes('<'), 'proposal JSON escapes "<" so text cannot close the script');
+    assert.equal(JSON.parse(embedded).intake.id, 'LIP-001');
+    // Proposals without a page template have no prototype.
+    writeFileSync(join(root, 'proposals', 'no-page.json'), readFileSync(join(root, 'proposals', 'textarea.json'), 'utf8').replace('"LIP-001"', '"LIP-900"'));
+    assert.equal((await get('/proposals/no-page/prototype', keys.viewer)).status, 404);
+    rmSync(join(root, 'proposals', 'no-page.json'));
   });
 
   test('editors file proposals; the hub assigns the id, status and submitter', async () => {

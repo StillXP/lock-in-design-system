@@ -473,7 +473,7 @@ async function proposalView(slug) {
     `<p><a class="ds-link ds-link--subtle" href="#/proposals">Proposals</a></p>
     <h1>${esc(i.id)}: ${esc(i.title)}</h1>
     <p class="row">${tag(i.status, PROPOSAL_TONE[i.status])} ${tag(i.kind)} ${tag(`from ${i.submitted.from}`)}</p>
-    <p class="muted">Filed ${esc(i.submitted.date)} by ${esc(i.submitted.by)}${i.issue ? ` · ${extLink(i.issue, 'GitHub issue')}` : ''}${i.prototype ? ` · ${extLink(i.prototype, 'Prototype')}` : ''}</p>
+    <p class="muted">Filed ${esc(i.submitted.date)} by ${esc(i.submitted.by)}${i.issue ? ` · ${extLink(i.issue, 'GitHub issue')}` : ''}${p.prototypePage ? ` · <a class="ds-link" href="${esc(p.prototypePage)}" target="_blank" rel="noopener">Prototype<span class="ds-visually-hidden"> (opens in a new tab)</span></a>` : ''}${i.prototype ?` · ${extLink(i.prototype, p.prototypePage ? 'Prototype (external copy)' : 'Prototype')}` : ''}</p>
     ${componentLink}
     <h2>Problem</h2><p class="lead">${esc(i.problem)}</p>
     <h2>Evidence</h2>${table(`${i.id} evidence`, ['Product', 'Where', 'Note'], i.evidence.map((e) => [esc(e.product), e.link ? extLink(e.link, e.where) : esc(e.where), esc(e.note ?? '—')]))}
