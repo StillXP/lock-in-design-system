@@ -527,7 +527,7 @@ async function settingsView() {
       <div id="new-key"></div>
       ${table('API keys', ['Name', 'Role', 'Prefix', 'Created', 'Last used', 'Status', ''], keys.map((k) => [esc(k.name), esc(k.role), `<code>${esc(k.prefix)}…</code>`, esc(date(k.created_at)), esc(k.last_used_at ? date(k.last_used_at) : '—'), k.revoked_at ? tag('revoked', 'danger') : tag('active', 'success'), k.revoked_at ? '' : btn('Revoke', { variant: 'danger', size: 'sm', attrs: `data-revoke="${esc(k.id)}" aria-label="Revoke key ${esc(k.name)}"` })]))}
       <h3>Create a key</h3>
-      <form class="form" id="key-form">${field('Name', input('key-name', { required: true, placeholder: 'e.g. claude-agent, arena-app' }), { id: 'key-name' })}${field('Role', select('key-role', [['viewer', 'Viewer — read only'], ['editor', 'Editor — modify the system'], ['admin', 'Admin — releases + keys']]), { id: 'key-role' })}<div>${btn('Create key', { type: 'submit' })}</div></form>` : ''}`,
+      <form class="form" id="key-form">${field('Name', input('key-name', { required: true, placeholder: 'e.g. coding-agent, arena-app' }), { id: 'key-name' })}${field('Role', select('key-role', [['viewer', 'Viewer — read only'], ['editor', 'Editor — modify the system'], ['admin', 'Admin — releases + keys']]), { id: 'key-role' })}<div>${btn('Create key', { type: 'submit' })}</div></form>` : ''}`,
   );
   $('#sign-out').addEventListener('click', () => {
     localStorage.removeItem('ds-api-key');

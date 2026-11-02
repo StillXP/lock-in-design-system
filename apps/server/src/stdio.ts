@@ -1,4 +1,4 @@
-// MCP over stdio for local agents (Claude Code, Cursor, etc.).
+// MCP over stdio for local agents (any MCP client: Claude Code, Cursor, VS Code, Codex, ...).
 // Runs as the local user, so it is granted DS_STDIO_ROLE (default: editor).
 // IMPORTANT: stdout carries the protocol — log only to stderr.
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
