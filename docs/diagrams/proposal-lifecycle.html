@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How a proposal becomes a component · Lock In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #f4f5f7;
+      --color-ink:    #1c2028;
+      --color-muted:  #4b5260;
+      --color-accent: #2563eb;
+      --font-sans:  'Geist', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', 'Noto Serif', serif;
+      --font-mono:  'Geist Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1040px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; }
+    .caption { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--color-muted); max-width: 60ch; margin-bottom: 1.5rem; }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">State · Lifecycle phase map · Lock In Design System</p>
+    <h1>How a proposal becomes a component</h1>
+    <p class="caption">One JSON file and one GitHub issue per LIP. Only the owner moves it between phases, by adding a status label; the workflow does the paperwork and the building.</p>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="proposal-lifecycle-title proposal-lifecycle-desc">
+        <title id="proposal-lifecycle-title">How a proposal becomes a component</title>
+        <desc id="proposal-lifecycle-desc">Lifecycle of a Lock In proposal: filed through the hub or the issue form, it becomes a proposal file, then moves through triage, accepted, in code and released as the owner adds status labels, with an optional in-design detour and declined as the other outcome; the proposals workflow drafts files, builds accepted components and mirrors every status into the file.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5260"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6d28d9"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f4f5f7"/>
+
+        <!-- Bands -->
+        <rect x="16" y="40" width="968" height="116" rx="8" fill="rgba(28,32,40,0.025)" stroke="rgba(28,32,40,0.12)"/>
+        <rect x="16" y="204" width="968" height="112" rx="8" fill="rgba(28,32,40,0.025)" stroke="rgba(28,32,40,0.12)"/>
+        <rect x="16" y="328" width="968" height="124" rx="8" fill="rgba(28,32,40,0.025)" stroke="rgba(28,32,40,0.12)"/>
+        <rect x="16" y="464" width="968" height="112" rx="8" fill="rgba(28,32,40,0.025)" stroke="rgba(28,32,40,0.12)"/>
+        <g fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="end">
+          <text x="968" y="60">INTAKE</text>
+          <text x="968" y="222">PRIMARY PHASES</text>
+          <text x="968" y="346">OPTIONAL ROUTE</text>
+          <text x="968" y="482">OTHER OUTCOME</text>
+        </g>
+
+        <!-- Band notes -->
+        <g fill="#4b5260" font-size="13" font-style="italic" font-family="'Instrument Serif', 'Noto Serif', serif">
+          <text x="432" y="96">The hub embeds the proposal file in its issue, so the workflow only opens the PR.</text>
+          <text x="432" y="114">Form issues need drafting: Claude in CI, or /ds-propose in Claude Code.</text>
+          <text x="432" y="520">Each status label runs proposals.yml, which mirrors it into proposals/&lt;slug&gt;.json</text>
+          <text x="432" y="538">with a small PR. BUILD runs Claude in CI, or waits for /ds-build without a token.</text>
+        </g>
+
+        <!-- Transitions (drawn before states) -->
+        <!-- intake -->
+        <line x1="80" y1="140" x2="80" y2="232" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <path d="M256,140 V188 Q256,196 248,196 H136 Q128,196 128,204 V232" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- primary rail -->
+        <line x1="172" y1="266" x2="232" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <line x1="368" y1="266" x2="428" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <line x1="564" y1="266" x2="624" y2="266" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="760" y1="266" x2="820" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <!-- optional detour -->
+        <path d="M476,300 V384 Q476,392 484,392 H520" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <path d="M656,392 H704 Q712,392 712,384 V300" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- decline -->
+        <line x1="300" y1="300" x2="300" y2="496" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+
+        <!-- Transition labels on opaque masks -->
+        <g font-size="7" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">
+          <rect x="28" y="180" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="50" y="189" fill="#656c7a">AUTO PR</text>
+          <rect x="264" y="158" width="36" height="12" rx="2" fill="#f4f5f7"/><text x="282" y="167" fill="#656c7a">DRAFT</text>
+          <rect x="180" y="246" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="202" y="255" fill="#6d28d9">REVIEW</text>
+          <rect x="376" y="246" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="398" y="255" fill="#6d28d9">ACCEPT</text>
+          <rect x="576" y="246" width="36" height="12" rx="2" fill="#f4f5f7"/><text x="594" y="255" fill="#656c7a">BUILD</text>
+          <rect x="766" y="246" width="48" height="12" rx="2" fill="#f4f5f7"/><text x="790" y="255" fill="#6d28d9">RELEASE</text>
+          <rect x="400" y="336" width="68" height="12" rx="2" fill="#f4f5f7"/><text x="434" y="345" fill="#656c7a">FIGMA FIRST</text>
+          <rect x="720" y="336" width="60" height="12" rx="2" fill="#f4f5f7"/><text x="750" y="345" fill="#656c7a">THEN CODE</text>
+          <rect x="308" y="392" width="48" height="12" rx="2" fill="#f4f5f7"/><text x="332" y="401" fill="#6d28d9">DECLINE</text>
+        </g>
+
+        <!-- Intake sources -->
+        <g text-anchor="middle">
+          <g>
+            <rect x="36" y="76" width="152" height="64" rx="6" fill="#f4f5f7"/>
+            <rect x="36" y="76" width="152" height="64" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+            <rect x="44" y="82" width="24" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+            <text x="56" y="91" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" letter-spacing="0.08em">HUB</text>
+            <text x="112" y="112" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Hub or agent</text>
+            <text x="112" y="128" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">submit_proposal</text>
+          </g>
+          <g>
+            <rect x="232" y="76" width="152" height="64" rx="6" fill="#f4f5f7"/>
+            <rect x="232" y="76" width="152" height="64" rx="6" fill="rgba(75,82,96,0.10)" stroke="#656c7a" stroke-width="1"/>
+            <rect x="240" y="82" width="40" height="12" rx="2" fill="none" stroke="rgba(28,32,40,0.3)" stroke-width="0.8"/>
+            <text x="260" y="91" fill="#656c7a" font-size="7" font-family="'Geist Mono', ui-monospace, monospace" font-weight="500" letter-spacing="0.08em">GITHUB</text>
+            <text x="308" y="112" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Issue form</text>
+            <text x="308" y="128" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">proposal template</text>
+          </g>
+        </g>
+
+        <!-- Primary rail -->
+        <g text-anchor="middle">
+          <g>
+            <rect x="36" y="232" width="136" height="68" rx="8" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+            <text x="104" y="262" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Proposed</text>
+            <text x="104" y="280" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">proposals/&lt;slug&gt;.json</text>
+          </g>
+          <g>
+            <rect x="232" y="232" width="136" height="68" rx="8" fill="#f4f5f7"/>
+            <rect x="232" y="232" width="136" height="68" rx="8" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1.2"/>
+            <text x="300" y="262" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Triage</text>
+            <text x="300" y="280" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">owner checklist</text>
+          </g>
+          <g>
+            <rect x="428" y="232" width="136" height="68" rx="8" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+            <text x="496" y="262" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Accepted</text>
+            <text x="496" y="280" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">decision recorded</text>
+          </g>
+          <g>
+            <rect x="624" y="232" width="136" height="68" rx="8" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+            <text x="692" y="262" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">In code</text>
+            <text x="692" y="280" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">draft PR feat/&lt;slug&gt;</text>
+          </g>
+          <g>
+            <rect x="820" y="232" width="136" height="68" rx="8" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+            <circle cx="840" cy="252" r="7" fill="none" stroke="#1c2028" stroke-width="1"/>
+            <circle cx="840" cy="252" r="4" fill="#1c2028"/>
+            <text x="888" y="262" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Released</text>
+            <text x="888" y="280" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">library published</text>
+          </g>
+        </g>
+
+        <!-- Optional state -->
+        <g text-anchor="middle">
+          <rect x="520" y="360" width="136" height="64" rx="8" fill="#f4f5f7"/>
+          <rect x="520" y="360" width="136" height="64" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="588" y="388" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">In design</text>
+          <text x="588" y="406" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Figma, set by hand</text>
+        </g>
+
+        <!-- Terminal outcome -->
+        <g text-anchor="middle">
+          <rect x="232" y="496" width="136" height="64" rx="8" fill="#ffffff" stroke="#1c2028" stroke-width="1"/>
+          <circle cx="252" cy="516" r="7" fill="none" stroke="#1c2028" stroke-width="1"/>
+          <circle cx="252" cy="516" r="4" fill="#1c2028"/>
+          <text x="300" y="526" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Declined</text>
+          <text x="300" y="544" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">issue closed</text>
+        </g>
+
+        <!-- Legend -->
+        <line x1="32" y1="596" x2="968" y2="596" stroke="rgba(28,32,40,0.1)" stroke-width="0.8"/>
+        <text x="32" y="620" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
+        <g transform="translate(104,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner adds status label</text></g>
+        <g transform="translate(296,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Workflow or Claude</text></g>
+        <g transform="translate(460,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Optional route</text></g>
+        <g transform="translate(596,612)"><rect x="0" y="0" width="20" height="12" rx="2" fill="rgba(37,99,235,0.08)" stroke="#2563eb"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner gate</text></g>
+        <g transform="translate(708,612)"><circle cx="8" cy="6" r="6" fill="none" stroke="#1c2028"/><circle cx="8" cy="6" r="3.5" fill="#1c2028"/><text x="24" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Issue closed</text></g>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
