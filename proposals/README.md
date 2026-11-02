@@ -30,6 +30,24 @@ node proposals/build-page.mjs <slug> [out]  # prototype page: inlines arena toke
 - **With Claude Code:** run `/ds-propose <name>` in Claude Code from any product repo. It checks for duplicates (`list_components`, `search_design_system`, the files here), drafts the spec from the stand-in, runs `check_contrast`, validates, builds and publishes the prototype, and opens the issue with the `proposal`, `status:proposed` and `kind:*` labels.
 - **By hand:** open an issue with the "Lock In proposal" template. A maintainer or agent turns it into a file.
 
+## Automation (`.github/workflows/proposals.yml`)
+
+| When | What happens |
+| --- | --- |
+| The hub files a proposal (`submit_proposal`) | The issue it opens embeds the proposal file. The workflow writes it to `proposals/<slug>.json` and opens a PR. If the id was taken meanwhile, it takes the next free one and renames the issue. |
+| Someone files the issue form | With `CLAUDE_CODE_OAUTH_TOKEN`: Claude drafts the proposal file, validates it and opens the PR (only for the repo owner, members and collaborators, since issue text is untrusted). Without it: a comment asks for `/ds-propose #N` in Claude Code. |
+| `status:accepted` is added | The decision is recorded. With `CLAUDE_CODE_OAUTH_TOKEN`: Claude builds the component on `feat/<slug>` (spec, React, React Native, stories, docs, checks), opens a **draft** PR and moves the issue to `status:in-code`. Without it: a small PR records the decision and a comment asks for `/ds-build LIP-NNN` in Claude Code. |
+| `status:triage` / `status:declined` / `status:released` is added | A small PR updates the file's status (and decision). Declined and released close the issue; released also publishes Code Connect when `FIGMA_ACCESS_TOKEN` is set. |
+
+Secrets:
+- `PROPOSALS_BOT_TOKEN` (needed): a fine-grained token with contents, pull requests and issues write access. Without it the workflow falls back to `GITHUB_TOKEN`, which can't open PRs in this repo and whose PRs wouldn't trigger CI.
+- `CLAUDE_CODE_OAUTH_TOKEN` (optional): from `claude setup-token`. It runs the AI steps in CI on a Claude subscription, so no API credits are needed. Leave it out to do those steps in Claude Code sessions instead.
+- `FIGMA_ACCESS_TOKEN` (optional): Code Connect publish on release.
+
+The script steps live in `proposals/ci.mjs` (`npm run test:proposals`).
+
+Still manual on purpose: triage decisions, merging, the Figma library component and its publish, and adding `status:released` once it's published.
+
 ## Triage checklist
 
 1. Is it reused, or likely to be, in more than one product or flow? If not, it stays a product pattern.
