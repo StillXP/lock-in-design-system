@@ -1,0 +1,389 @@
+{
+  "$schema": "../packages/specs/schema/proposal.schema.json",
+  "intake": {
+    "id": "LIP-002",
+    "title": "Stepper: progress through a sequence of steps",
+    "kind": "component",
+    "status": "proposed",
+    "submitted": {
+      "by": "agent (on behalf of Andrew Still)",
+      "date": "2026-11-01",
+      "from": "VolleyXP"
+    },
+    "problem": "Multi-step flows need to show where the person is, what is done and what is left. Lock In has Tabs, whose own guidance says not to use it for sequential steps, and nothing else. Products hand-build a numbered rail on desktop and a “Step 1 of 3” label on mobile, each with its own states, keyboard behaviour and screen reader wording.",
+    "evidence": [
+      {
+        "product": "VolleyXP",
+        "where": "Bracket Creator wizard: vertical step rail (Details, Venue, Review) with a progress bar, and a compact step counter on small screens",
+        "link": "https://www.figma.com/design/plq0P5qnNJP9HJ5zZGpUVk/VolleyXP?node-id=265-176",
+        "note": "Step rail in the Bracket Creator design (Details, Venue, Review) with progress bar, and a compact counter on small screens. Design export: docs/design/Details _ Venue _ Review.html in the volley repo. Rail steps are buttons with data-state current / todo; done is not designed yet."
+      },
+      {
+        "product": "VolleyXP",
+        "where": "/create demo wizard in packages/app/src/App.tsx",
+        "note": "Today it is only an overline, “Step 1 of 3”, with no list of steps, no done state and no way back to an earlier step."
+      },
+      {
+        "product": "VolleyXP",
+        "where": "Event setup (next step after Create tournament) and team registration",
+        "note": "Planned multi-step flows that need the same indicator."
+      },
+      {
+        "product": "Lock In (generic)",
+        "where": "Any checkout, onboarding or setup flow",
+        "note": "Standard component in Primer, Carbon (Progress indicator), Polaris, Material (Stepper) and Spectrum."
+      }
+    ],
+    "closestExisting": [
+      {
+        "name": "Tabs",
+        "whyNotExtend": "Tabs switch between peer views and use the tablist pattern: one tab stop, arrow keys, panels. Steps are ordered, have done / current / upcoming states and are a list of status, not a set of panels. Tabs' own usage guidance says “Don't use Tabs for sequential steps; use a stepper / wizard”."
+      },
+      {
+        "name": "Tag",
+        "whyNotExtend": "Tag is a static label with no position, order or interaction, so it cannot carry the sequence or a current-step state."
+      }
+    ],
+    "standIn": {
+      "description": "VolleyXP wizard rail from the Bracket Creator design (numbered circle, title, sub-label per step; progress bar and text under the list) and, in code, the “Step N of 3” overline in App.tsx.",
+      "figma": "https://www.figma.com/design/plq0P5qnNJP9HJ5zZGpUVk/VolleyXP?node-id=265-176"
+    },
+    "figmaApi": [
+      {
+        "property": "orientation",
+        "type": "VARIANT",
+        "values": [
+          "vertical",
+          "horizontal",
+          "compact"
+        ],
+        "default": "vertical",
+        "mapsTo": "orientation"
+      },
+      {
+        "property": "current",
+        "type": "VARIANT",
+        "values": [
+          "1",
+          "2",
+          "3"
+        ],
+        "default": "1",
+        "mapsTo": "value (index of the current step)"
+      },
+      {
+        "property": "showDescription",
+        "type": "BOOLEAN",
+        "default": true,
+        "mapsTo": "items[].description"
+      },
+      {
+        "property": "showProgress",
+        "type": "BOOLEAN",
+        "default": false,
+        "mapsTo": "showProgress"
+      },
+      {
+        "property": "Stepper / Step: label",
+        "type": "TEXT",
+        "default": "Details",
+        "mapsTo": "items[].label"
+      },
+      {
+        "property": "Stepper / Step: description",
+        "type": "TEXT",
+        "default": "Name, dates, description",
+        "mapsTo": "items[].description"
+      },
+      {
+        "property": "Stepper / Step: state",
+        "type": "VARIANT",
+        "values": [
+          "complete",
+          "current",
+          "upcoming",
+          "hover",
+          "focus",
+          "disabled"
+        ],
+        "default": "upcoming",
+        "mapsTo": "derived from value; disabled is items[].disabled"
+      }
+    ],
+    "contrast": [
+      {
+        "foreground": "color.text.inverse",
+        "background": "color.intent.primary.bg",
+        "ratio": 5.17,
+        "passes": "AA text, light (dark 8.26)"
+      },
+      {
+        "foreground": "color.text.secondary",
+        "background": "color.background.subtle",
+        "ratio": 7.2,
+        "passes": "AA text, light"
+      },
+      {
+        "foreground": "color.border.strong",
+        "background": "color.background.subtle",
+        "ratio": 4.84,
+        "passes": "AA non-text 3:1, light"
+      }
+    ],
+    "openQuestions": [],
+    "prototype": "https://claude.ai/artifact/4EQ8sgEQg59NCJ8xyzav5R",
+    "issue": "https://github.com/StillXP/lock-in-design-system/issues/29",
+    "resolved": [
+      {
+        "question": "Should a completed step be clickable by default (go back), or only when onValueChange is passed?",
+        "answer": "Keep finished steps clickable for easy navigation back, as Carbon and Material do for linear flows. They become buttons when onValueChange is passed; without it the Stepper is a read-only indicator. Upcoming steps are never clickable.",
+        "by": "Andrew Still",
+        "date": "2026-11-02"
+      },
+      {
+        "question": "Is linear-only enough, or do products need a non-linear mode?",
+        "answer": "Linear only for now. Only complete and current steps can be chosen.",
+        "by": "Andrew Still",
+        "date": "2026-11-02"
+      },
+      {
+        "question": "Error state on a step?",
+        "answer": "Not in this version. Validation belongs on the form and blocks Next, so a linear Stepper never has a step with errors to show. Revisit if a non-linear mode is added.",
+        "by": "Andrew Still",
+        "date": "2026-11-02"
+      },
+      {
+        "question": "Compact orientation: switch by container width, or the product chooses?",
+        "answer": "Responsive to width. The Stepper switches to compact below a container width (compactBelow, default 480px) using a container query, so it follows the space it is placed in rather than the viewport.",
+        "by": "Andrew Still",
+        "date": "2026-11-02"
+      },
+      {
+        "question": "Native: does it only need horizontal and compact?",
+        "answer": "Yes for now. Native supports horizontal and compact; vertical falls back to horizontal.",
+        "by": "Andrew Still",
+        "date": "2026-11-02"
+      }
+    ]
+  },
+  "spec": {
+    "name": "Stepper",
+    "slug": "stepper",
+    "import": {
+      "web": "import { Stepper } from '@lockin/react';",
+      "native": "import { Stepper } from '@lockin/react-native';"
+    },
+    "status": "experimental",
+    "version": "0.1.0",
+    "category": "navigation",
+    "level": "molecule",
+    "purpose": "Shows progress through an ordered sequence of steps (Details, Venue, Review): which are done, which one is current and what is left. Optionally lets people go back to a finished step.",
+    "props": [
+      {
+        "name": "items",
+        "type": "Array<{ id: string; label: ReactNode; description?: ReactNode; disabled?: boolean }>",
+        "required": true,
+        "description": "The steps, in order."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "description": "Id of the current step. Steps before it are complete, steps after it are upcoming."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(id: string) => void",
+        "required": false,
+        "description": "Makes complete steps buttons that go back to that step. Without it the Stepper is a read-only indicator."
+      },
+      {
+        "name": "orientation",
+        "type": "'vertical' | 'horizontal' | 'compact'",
+        "default": "vertical",
+        "required": false,
+        "description": "vertical rail, horizontal row, or compact “Step 2 of 3” with the current label. Below compactBelow the Stepper renders compact whatever this is set to. Native supports horizontal and compact; vertical falls back to horizontal."
+      },
+      {
+        "name": "compactBelow",
+        "type": "number",
+        "default": 480,
+        "required": false,
+        "description": "Container width in px below which the Stepper renders compact. Set 0 to turn the switch off.",
+        "platforms": [
+          "web"
+        ]
+      },
+      {
+        "name": "showProgress",
+        "type": "boolean",
+        "default": false,
+        "required": false,
+        "description": "Show a thin progress bar and “2 of 3 complete” text under the steps (always on in compact)."
+      },
+      {
+        "name": "aria-label / accessibilityLabel",
+        "type": "string",
+        "required": true,
+        "description": "Names the list, for example “Create tournament progress”."
+      }
+    ],
+    "states": [
+      {
+        "name": "complete",
+        "description": "Filled circle with a check icon, primary text. A button when onValueChange is set."
+      },
+      {
+        "name": "current",
+        "description": "Filled brand circle with the step number, semibold label, aria-current=\"step\"."
+      },
+      {
+        "name": "upcoming",
+        "description": "Outlined circle with the number, secondary text. Not interactive."
+      },
+      {
+        "name": "hover",
+        "description": "Complete steps only: label underlined."
+      },
+      {
+        "name": "focus-visible",
+        "description": "Focus ring around the step button."
+      },
+      {
+        "name": "disabled",
+        "description": "Disabled text; skipped by Tab."
+      }
+    ],
+    "tokens": [
+      {
+        "token": "color.intent.primary.bg",
+        "usage": "Filled circle (current and complete)."
+      },
+      {
+        "token": "color.text.inverse",
+        "usage": "Number or check inside the filled circle."
+      },
+      {
+        "token": "color.border.strong",
+        "usage": "Outline of an upcoming circle (≥3:1)."
+      },
+      {
+        "token": "color.border.subtle",
+        "usage": "Connector line and progress track."
+      },
+      {
+        "token": "color.text.primary",
+        "usage": "Current and complete labels."
+      },
+      {
+        "token": "color.text.secondary",
+        "usage": "Upcoming labels and descriptions."
+      },
+      {
+        "token": "color.text.disabled",
+        "usage": "Disabled step."
+      },
+      {
+        "token": "color.focus.ring",
+        "usage": "Focus ring."
+      },
+      {
+        "token": "space.sm",
+        "usage": "Gap between circle and text."
+      },
+      {
+        "token": "space.md",
+        "usage": "Gap between steps."
+      },
+      {
+        "token": "border.width.thin",
+        "usage": "Upcoming circle outline and connector."
+      },
+      {
+        "token": "typography.label.md",
+        "usage": "Step label."
+      },
+      {
+        "token": "typography.body.sm",
+        "usage": "Description and progress text."
+      }
+    ],
+    "accessibility": {
+      "role": "ordered list (ol > li); current step has aria-current=\"step\"; interactive steps are buttons",
+      "keyboard": [
+        {
+          "keys": "Tab / Shift+Tab",
+          "action": "Move through the complete steps that are buttons. Current and upcoming steps are not focusable."
+        },
+        {
+          "keys": "Enter / Space",
+          "action": "Go back to the focused complete step (calls onValueChange)."
+        }
+      ],
+      "screenReader": [
+        "The list is announced with its name and item count. Each step reads “Step 2 of 3, Venue, current” using visually hidden text for the position and state.",
+        "A change of step is announced by the page, not the Stepper: move focus to the new step's heading."
+      ],
+      "focus": "Focus ring around the step button (focus-visible). There is no roving tabindex: steps are an ordered list, not a composite widget.",
+      "touchTarget": "At least 44px tall on touch for interactive steps.",
+      "wcag": [
+        "1.3.1 Info and Relationships",
+        "1.4.1 Use of Color",
+        "1.4.10 Reflow",
+        "1.4.11 Non-text Contrast",
+        "2.1.1 Keyboard",
+        "2.4.7 Focus Visible",
+        "2.4.8 Location",
+        "4.1.2 Name, Role, Value"
+      ],
+      "notes": [
+        "There is no WAI-ARIA APG pattern for a stepper. This follows the ordered-list-with-aria-current approach used by GOV.UK and Carbon.",
+        "State is shown by the check icon, the number and weight, never by color alone.",
+        "Do not use role=\"tablist\": the steps do not own panels."
+      ]
+    },
+    "variants": [
+      {
+        "name": "vertical",
+        "description": "Rail with connector lines, label and description per step.",
+        "useWhen": "Desktop wizards with a side rail."
+      },
+      {
+        "name": "horizontal",
+        "description": "Row of steps above the form.",
+        "useWhen": "Short flows (up to 5 steps) in a single column."
+      },
+      {
+        "name": "compact",
+        "description": "“Step 2 of 3”, the current label and a thin bar.",
+        "useWhen": "Mobile or any narrow container; applied automatically below compactBelow."
+      }
+    ],
+    "usage": {
+      "do": [
+        "Use for flows with a known, ordered set of 3 to 7 steps.",
+        "Keep labels to one or two words and put detail in the description.",
+        "Pass onValueChange only if going back keeps the entered data."
+      ],
+      "dont": [
+        "Don't use for switching views; use Tabs.",
+        "Don't use for a single long form; use headings.",
+        "Don't let people jump ahead to an upcoming step."
+      ],
+      "related": [
+        {
+          "name": "Tabs",
+          "reason": "Switching between peer views of the same context."
+        },
+        {
+          "name": "Button",
+          "reason": "Next and Back actions live outside the Stepper."
+        }
+      ],
+      "example": {
+        "web": "<Stepper\n  aria-label=\"Create tournament progress\"\n  value=\"venue\"\n  onValueChange={setStep}\n  items={[\n    { id: 'details', label: 'Details', description: 'Name, dates, description' },\n    { id: 'venue', label: 'Venue', description: 'Location and courts' },\n    { id: 'review', label: 'Review', description: 'Check and create' },\n  ]}\n/>",
+        "native": "<Stepper accessibilityLabel=\"Create tournament progress\" orientation=\"compact\" value={step} items={steps} />"
+      }
+    }
+  }
+}
