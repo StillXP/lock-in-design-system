@@ -22,8 +22,9 @@
     "mcp": "npm run mcp -w @lockin/server",
     "storybook": "npm run dev -w @lockin/storybook",
     "build:storybook": "npm run build -w @lockin/storybook",
-    "test": "npm test -w @lockin/server && npm test -w @lockin/specs && npm test -w @lockin/storybook",
-    "validate:proposals": "node proposals/validate.mjs"
+    "test": "npm test -w @lockin/server && npm test -w @lockin/specs && npm test -w @lockin/storybook && npm run test:proposals",
+    "validate:proposals": "node proposals/validate.mjs",
+    "test:proposals": "node --test proposals/ci.test.mjs"
   },
   "engines": {
     "node": ">=22.13"
