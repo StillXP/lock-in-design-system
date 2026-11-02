@@ -34,7 +34,7 @@
     <div class="diagram-container">
       <svg viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="proposal-lifecycle-title proposal-lifecycle-desc">
         <title id="proposal-lifecycle-title">How a proposal becomes a component</title>
-        <desc id="proposal-lifecycle-desc">Lifecycle of a Lock In proposal: filed through the hub or the issue form, it becomes a proposal file, then moves through triage, accepted, in code and released as the owner adds status labels, with an optional in-design detour and declined as the other outcome; the proposals workflow drafts files, builds accepted components and mirrors every status into the file.</desc>
+        <desc id="proposal-lifecycle-desc">Lifecycle of a Lock In proposal: filed through the hub or the issue form, it becomes a proposal file, then moves through triage, accepted, in code and released as the owner adds status labels, with a required Figma parity gate before release (library page with Docs and Props frames, a props table row per prop, the spec figma mapping and Code Connect) and declined as the other outcome; the proposals workflow drafts files, builds accepted components and mirrors every status into the file.</desc>
         <defs>
           <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4b5260"/></marker>
           <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
@@ -50,14 +50,18 @@
         <g fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="end">
           <text x="968" y="60">INTAKE</text>
           <text x="968" y="222">PRIMARY PHASES</text>
-          <text x="968" y="346">OPTIONAL ROUTE</text>
           <text x="968" y="482">OTHER OUTCOME</text>
+          <text x="32" y="346" text-anchor="start">REQUIRED BEFORE RELEASE</text>
         </g>
 
         <!-- Band notes -->
         <g fill="#4b5260" font-size="13" font-style="italic" font-family="'Instrument Serif', 'Noto Serif', serif">
           <text x="432" y="96">The hub embeds the proposal file in its issue, so the workflow only opens the PR.</text>
           <text x="432" y="114">Form issues need drafting: a CI agent, or any agent running docs/propose.md.</text>
+          <text x="376" y="368">Released is refused until the component</text>
+          <text x="376" y="384">is in the Figma library as well as in code.</text>
+          <text x="376" y="400">Figma first (in-design) or after the code;</text>
+          <text x="376" y="416">check-release lists anything missing.</text>
           <text x="432" y="520">Each status label runs proposals.yml, which mirrors it into proposals/&lt;slug&gt;.json</text>
           <text x="432" y="538">with a small PR. BUILD runs a CI agent, or waits for docs/build-proposal.md.</text>
         </g>
@@ -70,10 +74,9 @@
         <line x1="172" y1="266" x2="232" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
         <line x1="368" y1="266" x2="428" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
         <line x1="564" y1="266" x2="624" y2="266" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <line x1="760" y1="266" x2="820" y2="266" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-        <!-- optional detour -->
-        <path d="M476,300 V384 Q476,392 484,392 H520" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-        <path d="M656,392 H704 Q712,392 712,384 V300" fill="none" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- release goes through the Figma parity gate -->
+        <path d="M660,300 V392 H688" fill="none" stroke="#4b5260" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <path d="M888,392 H912 Q920,392 920,384 V304" fill="none" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
         <!-- decline -->
         <line x1="300" y1="300" x2="300" y2="496" stroke="#6d28d9" stroke-width="1.2" marker-end="url(#arrow-link)"/>
 
@@ -84,9 +87,8 @@
           <rect x="180" y="246" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="202" y="255" fill="#6d28d9">REVIEW</text>
           <rect x="376" y="246" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="398" y="255" fill="#6d28d9">ACCEPT</text>
           <rect x="576" y="246" width="36" height="12" rx="2" fill="#f4f5f7"/><text x="594" y="255" fill="#656c7a">BUILD</text>
-          <rect x="766" y="246" width="48" height="12" rx="2" fill="#f4f5f7"/><text x="790" y="255" fill="#6d28d9">RELEASE</text>
-          <rect x="400" y="336" width="68" height="12" rx="2" fill="#f4f5f7"/><text x="434" y="345" fill="#656c7a">FIGMA FIRST</text>
-          <rect x="720" y="336" width="60" height="12" rx="2" fill="#f4f5f7"/><text x="750" y="345" fill="#656c7a">THEN CODE</text>
+          <rect x="638" y="336" width="44" height="12" rx="2" fill="#f4f5f7"/><text x="660" y="345" fill="#656c7a">FIGMA</text>
+          <rect x="896" y="358" width="48" height="12" rx="2" fill="#f4f5f7"/><text x="920" y="367" fill="#6d28d9">RELEASE</text>
           <rect x="308" y="392" width="48" height="12" rx="2" fill="#f4f5f7"/><text x="332" y="401" fill="#6d28d9">DECLINE</text>
         </g>
 
@@ -142,12 +144,13 @@
           </g>
         </g>
 
-        <!-- Optional state -->
+        <!-- Required gate -->
         <g text-anchor="middle">
-          <rect x="520" y="360" width="136" height="64" rx="8" fill="#f4f5f7"/>
-          <rect x="520" y="360" width="136" height="64" rx="8" fill="rgba(28,32,40,0.02)" stroke="rgba(28,32,40,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
-          <text x="588" y="388" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">In design</text>
-          <text x="588" y="406" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Figma, set by hand</text>
+          <rect x="692" y="356" width="196" height="76" rx="8" fill="#f4f5f7"/>
+          <rect x="692" y="356" width="196" height="76" rx="8" fill="rgba(37,99,235,0.08)" stroke="#2563eb" stroke-width="1.2"/>
+          <text x="790" y="380" fill="#1c2028" font-size="12" font-weight="600" font-family="'Geist', system-ui, sans-serif">Figma parity</text>
+          <text x="790" y="398" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">page · Docs · Props table</text>
+          <text x="790" y="414" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">spec figma · Code Connect</text>
         </g>
 
         <!-- Terminal outcome -->
@@ -164,8 +167,7 @@
         <text x="32" y="620" fill="#4b5260" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
         <g transform="translate(104,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#6d28d9" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner adds status label</text></g>
         <g transform="translate(296,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Workflow or agent</text></g>
-        <g transform="translate(460,612)"><line x1="0" y1="6" x2="20" y2="6" stroke="#4b5260" stroke-width="1.2" stroke-dasharray="5,4"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Optional route</text></g>
-        <g transform="translate(596,612)"><rect x="0" y="0" width="20" height="12" rx="2" fill="rgba(37,99,235,0.08)" stroke="#2563eb"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Owner gate</text></g>
+        <g transform="translate(460,612)"><rect x="0" y="0" width="20" height="12" rx="2" fill="rgba(37,99,235,0.08)" stroke="#2563eb"/><text x="28" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Gate: owner review or required check</text></g>
         <g transform="translate(708,612)"><circle cx="8" cy="6" r="6" fill="none" stroke="#1c2028"/><circle cx="8" cy="6" r="3.5" fill="#1c2028"/><text x="24" y="9" fill="#4b5260" font-size="9" font-family="'Geist Mono', ui-monospace, monospace">Issue closed</text></g>
       </svg>
     </div>

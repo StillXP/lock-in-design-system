@@ -45,6 +45,7 @@ Rules:
 - `npm run check:figma -w @lockin/specs` compares each Code Connect template in `packages/react/figma/` with its spec's `figma.props` (property names, Figma types, variant values) and runs in CI. Change a Figma property in the spec and its template together.
 - Every spec prop needs a row in `figma.props` (validation fails otherwise), and the "Props / <Name>" frame on the component's Figma page must match it. Adding a prop means a new row, with status `code-only` if Figma has no equivalent. See "Figma props mapping" in `docs/components.md`.
 - Every component spec has a `level` (`atom`, `molecule` or `organism`; see `docs/components.md`). Its stories are titled `<Atoms|Molecules|Organisms>/<Name>` and filed in the matching `stories/` folder. A server test enforces this.
+- A component proposal ships in Figma and in code, or not at all. `status:released` is refused until the library page (Docs and Props frames), `figma.props` and the Code Connect template exist. See "Acceptance criteria" in `docs/build-proposal.md`.
 - Never lower a contrast pair; if the checker fails, fix the token mapping, not the check.
 - Component CSS may only reference `--ds-*` variables.
 - Bump the spec `version` when editing specs by hand (major: removed/changed props; minor: additions; patch: other).

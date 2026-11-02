@@ -2,7 +2,7 @@
 
 > Agent playbook: turn an accepted Lock In proposal (LIP) into a shipped component, in code and in the Figma library, with any agent.
 
-This is the procedure an AI agent (or a person) follows once a proposal is labelled `status:accepted`. It works with any agent that can edit files, run `npm` and use `git`/`gh`. The Figma half also needs a Figma integration that can edit the library file (for example Figma's MCP server). The same steps are available as the MCP prompt `build_proposal`.
+This is the procedure an AI agent (or a person) follows once a proposal is labelled `status:accepted`. A component ships in both the code and the Figma library, or it doesn't ship. The Figma half is required, not optional (see [Acceptance criteria](#acceptance-criteria)). It works with any agent that can edit files, run `npm` and use `git`/`gh`. The Figma half also needs a Figma integration that can edit the library file (for example Figma's MCP server). The same steps are available as the MCP prompt `build_proposal`.
 
 Read `AGENTS.md`, "Adding a component" in [Contributing](./contributing.md) and `proposals/README.md` first. PR #23 (LIP-001 Textarea) is the reference build.
 
@@ -24,9 +24,9 @@ Read `AGENTS.md`, "Adding a component" in [Contributing](./contributing.md) and 
 5. **Docs:** add a row in `docs/components.md`, add the component to `llms.txt`, and bump the component count in `apps/server/test/api.test.ts`.
 6. **Checks:** `npm run check`, `npm test -w @lockin/specs`, `npm test -w @lockin/server`, `npm run validate:proposals`, then `npm run build` (includes the story and axe tests). Fix failures until they pass. On Windows, if vitest crashes on start with an access violation, rerun it once before treating it as a failure.
 
-## 2. Figma library
+## 2. Figma library (required)
 
-Needs a person's Figma access, so CI never does this half. Library file key: `1dgB7LeRgTrVIenTmmrlvr`.
+Needs a person's Figma access, so CI never does this half, but the proposal can't be released without it. Do it before the code (`status:in-design`) or after it (on the `in-code` PR, or a follow-up PR before release). Library file key: `1dgB7LeRgTrVIenTmmrlvr`.
 
 1. Create the `<Name>` page after its closest sibling, and copy that page's explicit variable modes.
 2. Build the component set from existing library parts (Field / Label, Hint, Error, icons), cloning a sibling's variants where possible. Bind every fill, stroke, spacing and radius to variables.
@@ -39,9 +39,25 @@ Needs a person's Figma access, so CI never does this half. Library file key: `1d
 6. Add `figma` (fileKey, nodeId, `props` rows) to the spec, and run `npm run validate -w @lockin/specs`.
 7. Write `packages/react/figma/<Name>.figma.ts`. Read nested properties from their instances: `instance.findInstance('Label row').getString('label')`, `findInstance('Hint').getString('text')`, `findInstance('Error').getString('message')`. Then run `npm run check:figma -w @lockin/specs` and `npx figma connect parse`.
 
+## Acceptance criteria
+
+A component proposal is done when design and code match. `status:released` is refused until all of these are true:
+
+| Criterion | Where | Checked by |
+| --- | --- | --- |
+| A `<Name>` page in the library, laid out like the other component pages: **Docs / <Name>** at the top left, the component set below it and **Props / <Name>** to the right | Figma library | Release gate, with `FIGMA_ACCESS_TOKEN` |
+| The Props frame's **Prop table** has a row for every code prop (`<code prop> → <Figma property>`, status and notes) | Figma library | Release gate, with `FIGMA_ACCESS_TOKEN` |
+| The spec has `figma.fileKey` and `figma.nodeId` (the component set) | `packages/specs/components/<slug>.json` | Release gate, `npm run validate:proposals` |
+| The spec's `figma.props` maps every prop, with a note on each row that isn't aligned | same spec | `npm run validate -w @lockin/specs` |
+| A Code Connect template for the component set, matching `figma.props` | `packages/react/figma/<Name>.figma.ts` | Release gate, `npm run check:figma -w @lockin/specs`, `npx figma connect parse` |
+
+The release gate is `node proposals/ci.mjs check-release`. The Proposals workflow runs it when `status:released` is added; if anything is missing it takes the label off again and comments with the list. `npm run validate:proposals` (part of `npm run check`) fails for any proposal file marked `released` whose repo half is missing.
+
+Only component proposals add a library component. A variant changes an existing page: update its component set, the Docs and Props frames, `figma.props` and the Code Connect template in the same PR.
+
 ## 3. Ship
 
-- Set `intake.status` to `in-code` and record the build in `intake.decision.note`.
+- Set `intake.status` to `in-code` and record the build in `intake.decision.note`. If section 2 isn't done yet, say so in the PR body: it's required before release.
 - Commit with Conventional Commits, push, and open the PR with `Refs #<issue>` (not `Closes`). Label the issue `status:in-code`.
 - Tell the owner what's left:
   1. merge;

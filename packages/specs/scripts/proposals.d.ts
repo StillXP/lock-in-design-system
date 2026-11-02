@@ -29,6 +29,12 @@ export interface Proposal {
 export declare const proposalSchema: Record<string, unknown>;
 export declare const PROPOSAL_ID: RegExp;
 export declare function validateProposal(proposal: unknown, file?: string, tokens?: Map<string, unknown>): string[];
+export declare function releaseGaps(proposal: Proposal, slug: string, repoRoot: string): string[];
+export declare function figmaReleaseGaps(
+  spec: { name: string; figma?: { fileKey: string; nodeId: string } },
+  token: string,
+  fetchImpl?: typeof fetch,
+): Promise<string[]>;
 export declare function loadProposals(dir: string): Array<{ file: string; slug: string; proposal: Proposal }>;
 export declare function nextProposalId(proposals: Proposal[]): string;
 export declare function duplicateIds(entries: Array<{ slug: string; proposal: Proposal }>): string[];

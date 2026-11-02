@@ -33,6 +33,80 @@ export function validateProposal(proposal, file, tokens) {
   return errors;
 }
 
+// ---------- release gate: design and code parity ----------
+// A component proposal can't be released until it exists in the Figma library as well as in code. The repo
+// half is checked here (spec `figma` node, a Props table row for every prop, a Code Connect template); the
+// Figma half (component page with its Docs and Props frames) by figmaReleaseGaps when a token is available.
+
+/**
+ * What a component proposal still needs before it can be released, as readable sentences. Empty means ready.
+ * Other kinds return []: they don't add a library component.
+ */
+export function releaseGaps(proposal, slug, repoRoot) {
+  if (proposal?.intake?.kind !== 'component') return [];
+  const specSlug = proposal.spec?.slug ?? slug;
+  const specFile = join(repoRoot, 'packages', 'specs', 'components', `${specSlug}.json`);
+  if (!existsSync(specFile)) return [`no shipped spec: packages/specs/components/${specSlug}.json is missing`];
+  const spec = JSON.parse(readFileSync(specFile, 'utf8'));
+  const name = spec.name;
+  const gaps = [];
+  if (!spec.figma?.fileKey || !spec.figma?.nodeId) {
+    gaps.push(`the ${name} spec has no \`figma\` fileKey and nodeId (build the library component, docs/build-proposal.md section 2)`);
+  }
+  if (!spec.figma?.props?.length) {
+    gaps.push(`the ${name} spec has no \`figma.props\` table mapping its props to Figma properties`);
+  }
+  const figmaDir = join(repoRoot, 'packages', 'react', 'figma');
+  const templates = existsSync(figmaDir) ? readdirSync(figmaDir).filter((f) => f.endsWith('.figma.ts')) : [];
+  const main = templates
+    .map((f) => readFileSync(join(figmaDir, f), 'utf8'))
+    .find((text) => text.match(/^\/\/ component=(.+)$/m)?.[1].trim() === name && (!spec.figma?.nodeId || text.includes(`node-id=${spec.figma.nodeId.replace(':', '-')}`)));
+  if (!main) gaps.push(`no Code Connect template for ${name}: add packages/react/figma/${name}.figma.ts pointing at the spec's figma.nodeId`);
+  return gaps;
+}
+
+/**
+ * The Figma half of the release gate, read through the REST API: the spec's node exists, and the page holding it
+ * has "Docs / <Name>" and "Props / <Name>" frames like every other component page. Needs a Figma access token.
+ */
+export async function figmaReleaseGaps(spec, token, fetchImpl = fetch) {
+  if (!spec?.figma?.fileKey || !spec.figma.nodeId) return [];
+  const get = async (path) => {
+    const res = await fetchImpl(`https://api.figma.com/v1/files/${spec.figma.fileKey}${path}`, { headers: { 'X-Figma-Token': token } });
+    if (!res.ok) throw new Error(`Figma API ${res.status} for ${path}`);
+    return res.json();
+  };
+  const gaps = [];
+  const nodes = await get(`/nodes?ids=${encodeURIComponent(spec.figma.nodeId)}&depth=1`);
+  if (!nodes.nodes?.[spec.figma.nodeId]) return [`Figma node ${spec.figma.nodeId} (the spec's figma.nodeId) doesn't exist in the library file`];
+  const file = await get('?depth=2');
+  const page = file.document.children.find((p) => p.children?.some((n) => n.id === spec.figma.nodeId));
+  if (!page) return [`Figma node ${spec.figma.nodeId} isn't a top-level node on a page; put the component set on its own "${spec.name}" page`];
+  const byName = new Map(page.children.map((n) => [n.name, n]));
+  for (const frame of [`Docs / ${spec.name}`, `Props / ${spec.name}`]) {
+    if (!byName.has(frame)) gaps.push(`the "${page.name}" page in Figma has no "${frame}" frame (clone a sibling page's frame, docs/build-proposal.md section 2)`);
+  }
+  // The Props frame's "Prop table" has one row per mapping, named "<code prop[ / prop]> → <Figma property>".
+  const propsFrame = byName.get(`Props / ${spec.name}`);
+  if (propsFrame) {
+    const { nodes: frameNodes } = await get(`/nodes?ids=${encodeURIComponent(propsFrame.id)}&depth=2`);
+    const table = frameNodes?.[propsFrame.id]?.document?.children?.find((n) => n.name === 'Prop table');
+    if (!table) gaps.push(`"Props / ${spec.name}" in Figma has no "Prop table" frame`);
+    else {
+      // Some spec props are combined names ("value / defaultValue"), so keep the whole left side as well as its parts.
+      const mapped = new Set(
+        table.children.flatMap((row) => {
+          const code = row.name.split(' → ')[0].trim();
+          return [code, ...code.split(' / ').map((s) => s.trim())];
+        }),
+      );
+      const missing = (spec.props ?? []).map((p) => p.name).filter((name) => !mapped.has(name));
+      if (missing.length) gaps.push(`the Figma Prop table for ${spec.name} has no row for ${missing.join(', ')}`);
+    }
+  }
+  return gaps;
+}
+
 /** Every proposals/*.json file in `dir`, sorted by id. */
 export function loadProposals(dir) {
   if (!existsSync(dir)) return [];
