@@ -358,15 +358,15 @@ describe('proposals', () => {
   });
 
   test('validates component proposals and their draft spec', async () => {
-    const noSpec = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Stepper', kind: 'component' });
+    const noSpec = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Rating', kind: 'component' });
     assert.equal(noSpec.status, 422);
     assert.ok(noSpec.body.details.includes('component proposals need a draft spec'));
     const { figma: _figma, ...tag } = store.component('tag');
-    const spec = { ...tag, name: 'Stepper', slug: 'stepper', status: 'experimental', tokens: [{ token: 'color.not.a.token', usage: 'x' }] };
-    const badToken = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Stepper', kind: 'component', spec });
+    const spec = { ...tag, name: 'Rating', slug: 'rating', status: 'experimental', tokens: [{ token: 'color.not.a.token', usage: 'x' }] };
+    const badToken = await api('POST', '/api/proposals', keys.editor, { ...pattern, title: 'Rating', kind: 'component', spec });
     assert.equal(badToken.status, 422);
     assert.ok(badToken.body.details.some((e: string) => e.includes('unknown token')));
-    assert.ok(!existsSync(join(root, 'proposals', 'stepper.json')), 'nothing written when invalid');
+    assert.ok(!existsSync(join(root, 'proposals', 'rating.json')), 'nothing written when invalid');
   });
 
   test('adds evidence once, and not to released proposals', async () => {
