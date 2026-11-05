@@ -31,7 +31,7 @@ const limit = count ? count.split('/').pop()?.trim() : undefined
 
 export default {
   example: figma.code`<Textarea label="${label}"${hideLabel ? ' hideLabel' : ''}${required ? ' required' : ''}${showOptional && !required ? ' showOptional' : ''}${rows !== '3' ? ` rows={${rows}}` : ''}${limit ? ` maxLength={${limit}} showCount` : ''}${hint ? ` hint="${hint}"` : ''}${error ? ` error="${error}"` : ''}${placeholder ? ` placeholder="${placeholder}"` : ''}${value ? ` defaultValue="${value}"` : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { Textarea } from "@lockin/react"'],
+  imports: ['import { Textarea } from "@stillxp/react"'],
   id: 'textarea',
   metadata: { nestable: true },
 }

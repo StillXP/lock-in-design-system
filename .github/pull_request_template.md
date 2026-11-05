@@ -4,7 +4,7 @@
 
 ## Checklist
 
-- [ ] `npm run check`, `npm run build` and `npm test -w @lockin/server` pass
+- [ ] `npm run check`, `npm run build` and `npm test -w @stillxp/server` pass
 - [ ] Web and native props are in sync, and the component spec is updated (version bumped)
 - [ ] Stories updated for any component change
 - [ ] `TODO.md` updated (follow-ups added, finished items deleted)

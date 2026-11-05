@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="plus" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-plus',
   metadata: { nestable: true, props: { iconName: 'plus' } },
 }

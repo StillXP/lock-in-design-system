@@ -5,7 +5,7 @@
 //   - the Figma type of the call matches the row's `figmaType`
 //   - the values a getEnum maps are exactly the row's `figmaValues`
 // Layer lookups (findText, findInstance) are not component properties and are ignored.
-// Run with: npm run check:figma -w @lockin/specs
+// Run with: npm run check:figma -w @stillxp/specs
 import { readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

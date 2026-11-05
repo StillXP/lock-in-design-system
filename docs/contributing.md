@@ -23,12 +23,12 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 1. Edit `packages/tokens/src/...` (or use the hub / `update_token`).
 2. Semantic colors must reference base tokens and provide `light` and `dark`.
 3. If the token is a new text/UI pairing, add it to `src/contrast-pairs.json`.
-4. `npm run build -w @lockin/tokens`. It must print "all contrast checks passed".
+4. `npm run build -w @stillxp/tokens`. It must print "all contrast checks passed".
 5. New token groups show up in Storybook automatically if they fall under an existing prefix; otherwise add them to a story in `apps/storybook/src/stories/foundations/`.
 
 ## Adding a component
 
-1. Spec first. Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field, especially `accessibility` and `usage`. Set `level` to `atom`, `molecule` or `organism` using the rule of thumb in [Components](./components.md#atomic-levels). Run `npm run validate -w @lockin/specs`.
+1. Spec first. Write `packages/specs/components/<slug>.json` (copy a similar one). Fill every field, especially `accessibility` and `usage`. Set `level` to `atom`, `molecule` or `organism` using the rule of thumb in [Components](./components.md#atomic-levels). Run `npm run validate -w @stillxp/specs`.
 2. Web. `packages/react/src/components/<Name>/<Name>.tsx` + `<Name>.css`. Export from `src/index.ts`. Only `--ds-*` variables in CSS.
 3. Native. `packages/react-native/src/components/<Name>.tsx` with the same props. Export from `src/index.ts`.
 4. Stories. Add `apps/storybook/src/stories/<level>s/<Name>.stories.tsx` (`atoms`, `molecules` or `organisms`; copy a similar one). Keep `title: '<Atoms|Molecules|Organisms>/<Name>'` literal, matching the spec's `level`, and spread `specMeta('<slug>')` so the Docs page renders the spec. One story per variant and per notable state. A server test fails if the title or folder doesn't match the level.
@@ -38,7 +38,7 @@ See [Architecture](./architecture.md) for diagrams of how these fit together.
 ## Definition of done
 
 - [ ] Spec valid, with a `level`; props in spec match both implementations
-- [ ] Storybook story sits under its level and covers each variant and state; `npm test -w @lockin/storybook` passes (axe, WCAG 2.1 AA)
+- [ ] Storybook story sits under its level and covers each variant and state; `npm test -w @stillxp/storybook` passes (axe, WCAG 2.1 AA)
 - [ ] Uses semantic tokens only
 - [ ] Keyboard pattern matches the spec (WAI-ARIA APG)
 - [ ] Visible focus, 44px touch targets, labels, error wiring

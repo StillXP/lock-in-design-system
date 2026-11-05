@@ -1,7 +1,7 @@
 /**
  * Lock In icon set. Platform-agnostic SVG path data on a 24×24 grid, drawn as
- * 2px round-capped strokes. Rendered by <Icon> in @lockin/react (inline SVG)
- * and @lockin/react-native (react-native-svg).
+ * 2px round-capped strokes. Rendered by <Icon> in @stillxp/react (inline SVG)
+ * and @stillxp/react-native (react-native-svg).
  */
 export interface IconDefinition {
   /** One or more SVG path `d` strings, stroked with currentColor. */

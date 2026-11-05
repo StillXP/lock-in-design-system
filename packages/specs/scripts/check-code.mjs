@@ -3,7 +3,7 @@
 //   - every prop the component declares itself is in the spec (passthrough HTML / RN props are not)
 //   - every spec prop exists on the component for the platforms it lists
 //   - required vs optional, string-literal values and literal defaults match
-// Run with: npm run check:code -w @lockin/specs
+// Run with: npm run check:code -w @stillxp/specs
 import { existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

@@ -1,4 +1,4 @@
-// API key management:  npm run keys -w @lockin/server -- <command>
+// API key management:  npm run keys -w @stillxp/server -- <command>
 //   list
 //   create --name <name> --role <viewer|editor|admin>
 //   revoke --id <id>

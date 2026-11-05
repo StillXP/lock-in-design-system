@@ -22,7 +22,7 @@ const optionsCode = options.length ? `[${options.join(', ')}]` : 'options'
 
 export default {
   example: figma.code`<RadioGroup legend="${legend}" options={${optionsCode}} defaultValue="${value}"${orientation !== 'vertical' ? ` orientation="${orientation}"` : ''}${error ? ` error="${error}"` : ''} />`,
-  imports: ['import { RadioGroup } from "@lockin/react"'],
+  imports: ['import { RadioGroup } from "@stillxp/react"'],
   id: 'radio-group',
   metadata: { nestable: true },
 }

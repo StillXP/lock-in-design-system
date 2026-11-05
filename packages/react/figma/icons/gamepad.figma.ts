@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="gamepad" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-gamepad',
   metadata: { nestable: true, props: { iconName: 'gamepad' } },
 }

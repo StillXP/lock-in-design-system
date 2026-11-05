@@ -6,11 +6,11 @@ Lock In ships as five packages:
 
 | Package | What it is | Platforms |
 | --- | --- | --- |
-| `@lockin/tokens` | Color, typography, spacing, radius, shadow, motion tokens. CSS variables, JS/TS objects, React Native values, JSON. | Web + native |
-| `@lockin/icons` | Icon path data (24×24 stroke icons). | Web + native |
-| `@lockin/react` | React components + one stylesheet. | Web |
-| `@lockin/react-native` | The same components for iOS/Android, same props wherever possible. | Native |
-| `@lockin/specs` | AI-readable JSON spec for every component. | Any |
+| `@stillxp/tokens` | Color, typography, spacing, radius, shadow, motion tokens. CSS variables, JS/TS objects, React Native values, JSON. | Web + native |
+| `@stillxp/icons` | Icon path data (24×24 stroke icons). | Web + native |
+| `@stillxp/react` | React components + one stylesheet. | Web |
+| `@stillxp/react-native` | The same components for iOS/Android, same props wherever possible. | Native |
+| `@stillxp/specs` | AI-readable JSON spec for every component. | Any |
 
 ![How the packages fit together: apps consume the React or React Native package; everything converges on tokens and icons.](./diagrams/package-map.svg)
 
@@ -29,20 +29,28 @@ The token build also runs the contrast checker; it fails if any semantic color p
 
 ## 2. Use it in a project
 
-The packages aren't published to npm yet. Pick one:
+The packages are published to GitHub Packages (private) as `@stillxp/*`. In your project, create a token with the `read:packages` scope and point the scope at the registry in `.npmrc`:
 
-- Local link (fastest while iterating): in your project, `npm install ../path/to/design-system/packages/react ../path/to/design-system/packages/tokens`
-- Git dependency / GitHub Packages: publish the `packages/*` folders to a private registry and install by version.
+```
+@stillxp:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+Then `npm install @stillxp/react @stillxp/tokens`. In another repo's CI, use a token that can read this repo's packages (a fine-grained PAT, or grant that repo access on each package's settings page).
+
+To release: bump every `packages/*/package.json` to the same version, merge, then push a `vX.Y.Z` tag. `.github/workflows/release.yml` checks and builds, then publishes tokens, icons, specs, react and react-native in that order.
+
+Trying an unreleased change in another project: `npm install ../path/to/design-system/packages/react`.
 
 ### Web (React: Vite, Next.js, etc.)
 
 ```tsx
 // main.tsx — import tokens first, then component styles
-import '@lockin/tokens/css';
-import '@lockin/tokens/css/typography'; // optional .ds-text-* utility classes
-import '@lockin/react/styles.css';
+import '@stillxp/tokens/css';
+import '@stillxp/tokens/css/typography'; // optional .ds-text-* utility classes
+import '@stillxp/react/styles.css';
 
-import { Button, InputField, setColorMode } from '@lockin/react';
+import { Button, InputField, setColorMode } from '@stillxp/react';
 
 export function JoinForm() {
   return (
@@ -54,9 +62,9 @@ export function JoinForm() {
 }
 ```
 
-`@lockin/react` targets bundlers (Vite, Next.js, webpack, Metro). It's ESM with extensionless internal imports.
+`@stillxp/react` targets bundlers (Vite, Next.js, webpack, Metro). It's ESM with extensionless internal imports.
 
-Fonts. `@lockin/tokens/css` also loads Inter and JetBrains Mono (variable fonts bundled in the package), so there is no font setup. Your bundler needs to resolve `url()` assets in CSS, which Vite, Next.js and webpack do. See [Tokens](./tokens.md#fonts).
+Fonts. `@stillxp/tokens/css` also loads Inter and JetBrains Mono (variable fonts bundled in the package), so there is no font setup. Your bundler needs to resolve `url()` assets in CSS, which Vite, Next.js and webpack do. See [Tokens](./tokens.md#fonts).
 
 Color mode. Dark mode follows the OS by default (`prefers-color-scheme`). To let users choose:
 
@@ -84,7 +92,7 @@ Styling your own UI. Use the CSS variables, never raw hex values:
 }
 ```
 
-In CSS-in-JS, use the `cssVars` export so values stay theme-aware: `import { cssVars } from '@lockin/tokens'; cssVars.color.text.primary // "var(--ds-color-text-primary)"`.
+In CSS-in-JS, use the `cssVars` export so values stay theme-aware: `import { cssVars } from '@stillxp/tokens'; cssVars.color.text.primary // "var(--ds-color-text-primary)"`.
 
 ### Mobile (React Native / Expo)
 
@@ -93,7 +101,7 @@ npx expo install react-native-svg
 ```
 
 ```tsx
-import { ThemeProvider, Button, useTheme } from '@lockin/react-native';
+import { ThemeProvider, Button, useTheme } from '@stillxp/react-native';
 
 export default function App() {
   return (

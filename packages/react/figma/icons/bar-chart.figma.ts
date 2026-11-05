@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="bar-chart" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-bar-chart',
   metadata: { nestable: true, props: { iconName: 'bar-chart' } },
 }

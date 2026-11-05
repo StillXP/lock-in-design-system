@@ -48,9 +48,9 @@ Send a key as `Authorization: Bearer ds_…` (or `X-API-Key`). Keys are stored a
 Manage keys from the web UI (Settings, admin only), the API (`/api/keys`), or the CLI:
 
 ```bash
-npm run keys -w @lockin/server -- create --name "coding-agent" --role viewer
-npm run keys -w @lockin/server -- list
-npm run keys -w @lockin/server -- revoke --id <id>
+npm run keys -w @stillxp/server -- create --name "coding-agent" --role viewer
+npm run keys -w @stillxp/server -- list
+npm run keys -w @stillxp/server -- revoke --id <id>
 ```
 
 Read-only agents need no key while public read is on. Give agents that edit the lowest role that works, usually `editor`.

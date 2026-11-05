@@ -4,8 +4,8 @@
     "noEmit": true,
     "types": ["vite/client"],
     "paths": {
-      "@lockin/react": ["../../packages/react/src/index.ts"],
-      "@lockin/icons": ["../../packages/icons/src/index.ts"]
+      "@stillxp/react": ["../../packages/react/src/index.ts"],
+      "@stillxp/icons": ["../../packages/icons/src/index.ts"]
     }
   },
   "include": ["src", ".storybook"]
