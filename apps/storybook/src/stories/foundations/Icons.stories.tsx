@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { icons, iconNames, type IconName } from '@lockin/icons';
-import { Icon, Search, type IconColor, type IconSize } from '@lockin/react';
+import { icons, iconNames, type IconName } from '@stillxp/icons';
+import { Icon, Search, type IconColor, type IconSize } from '@stillxp/react';
 import { Section } from '../../blocks/foundations';
 
 interface GalleryArgs {
@@ -15,7 +15,7 @@ const meta: Meta<GalleryArgs> = {
     docs: {
       description: {
         component:
-          'Every icon in `@lockin/icons`: 24×24 grid, 2px round strokes, shared by web and native. Render with `<Icon name="…" />`; see Atoms/Icon for labelling rules.',
+          'Every icon in `@stillxp/icons`: 24×24 grid, 2px round strokes, shared by web and native. Render with `<Icon name="…" />`; see Atoms/Icon for labelling rules.',
       },
     },
   },

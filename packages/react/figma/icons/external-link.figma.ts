@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="external-link" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-external-link',
   metadata: { nestable: true, props: { iconName: 'external-link' } },
 }

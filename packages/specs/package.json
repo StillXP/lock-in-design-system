@@ -1,7 +1,16 @@
 {
-  "name": "@lockin/specs",
+  "name": "@stillxp/specs",
   "version": "0.1.0",
   "description": "AI-readable JSON specs for every Lock In component (props, states, tokens, accessibility, usage).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StillXP/lock-in-design-system.git",
+    "directory": "packages/specs"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -39,7 +48,7 @@
     "test": "node --test test/check-code.test.mjs test/check-figma.test.mjs test/proposals.test.mjs"
   },
   "dependencies": {
-    "@lockin/tokens": "0.1.0",
+    "@stillxp/tokens": "0.1.0",
     "ajv": "^8.17.0",
     "ajv-formats": "^3.0.1"
   },

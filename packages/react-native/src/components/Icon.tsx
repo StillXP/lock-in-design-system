@@ -1,5 +1,5 @@
 import Svg, { Path } from 'react-native-svg';
-import { icons, type IconName } from '@lockin/icons';
+import { icons, type IconName } from '@stillxp/icons';
 import { useTheme } from '../theme/ThemeProvider';
 
 export type { IconName };

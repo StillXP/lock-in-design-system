@@ -15,7 +15,7 @@ const icon = swap && swap.type === 'INSTANCE' ? swap.executeTemplate().metadata?
 
 export default {
   example: figma.code`<Tag${tone !== 'neutral' ? ` tone="${tone}"` : ''}${variant !== 'subtle' ? ` variant="${variant}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${icon ? ` icon="${icon}"` : ''}${onRemove ? ' onRemove={() => {}}' : ''}>${children}</Tag>`,
-  imports: ['import { Tag } from "@lockin/react"'],
+  imports: ['import { Tag } from "@stillxp/react"'],
   id: 'tag',
   metadata: { nestable: true },
 }

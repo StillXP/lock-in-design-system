@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Search } from '@lockin/react';
+import { Search } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {

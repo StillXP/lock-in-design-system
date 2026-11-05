@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="chevron-right" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-chevron-right',
   metadata: { nestable: true, props: { iconName: 'chevron-right' } },
 }

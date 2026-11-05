@@ -3,8 +3,8 @@
   "name": "RadioGroup",
   "slug": "radio-button",
   "import": {
-    "web": "import { RadioGroup, Radio } from '@lockin/react';",
-    "native": "import { RadioGroup } from '@lockin/react-native';"
+    "web": "import { RadioGroup, Radio } from '@stillxp/react';",
+    "native": "import { RadioGroup } from '@stillxp/react-native';"
   },
   "figma": {
     "fileKey": "1dgB7LeRgTrVIenTmmrlvr",

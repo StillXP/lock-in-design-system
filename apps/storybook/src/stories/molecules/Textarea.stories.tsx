@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Textarea } from '@lockin/react';
+import { Textarea } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const description = 'Open to all skill levels. Cash payouts in advanced divisions, trophies for all.';

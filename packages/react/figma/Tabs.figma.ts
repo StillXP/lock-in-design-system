@@ -20,7 +20,7 @@ const itemsCode = items.length ? `[${items.join(', ')}]` : 'items'
 
 export default {
   example: figma.code`<Tabs aria-label="Describe the tabs" items={${itemsCode}} defaultValue="${value}"${variant !== 'line' ? ` variant="${variant}"` : ''} />`,
-  imports: ['import { Tabs } from "@lockin/react"'],
+  imports: ['import { Tabs } from "@stillxp/react"'],
   id: 'tabs',
   metadata: { nestable: true },
 }

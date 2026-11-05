@@ -1,5 +1,5 @@
 import { forwardRef, type SVGProps } from 'react';
-import { icons, type IconName } from '@lockin/icons';
+import { icons, type IconName } from '@stillxp/icons';
 import { cx } from '../../utils/cx';
 
 export type { IconName };
@@ -18,7 +18,7 @@ export type IconColor =
   | 'info';
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name' | 'color' | 'ref'> {
-  /** Icon from @lockin/icons. */
+  /** Icon from @stillxp/icons. */
   name: IconName;
   /** Token size (sm 16, md 20, lg 24, xl 32) or a pixel number. */
   size?: IconSize | number;

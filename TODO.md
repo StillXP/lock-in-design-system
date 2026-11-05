@@ -32,5 +32,5 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Roadmap (from README)
 
-- [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @lockin/tokens`, rules in `docs/figma-sync.md`.
+- [ ] Figma: token sync is in step with code except the Arcade theme modes (deliberately skipped for now). Re-run the diff after token changes: `npm run figma -w @stillxp/tokens`, rules in `docs/figma-sync.md`.
 - [ ] Publish packages to a registry.

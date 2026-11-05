@@ -43,7 +43,7 @@ Included themes:
 ### Creating a theme
 
 1. Copy `arcade.json`, set `name` and `brand`.
-2. `npm run build -w @lockin/tokens`.
+2. `npm run build -w @stillxp/tokens`.
 3. If the contrast check fails, it tells you exactly which pairs. Add overrides that move those tokens to darker (light mode) or lighter (dark mode) steps. Orange and yellow brands almost always need `intent.primary.bg` at step 700 in light mode.
 
 Or let the hub do it: `PUT /api/tokens/...` and MCP `update_token` reject anything that fails contrast.
@@ -53,8 +53,8 @@ Or let the hub do it: `PUT /api/tokens/...` and MCP `update_token` reject anythi
 Web: import the theme sheet instead of the default tokens sheet:
 
 ```ts
-import '@lockin/tokens/css/themes/arena.css';
-import '@lockin/react/styles.css';
+import '@stillxp/tokens/css/themes/arena.css';
+import '@stillxp/react/styles.css';
 ```
 
 React Native
@@ -66,7 +66,7 @@ React Native
 JS (charts, canvas, games)
 
 ```ts
-import { themes } from '@lockin/tokens';
+import { themes } from '@stillxp/tokens';
 const palette = themes.arena.dark.color.dataviz;
 ```
 

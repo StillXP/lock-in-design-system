@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Radio, RadioGroup } from '@lockin/react';
+import { Radio, RadioGroup } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const options = [

@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
-import { loadTokens } from '@lockin/tokens/lib/resolve';
+import { loadTokens } from '@stillxp/tokens/lib/resolve';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const schema = JSON.parse(readFileSync(join(root, 'schema', 'component.schema.json'), 'utf8'));

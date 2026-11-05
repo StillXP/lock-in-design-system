@@ -29,7 +29,7 @@ const itemsCode = items.length ? `[${items.join(', ')}]` : 'items'
 
 export default {
   example: figma.code`<Dropdown label="${label}" items={${itemsCode}}${trigger === 'overflow' ? ' triggerIcon="more-horizontal"' : ''}${triggerVariant !== 'secondary' ? ` triggerVariant="${triggerVariant}"` : ''}${triggerSize !== 'md' ? ` triggerSize="${triggerSize}"` : ''} />`,
-  imports: ['import { Dropdown } from "@lockin/react"'],
+  imports: ['import { Dropdown } from "@stillxp/react"'],
   id: 'dropdown',
   metadata: { nestable: true },
 }

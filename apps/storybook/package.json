@@ -1,5 +1,5 @@
 {
-  "name": "@lockin/storybook",
+  "name": "@stillxp/storybook",
   "version": "0.1.0",
   "private": true,
   "description": "Storybook workbench for Lock In: every component, token group and icon, with spec-driven docs and axe checks.",
@@ -12,10 +12,10 @@
     "chromatic": "chromatic --storybook-build-dir storybook-static --exit-zero-on-changes"
   },
   "dependencies": {
-    "@lockin/icons": "0.1.0",
-    "@lockin/react": "0.1.0",
-    "@lockin/specs": "0.1.0",
-    "@lockin/tokens": "0.1.0"
+    "@stillxp/icons": "0.1.0",
+    "@stillxp/react": "0.1.0",
+    "@stillxp/specs": "0.1.0",
+    "@stillxp/tokens": "0.1.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.4",

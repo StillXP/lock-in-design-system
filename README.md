@@ -15,7 +15,7 @@ npm install
 npm run build            # tokens → icons → specs → react → react-native (+ contrast & spec validation)
 npm run dev              # hub at http://127.0.0.1:4400 — prints your admin API key on first run
 npm run storybook        # Storybook at http://127.0.0.1:6006 — every component, token group and icon
-npm test -w @lockin/server
+npm test -w @stillxp/server
 ```
 
 Requires Node ≥ 22.13.

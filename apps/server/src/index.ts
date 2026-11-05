@@ -12,7 +12,7 @@ if (!hasActiveAdmin(db)) {
   const { key } = createApiKey(db, 'bootstrap-admin', 'admin');
   console.log('\n  No admin key found — created one. Save it now; it will not be shown again:\n');
   console.log(`    ${key}\n`);
-  console.log('  Manage keys later with: npm run keys -w @lockin/server -- --help\n');
+  console.log('  Manage keys later with: npm run keys -w @stillxp/server -- --help\n');
 }
 
 createApp(store, db).listen(config.port, config.host, () => {

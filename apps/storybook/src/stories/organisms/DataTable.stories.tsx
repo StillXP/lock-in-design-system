@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { DataTable as GenericDataTable, Tag, type DataTableColumn, type DataTableProps } from '@lockin/react';
+import { DataTable as GenericDataTable, Tag, type DataTableColumn, type DataTableProps } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 interface Team {

@@ -33,7 +33,7 @@ const optionsCode = options.length ? `[${options.join(', ')}]` : 'options'
 
 export default {
   example: figma.code`<Select label="${label}"${hideLabel ? ' hideLabel' : ''} options={${optionsCode}}${placeholder ? ` placeholder="${placeholder}"` : ''}${value ? ` defaultValue="${value}"` : ''}${hint ? ` hint="${hint}"` : ''}${error ? ` error="${error}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { Select } from "@lockin/react"'],
+  imports: ['import { Select } from "@stillxp/react"'],
   id: 'select',
   metadata: { nestable: true },
 }

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Icon } from '@lockin/react';
-import { iconNames } from '@lockin/icons';
+import { Icon } from '@stillxp/react';
+import { iconNames } from '@stillxp/icons';
 import { specMeta } from '../../blocks/data';
 
 const meta = {

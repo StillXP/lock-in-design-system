@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button } from '@lockin/react';
+import { Button } from '@stillxp/react';
 import { token, tokensUnder } from '../../blocks/data';
 import { Section, TokenTable } from '../../blocks/foundations';
 

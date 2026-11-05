@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **Breaking:** the npm scope is now `@stillxp` (was `@lockin`), so the packages can be published to GitHub Packages, which only accepts the GitHub owner as scope. Imports change from `@lockin/react` to `@stillxp/react`, and likewise for `tokens`, `icons`, `specs` and `react-native`. Packages carry an MIT license, and pushing a `v*` tag runs `.github/workflows/release.yml` to publish them. See "Use it in a project" in `docs/getting-started.md` for the `.npmrc` consumers need.
+
 - Stories: open states for Modal (`Open`, `ConfirmOpen`) and Dropdown (`Open`, `OpenAligned`), opened by `play` functions, so visual regression and axe cover the dialog and menu. Select's native listbox can't be captured.
 - Visual regression: a `chromatic` CI job publishes Storybook to Chromatic and snapshots every story in light and dark mode (`npm run chromatic -w @lockin/storybook`). It needs the `CHROMATIC_PROJECT_KEY` secret and is skipped on PRs from forks.
 - Hub component pages show a **Live example**: the component's Storybook stories embedded from the static build (`/storybook`), switchable per story and synced with the hub's color mode and theme. New `GET /api/components/:name/stories`. Root `npm run build` now also builds Storybook.

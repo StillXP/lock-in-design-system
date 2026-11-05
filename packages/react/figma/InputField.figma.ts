@@ -33,7 +33,7 @@ const icon = swap && swap.type === 'INSTANCE' ? swap.executeTemplate().metadata?
 
 export default {
   example: figma.code`<InputField label="${label}"${hideLabel ? ' hideLabel' : ''}${password ? ' type="password"' : ''}${size !== 'md' ? ` size="${size}"` : ''}${required ? ' required' : ''}${showOptional && !required ? ' showOptional' : ''}${icon ? ` iconStart="${icon}"` : ''}${suffix ? ` suffix="${suffix}"` : ''}${hint ? ` hint="${hint}"` : ''}${error ? ` error="${error}"` : ''}${placeholder ? ` placeholder="${placeholder}"` : ''}${value ? ` defaultValue="${value}"` : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { InputField } from "@lockin/react"'],
+  imports: ['import { InputField } from "@stillxp/react"'],
   id: 'input-field',
   metadata: { nestable: true },
 }

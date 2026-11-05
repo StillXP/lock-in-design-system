@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Tabs } from '@lockin/react';
+import { Tabs } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const items = [

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Select } from '@lockin/react';
+import { Select } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const divisions = [

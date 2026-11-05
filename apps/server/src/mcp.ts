@@ -318,7 +318,7 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
           role: 'user',
           content: {
             type: 'text',
-            text: `Build: ${task}\nPlatform: ${platform ?? 'web'} (${platform === 'native' ? '@lockin/react-native' : '@lockin/react'})\n\n${INSTRUCTIONS}\n\nAvailable components:\n${store
+            text: `Build: ${task}\nPlatform: ${platform ?? 'web'} (${platform === 'native' ? '@stillxp/react-native' : '@stillxp/react'})\n\n${INSTRUCTIONS}\n\nAvailable components:\n${store
               .components()
               .map((c) => `- ${c.name}: ${c.purpose}`)
               .join('\n')}\n\nMeet WCAG 2.1 AA: label every control, keep focus visible, don't convey meaning by color alone, support keyboard and screen readers.`,

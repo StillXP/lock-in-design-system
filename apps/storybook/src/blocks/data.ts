@@ -1,5 +1,5 @@
 // Typed access to the design system's own data: built tokens and component specs.
-import flat from '@lockin/tokens/json/tokens.flat';
+import flat from '@stillxp/tokens/json/tokens.flat';
 
 export type ModeValue<T> = { light: T; dark: T };
 export interface FlatToken {
@@ -29,7 +29,7 @@ export function isModeValue(v: unknown): v is ModeValue<string> {
   return typeof v === 'object' && v !== null && 'light' in v && 'dark' in v;
 }
 
-// --- WCAG relative luminance / contrast (same formula as @lockin/tokens check-contrast) ---
+// --- WCAG relative luminance / contrast (same formula as @stillxp/tokens check-contrast) ---
 function channel(c: number) {
   const s = c / 255;
   return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;

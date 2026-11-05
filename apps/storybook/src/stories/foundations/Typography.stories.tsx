@@ -8,7 +8,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Composite text styles (`typography.*`) are what components and product UI should use: on the web as `font: var(--ds-typography-…)` or the `.ds-text-…` utility classes from `@lockin/tokens/css/typography`; on native via `textStyle()`. The `font.*` primitives feed them.',
+          'Composite text styles (`typography.*`) are what components and product UI should use: on the web as `font: var(--ds-typography-…)` or the `.ds-text-…` utility classes from `@stillxp/tokens/css/typography`; on native via `textStyle()`. The `font.*` primitives feed them.',
       },
     },
   },

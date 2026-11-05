@@ -9,7 +9,7 @@
 import { appendFileSync, existsSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadProposals, nextProposalId, proposalFromIssueBody, validateProposal } from '@lockin/specs/proposals';
+import { loadProposals, nextProposalId, proposalFromIssueBody, validateProposal } from '@stillxp/specs/proposals';
 
 const STATUSES = ['proposed', 'triage', 'accepted', 'in-design', 'in-code', 'released', 'declined'];
 const today = () => new Date().toISOString().slice(0, 10);

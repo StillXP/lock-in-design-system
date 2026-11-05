@@ -170,8 +170,8 @@
     "name": "Stepper",
     "slug": "stepper",
     "import": {
-      "web": "import { Stepper } from '@lockin/react';",
-      "native": "import { Stepper } from '@lockin/react-native';"
+      "web": "import { Stepper } from '@stillxp/react';",
+      "native": "import { Stepper } from '@stillxp/react-native';"
     },
     "status": "experimental",
     "version": "0.1.0",

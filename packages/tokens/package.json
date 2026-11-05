@@ -1,7 +1,16 @@
 {
-  "name": "@lockin/tokens",
+  "name": "@stillxp/tokens",
   "version": "0.1.0",
   "description": "Design tokens (color, typography, spacing, effects) for web and React Native, with light/dark modes and project themes.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StillXP/lock-in-design-system.git",
+    "directory": "packages/tokens"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
   "main": "./dist/js/index.js",
   "types": "./dist/js/index.d.ts",

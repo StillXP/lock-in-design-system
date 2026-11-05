@@ -1,0 +1,48 @@
+name: Release
+
+# Push a tag like v0.2.0 to publish every @stillxp/* package to GitHub Packages.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: '@stillxp'
+
+      - run: npm ci
+
+      - name: Check the tag matches the package versions
+        run: |
+          for p in tokens icons specs react react-native; do
+            v=$(node -p "require('./packages/$p/package.json').version")
+            if [ "v$v" != "$GITHUB_REF_NAME" ]; then
+              echo "::error::packages/$p is at $v but the tag is $GITHUB_REF_NAME"
+              exit 1
+            fi
+          done
+
+      - run: npm run check
+      - run: npm run build
+
+      # Dependency order: tokens and icons first, then specs, then the component packages.
+      - name: Publish
+        run: |
+          for p in tokens icons specs react react-native; do
+            npm publish -w @stillxp/$p
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

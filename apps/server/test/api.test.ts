@@ -255,7 +255,7 @@ describe('live examples', () => {
 
 describe('web fonts', () => {
   test('token sheets declare Inter and JetBrains Mono and every url() points at a font the build ships', async () => {
-    const { build } = await import('@lockin/tokens/build');
+    const { build } = await import('@stillxp/tokens/build');
     const dist = join(root, 'packages/tokens/dist');
     build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
     for (const [sheet, prefix] of [['css/tokens.css', '../fonts/'], ['css/themes/arena.css', '../../fonts/']]) {
@@ -280,7 +280,7 @@ describe('web fonts', () => {
 
 describe('css variable names', () => {
   test('are kebab-case, and every var(--ds-*) a stylesheet uses is defined', async () => {
-    const { build } = await import('@lockin/tokens/build');
+    const { build } = await import('@stillxp/tokens/build');
     const dist = join(root, 'packages/tokens/dist');
     build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
     const tokensCss = readFileSync(join(dist, 'css/tokens.css'), 'utf8');
@@ -300,7 +300,7 @@ describe('css variable names', () => {
     }
   });
   test('the flat JSON lists the kebab-case name for camelCase tokens', async () => {
-    const { build } = await import('@lockin/tokens/build');
+    const { build } = await import('@stillxp/tokens/build');
     const dist = join(root, 'packages/tokens/dist');
     build({ srcDir: join(root, 'packages/tokens/src'), distDir: dist });
     const flat = JSON.parse(readFileSync(join(dist, 'json/tokens.flat.json'), 'utf8'));

@@ -6,7 +6,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { renderPrototype } from '@lockin/specs/proposals';
+import { renderPrototype } from '@stillxp/specs/proposals';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 const slug = process.argv[2];

@@ -5,7 +5,7 @@ import figma from 'figma'
 
 export default {
   example: figma.code`<Icon name="chevrons-up-down" />`,
-  imports: ['import { Icon } from "@lockin/react"'],
+  imports: ['import { Icon } from "@stillxp/react"'],
   id: 'icon-chevrons-up-down',
   metadata: { nestable: true, props: { iconName: 'chevrons-up-down' } },
 }

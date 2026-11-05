@@ -1,9 +1,9 @@
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs/blocks';
-import arcadeUrl from '@lockin/tokens/css/themes/arcade?url';
-import arenaUrl from '@lockin/tokens/css/themes/arena?url';
-import '@lockin/tokens/css';
-import '@lockin/tokens/css/typography';
+import arcadeUrl from '@stillxp/tokens/css/themes/arcade?url';
+import arenaUrl from '@stillxp/tokens/css/themes/arena?url';
+import '@stillxp/tokens/css';
+import '@stillxp/tokens/css/typography';
 import '../../../packages/react/src/styles/base.css';
 import { SpecDetails } from '../src/blocks/SpecDetails';
 import '../src/blocks/blocks.css';
@@ -13,7 +13,7 @@ import.meta.glob('../../../packages/react/src/components/*/*.css', { eager: true
 
 const themeUrls: Record<string, string> = { arena: arenaUrl, arcade: arcadeUrl };
 
-/** Light / dark / system, mirroring setColorMode() from @lockin/react. */
+/** Light / dark / system, mirroring setColorMode() from @stillxp/react. */
 function applyColorMode(mode: string) {
   const root = document.documentElement;
   if (mode === 'light' || mode === 'dark') root.setAttribute('data-theme', mode);

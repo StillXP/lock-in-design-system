@@ -221,7 +221,7 @@ async function componentsView() {
     `<a class="card ds-focus-ring" href="#/components/${esc(c.slug)}"><span class="card__title">${esc(c.name)}</span><span class="row">${tag(c.status, TONE[c.status])} ${tag(`v${c.version}`)} ${tag(c.category)}</span><span class="muted">${esc(c.purpose)}</span></a>`;
   render(
     'Components',
-    `<h1>Components</h1><p class="lead">${list.length} components in three atomic levels, each available for web (<code>@lockin/react</code>) and mobile (<code>@lockin/react-native</code>) with a machine-readable spec.</p>
+    `<h1>Components</h1><p class="lead">${list.length} components in three atomic levels, each available for web (<code>@stillxp/react</code>) and mobile (<code>@stillxp/react-native</code>) with a machine-readable spec.</p>
     ${byLevel
       .filter((g) => g.items.length)
       .map((g) => `<h2>${g.title}</h2><p class="muted">${g.blurb}</p><div class="grid">${g.items.map(card).join('')}</div>`)

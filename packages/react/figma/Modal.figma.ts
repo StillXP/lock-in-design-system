@@ -21,7 +21,7 @@ const primaryCode = primary && primary.type === 'INSTANCE' ? primary.executeTemp
 
 export default {
   example: figma.code`<Modal open onClose={() => {}} title="${title}"${description ? ` description="${description}"` : ''}${role !== 'dialog' ? ` role="${role}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${hideCloseButton ? ' hideCloseButton' : ''} footer={<>${secondaryCode}${primaryCode}</>}>${body}</Modal>`,
-  imports: ['import { Modal } from "@lockin/react"'],
+  imports: ['import { Modal } from "@stillxp/react"'],
   id: 'modal',
   metadata: { nestable: true },
 }

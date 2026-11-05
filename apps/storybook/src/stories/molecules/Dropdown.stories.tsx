@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn, userEvent, within } from 'storybook/test';
-import { Dropdown } from '@lockin/react';
+import { Dropdown } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {

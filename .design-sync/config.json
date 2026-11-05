@@ -3,9 +3,9 @@
   "shape": "storybook",
   "storybookConfigDir": "apps/storybook/.storybook",
   "storybookStatic": ".design-sync/sb-reference",
-  "pkg": "@lockin/react",
+  "pkg": "@stillxp/react",
   "globalName": "LockIn",
-  "buildCmd": "node .design-sync/gen-docs.mjs && npm run build -w @lockin/tokens -w @lockin/icons -w @lockin/react",
+  "buildCmd": "node .design-sync/gen-docs.mjs && npm run build -w @stillxp/tokens -w @stillxp/icons -w @stillxp/react",
   "titleMap": {
     "Color": null,
     "Shape&effects": null,

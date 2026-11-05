@@ -20,7 +20,7 @@ const value = state === 'filled' ? instance.getString('value') : undefined
 
 export default {
   example: figma.code`<Search${showLabel ? ` label="${label}" showLabel` : ''}${placeholder ? ` placeholder="${placeholder}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${value ? ` defaultValue="${value}"` : ''}${state === 'loading' ? ' loading' : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { Search } from "@lockin/react"'],
+  imports: ['import { Search } from "@stillxp/react"'],
   id: 'search',
   metadata: { nestable: true },
 }

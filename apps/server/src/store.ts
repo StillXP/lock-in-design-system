@@ -1,8 +1,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
-import { icons, iconNames } from '@lockin/icons';
-import { build as buildTokens } from '@lockin/tokens/build';
-import { checkContrast, type ContrastResult } from '@lockin/tokens/check-contrast';
+import { icons, iconNames } from '@stillxp/icons';
+import { build as buildTokens } from '@stillxp/tokens/build';
+import { checkContrast, type ContrastResult } from '@stillxp/tokens/check-contrast';
 import {
   contrastRatio,
   cssVarName,
@@ -11,9 +11,9 @@ import {
   resolveAll,
   resolveToken,
   type RawToken,
-} from '@lockin/tokens/lib/resolve';
-import { validateSpec } from '@lockin/specs/validate';
-import { loadProposals, nextProposalId, proposalIssueBody, renderPrototype, validateProposal, type Proposal, type ProposalIntake } from '@lockin/specs/proposals';
+} from '@stillxp/tokens/lib/resolve';
+import { validateSpec } from '@stillxp/specs/validate';
+import { loadProposals, nextProposalId, proposalIssueBody, renderPrototype, validateProposal, type Proposal, type ProposalIntake } from '@stillxp/specs/proposals';
 import { Marked } from 'marked';
 import { config, REPO_ROOT } from './config.js';
 import type { Db } from './db.js';

@@ -16,7 +16,7 @@ const error = state === 'invalid' ? instance.findInstance('Error').getString('me
 
 export default {
   example: figma.code`<Checkbox label="${label}"${hideLabel ? ' hideLabel' : ''}${description ? ` description="${description}"` : ''}${error ? ` error="${error}"` : ''}${checked === 'true' ? ' checked' : ''}${checked === 'indeterminate' ? ' indeterminate' : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { Checkbox } from "@lockin/react"'],
+  imports: ['import { Checkbox } from "@stillxp/react"'],
   id: 'checkbox',
   metadata: { nestable: true },
 }

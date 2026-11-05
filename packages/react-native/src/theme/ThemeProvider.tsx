@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { useColorScheme, type TextStyle } from 'react-native';
-import { nativeTokens, nativeThemes, type NativeTokenTree } from '@lockin/tokens/native';
+import { nativeTokens, nativeThemes, type NativeTokenTree } from '@stillxp/tokens/native';
 
 export type ColorMode = 'light' | 'dark';
 
@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextValue>({ t: nativeTokens.light, m
 export interface ThemeProviderProps {
   /** 'system' follows the OS appearance setting. */
   mode?: ColorMode | 'system';
-  /** Project theme name from @lockin/tokens (e.g. 'arena'). Omit for the default theme. */
+  /** Project theme name from @stillxp/tokens (e.g. 'arena'). Omit for the default theme. */
   theme?: string;
   children: ReactNode;
 }
