@@ -7,7 +7,10 @@
       "subtle": { "$value": { "light": "{color.neutral.100}", "dark": "{color.neutral.800}" }, "$description": "Alternate sections, table header rows, striped rows." },
       "muted": { "$value": { "light": "{color.neutral.200}", "dark": "{color.neutral.700}" }, "$description": "Hover fills on neutral surfaces. Do not put tertiary text on it." },
       "inverse": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.50}" }, "$description": "High-emphasis inverted regions (tooltips, snackbars)." },
-      "overlay": { "$value": { "light": "{color.neutral.900}", "dark": "{color.neutral.900}" }, "$extensions": { "ds.alpha": { "light": 0.5, "dark": 0.7 } }, "$description": "Scrim behind modals." }
+      "overlay": {
+        "$value": { "light": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.5, "hex": "#000000" }, "dark": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.7, "hex": "#000000" } },
+        "$description": "Scrim behind modals."
+      }
     },
     "surface": {
       "$description": "Containers that sit on a background: cards, modals, menus.",
@@ -74,7 +77,7 @@
         "text": { "$value": "{color.text.primary}" }
       },
       "tertiary": {
-        "bg": { "$value": "transparent" },
+        "bg": { "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0, "hex": "#000000" } },
         "bgHover": { "$value": { "light": "{color.brand.50}", "dark": "{color.neutral.700}" } },
         "bgActive": { "$value": { "light": "{color.brand.100}", "dark": "{color.neutral.600}" } },
         "text": { "$value": { "light": "{color.brand.700}", "dark": "{color.brand.200}" } }

@@ -15,6 +15,10 @@ What we're working on this session. Keep it to 1 to 3 items; move things in from
 
 ## Design system
 
+- [ ] DTCG 2025.10, step 1: light/dark (and themes) still live inside `$value` as `{ light, dark }`. Move them to one semantic set per mode plus a DTCG Resolver document, then update `lib/resolve.mjs`, the theme overrides, the Figma export and the hub's `update_token`. Values are already 2025.10 objects (colors, dimensions, durations, shadows).
+- [ ] DTCG 2025.10, step 3: `font.letterSpacing.*` and `font.underlineOffset.*` use `em`, which DTCG dimensions don't allow (the engine whitelists those paths); `font.decoration` and `font.transform` use `$type: "string"`; extension keys use `ds.` instead of reverse-domain names (`com.stillxp.native`).
+- [ ] Component token layer (`button.primary.bg` → semantic), after DTCG step 1 so component tokens are written once against the final mode structure.
+
 - [ ] Proposal prototype links: `textarea.json` and `stepper.json` point `intake.prototype` at claude.ai Artifacts, which are private by default. Once the hub has a public origin, switch them to `<hub>/proposals/<slug>/prototype` (the hub already serves and links those pages).
 - [ ] Proposals backlog: LIP-001 Textarea is released. Next, file the other gaps found in VolleyXP's Bracket Creator (Stepper, ProgressBar, FileUpload, DatePicker, Card, DescriptionList, Callout, upload/arrow icons, dashed-border, progress-track and layout tokens). Full list: "Lock In gaps / Bracket Creator" frame in the VolleyXP Figma file.
 - [ ] Select's open listbox is drawn by the browser/OS, so it can't be snapshotted. Decide whether that is acceptable or whether Select needs a custom listbox.
