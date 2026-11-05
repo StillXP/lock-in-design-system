@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Link } from '@lockin/react';
+import { Link } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 const meta = {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Tag } from '@lockin/react';
-import { iconNames } from '@lockin/icons';
+import { Tag } from '@stillxp/react';
+import { iconNames } from '@stillxp/icons';
 import { specMeta } from '../../blocks/data';
 
 const tones = ['neutral', 'brand', 'info', 'success', 'warning', 'danger'] as const;

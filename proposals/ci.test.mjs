@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { proposalIssueBody } from '@lockin/specs/proposals';
+import { proposalIssueBody } from '@stillxp/specs/proposals';
 import { fromIssue, setStatus } from './ci.mjs';
 
 const here = join(fileURLToPath(import.meta.url), '..');

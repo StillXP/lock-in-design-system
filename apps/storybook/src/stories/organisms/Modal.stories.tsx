@@ -1,7 +1,7 @@
 import { useState, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { userEvent, within } from 'storybook/test';
-import { Button, InputField, Modal } from '@lockin/react';
+import { Button, InputField, Modal } from '@stillxp/react';
 import { specMeta } from '../../blocks/data';
 
 type ModalArgs = Omit<ComponentProps<typeof Modal>, 'open' | 'onClose'>;

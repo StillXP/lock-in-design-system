@@ -22,7 +22,7 @@ Read `AGENTS.md`, "Adding a component" in [Contributing](./contributing.md) and 
 3. **Native:** add `packages/react-native/src/components/<Name>.tsx` with the same props, and export it. Use `t.typography.*.lineHeight` for line-based heights.
 4. **Stories:** add `apps/storybook/src/stories/<level>s/<Name>.stories.tsx` with `specMeta('<slug>')`, one story per variant and notable state.
 5. **Docs:** add a row in `docs/components.md`, add the component to `llms.txt`, and bump the component count in `apps/server/test/api.test.ts`.
-6. **Checks:** `npm run check`, `npm test -w @lockin/specs`, `npm test -w @lockin/server`, `npm run validate:proposals`, then `npm run build` (includes the story and axe tests). Fix failures until they pass. On Windows, if vitest crashes on start with an access violation, rerun it once before treating it as a failure.
+6. **Checks:** `npm run check`, `npm test -w @stillxp/specs`, `npm test -w @stillxp/server`, `npm run validate:proposals`, then `npm run build` (includes the story and axe tests). Fix failures until they pass. On Windows, if vitest crashes on start with an access violation, rerun it once before treating it as a failure.
 
 ## 2. Figma library
 
@@ -36,8 +36,8 @@ Needs a person's Figma access, so CI never does this half. Library file key: `1d
    - Resizing a frame can freeze hug sizing; check it after any resize.
    - Variant copy must not keep the sibling's defaults (for example "Email").
 5. Clone the sibling's **Docs / <Sibling>** and **Props / <Sibling>** frames, rewrite them for the new component, and screenshot both.
-6. Add `figma` (fileKey, nodeId, `props` rows) to the spec, and run `npm run validate -w @lockin/specs`.
-7. Write `packages/react/figma/<Name>.figma.ts`. Read nested properties from their instances: `instance.findInstance('Label row').getString('label')`, `findInstance('Hint').getString('text')`, `findInstance('Error').getString('message')`. Then run `npm run check:figma -w @lockin/specs` and `npx figma connect parse`.
+6. Add `figma` (fileKey, nodeId, `props` rows) to the spec, and run `npm run validate -w @stillxp/specs`.
+7. Write `packages/react/figma/<Name>.figma.ts`. Read nested properties from their instances: `instance.findInstance('Label row').getString('label')`, `findInstance('Hint').getString('text')`, `findInstance('Error').getString('message')`. Then run `npm run check:figma -w @stillxp/specs` and `npx figma connect parse`.
 
 ## 3. Ship
 

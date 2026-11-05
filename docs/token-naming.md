@@ -179,8 +179,8 @@ Rests on: `figma-sync.md`; the reason for dropping the prefix is inferred.
 3. Reuse the existing vocabulary: `bg`, `text`, `border`, `icon`, a `Hover` or `Active` suffix, `on<Fill>`, and the six status tones. Write multiword parts in camelCase; the CSS build turns them into kebab-case.
 4. Keep modes, themes, platforms and literal values out of the name.
 5. For a scale, reuse the kind of name that scale already uses (numbers, size words or role words).
-6. Give a semantic color both `light` and `dark` values that reference base tokens, add any new text or UI pairing to `contrast-pairs.json`, and run `npm run build -w @lockin/tokens`.
-7. Regenerate the Figma payload (`npm run figma -w @lockin/tokens`) and apply it, following [Figma token sync](./figma-sync.md).
+6. Give a semantic color both `light` and `dark` values that reference base tokens, add any new text or UI pairing to `contrast-pairs.json`, and run `npm run build -w @stillxp/tokens`.
+7. Regenerate the Figma payload (`npm run figma -w @stillxp/tokens`) and apply it, following [Figma token sync](./figma-sync.md).
 
 ## Open questions
 

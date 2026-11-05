@@ -3,8 +3,8 @@
   "name": "Search",
   "slug": "search",
   "import": {
-    "web": "import { Search } from '@lockin/react';",
-    "native": "import { Search } from '@lockin/react-native';"
+    "web": "import { Search } from '@stillxp/react';",
+    "native": "import { Search } from '@stillxp/react-native';"
   },
   "figma": {
     "fileKey": "1dgB7LeRgTrVIenTmmrlvr",

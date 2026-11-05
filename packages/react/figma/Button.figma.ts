@@ -36,7 +36,7 @@ const iconEnd = iconName('iconEnd', 'showIconEnd')
 
 export default {
   example: figma.code`<Button${variant !== 'primary' ? ` variant="${variant}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${iconStart ? ` iconStart="${iconStart}"` : ''}${iconEnd ? ` iconEnd="${iconEnd}"` : ''}${state === 'disabled' ? ' disabled' : ''}${state === 'loading' ? ' loading' : ''}>${children}</Button>`,
-  imports: ['import { Button } from "@lockin/react"'],
+  imports: ['import { Button } from "@stillxp/react"'],
   id: 'button',
   metadata: { nestable: true },
 }

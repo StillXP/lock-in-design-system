@@ -22,7 +22,7 @@ const columnsCode = columns.length ? `[${columns.join(', ')}]` : 'columns'
 
 export default {
   example: figma.code`<DataTable caption="${captionText ?? 'Describe the table'}" columns={${columnsCode}} rows={rows} getRowId={(row) => row.id}${density !== 'default' ? ` density="${density}"` : ''}${selectable ? ' selectable' : ''} />`,
-  imports: ['import { DataTable } from "@lockin/react"'],
+  imports: ['import { DataTable } from "@stillxp/react"'],
   id: 'datatable',
   metadata: { nestable: true },
 }

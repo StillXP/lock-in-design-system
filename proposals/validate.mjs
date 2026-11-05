@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { duplicateIds, loadProposals, validateProposal } from '@lockin/specs/proposals';
+import { duplicateIds, loadProposals, validateProposal } from '@stillxp/specs/proposals';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
