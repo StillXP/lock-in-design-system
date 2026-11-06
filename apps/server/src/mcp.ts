@@ -371,7 +371,7 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
     },
     ({ id, part }) => {
       const p = store.proposal(id);
-      const scope = part === 'code' ? 'Do sections 0, 1 and 3 only (skip the Figma library).' : part === 'figma' ? 'Do sections 0, 2 and 3 only: the code PR already exists.' : 'Do every section.';
+      const scope = part === 'code' ? 'Do sections 0, 1 and 3 only. Skip the Figma library for now, but say in the PR that section 2 is still required before release.' : part === 'figma' ? 'Do sections 0, 2 and 3 only: the code PR already exists.' : 'Do every section.';
       return playbook(
         'build-proposal',
         `Build ${p.intake.id} ${p.intake.title} (proposals/${p.slug}.json, status: ${p.intake.status}${p.intake.issue ? `, issue: ${p.intake.issue}` : ''}). ${scope}\nFollow this playbook:`,

@@ -6,6 +6,10 @@ name: Proposals
 #   status:accepted      → decision recorded; an agent scaffolds the component as a draft PR, or a comment asks
 #                          someone to run the build playbook
 #   status:triage / declined / released → script mirrors the status into the file (PR); closes the issue when done
+#   status:released      → first the release gate: a component must be in the Figma library as well as in code
+#                          (spec figma node and Props table, Code Connect template; with FIGMA_ACCESS_TOKEN, also the
+#                          library page, its Docs / Props frames and a Prop table row per prop). If not, the label
+#                          comes off again and a comment lists what's missing.
 #
 # Agent steps: the two "agent" steps below only say which playbook to follow (docs/propose.md,
 # docs/build-proposal.md) and which commands they may run. The playbooks are tool-neutral, so swapping the agent
@@ -19,7 +23,8 @@ name: Proposals
 #                            pull requests" is on, and whose PRs don't trigger CI.
 #   CLAUDE_CODE_OAUTH_TOKEN  optional; enables the agent steps with Claude Code (from `claude setup-token`, uses a
 #                            Claude subscription). Without it, the agent steps are left to a local agent session.
-#   FIGMA_ACCESS_TOKEN       optional; publishes Code Connect when a proposal is released
+#   FIGMA_ACCESS_TOKEN       recommended; lets the release gate read the Figma library and publishes Code Connect on
+#                            release. Without it the gate checks only the repo half and warns.
 
 on:
   issues:
@@ -155,6 +160,38 @@ jobs:
           git config user.name "lockin-proposals[bot]"
           git config user.email "lockin-proposals@users.noreply.github.com"
 
+      # Design and code parity is an acceptance criterion: no release without the Figma library component, its
+      # Props table and Code Connect. Runs before any label or file changes, so a blocked release keeps the
+      # previous status.
+      - name: Release gate (Figma parity)
+        id: gate
+        if: github.event.label.name == 'status:released'
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: node proposals/ci.mjs check-release
+
+      - name: Block the release
+        if: steps.gate.outputs.ready == 'false'
+        env:
+          ID: ${{ steps.gate.outputs.id }}
+          GAPS: ${{ steps.gate.outputs.gaps }}
+        run: |
+          gh issue edit "$NUMBER" --remove-label "status:released"
+          {
+            echo "Not released: $ID isn't in the Figma library as well as in code yet. Missing:"
+            echo
+            echo "$GAPS"
+            echo
+            echo "Finish section 2 of \`docs/build-proposal.md\` (MCP prompt \`build_proposal\` with part \`figma\`, or \`/ds-build $ID --figma\`), merge, publish the library, then add \`status:released\` again."
+          } > gate.md
+          gh issue comment "$NUMBER" --body-file gate.md
+          echo "::error::Release blocked: $ID has no Figma parity yet"
+          exit 1
+
+      - name: Warn that the Figma file wasn't checked
+        if: steps.gate.outputs.found == 'true' && steps.gate.outputs.ready == 'true' && steps.gate.outputs.figma == 'skipped'
+        run: echo "::warning::No FIGMA_ACCESS_TOKEN secret, so the release gate checked the repo half only (not the Figma page, its Docs / Props frames or the Prop table rows)."
+
       - name: Keep one status label
         env:
           LABEL: ${{ github.event.label.name }}
@@ -284,5 +321,6 @@ jobs:
             - Open the PR as a DRAFT titled "feat(react): add <Name> (LIP-NNN)" with "Refs #${{ github.event.issue.number }}"
               (not "Closes"). In its body, list what is still manual: section 2 of docs/build-proposal.md (any agent with
               Figma access, e.g. the build_proposal MCP prompt with part "figma"), publishing the library, then adding
-              status:released.
+              status:released. Say that section 2 is required: the release gate refuses status:released until the
+              spec has its figma node and props table and the Code Connect template exists.
             - Swap the issue's status:accepted label for status:in-code and comment with the PR link.

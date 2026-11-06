@@ -4,9 +4,11 @@ Intake for changes to Lock In: new components, variants, tokens, icons and patte
 
 ## Lifecycle
 
-`proposed → triage → accepted → in-design → in-code → released`, or `declined`.
+`proposed → triage → accepted → in-code → released`, or `declined`. `in-design` is for building the Figma side first; either way, a component needs both halves before release.
 
-![Proposal lifecycle: a hub or agent (submit_proposal) or the GitHub issue form files a proposal, which moves from Proposed through Triage, Accepted and In code to Released, with an optional In design route (Figma first, then code) and Declined as the other outcome. Each status label the owner adds runs the Proposals workflow, which mirrors it into proposals/<slug>.json.](../docs/diagrams/proposal-lifecycle.svg)
+**Design and code parity is an acceptance criterion.** A component proposal can't be released until it exists in the Figma library as well as in code: its own page laid out like the other component pages (Docs and Props frames), a Props table row for every prop, the spec's `figma` node and `figma.props` table, and a Code Connect template. The full list is in [Acceptance criteria](../docs/build-proposal.md#acceptance-criteria).
+
+![Proposal lifecycle: a hub or agent (submit_proposal) or the GitHub issue form files a proposal, which moves from Proposed through Triage, Accepted and In code to Released, Released only after the Figma parity gate (library page with Docs and Props frames, a Props table row per prop, spec figma mapping and Code Connect), and Declined as the other outcome. Each status label the owner adds runs the Proposals workflow, which mirrors it into proposals/<slug>.json.](../docs/diagrams/proposal-lifecycle.svg)
 
 [Open full size](../docs/diagrams/proposal-lifecycle.html)
 
@@ -43,18 +45,19 @@ The steps are in the [propose playbook](../docs/propose.md) and, once accepted, 
 | The hub files a proposal (`submit_proposal`) | The issue it opens embeds the proposal file. The workflow writes it to `proposals/<slug>.json` and opens a PR. If the id was taken meanwhile, it takes the next free one and renames the issue. |
 | Someone files the issue form | With a CI agent: it follows the propose playbook ("From an issue form"), drafts the proposal file, validates it and opens the PR (only for the repo owner, members and collaborators, since issue text is untrusted). Without one: a comment asks someone to run the playbook with their agent. |
 | `status:accepted` is added | The decision is recorded. With a CI agent: it follows the build playbook (code only) on `feat/<slug>` (spec, React, React Native, stories, docs, checks), opens a **draft** PR and moves the issue to `status:in-code`. Without one: a small PR records the decision and a comment asks someone to run the build playbook. |
-| `status:triage` / `status:declined` / `status:released` is added | A small PR updates the file's status (and decision). Declined and released close the issue; released also publishes Code Connect when `FIGMA_ACCESS_TOKEN` is set. |
+| `status:released` is added | First the release gate (`node proposals/ci.mjs check-release`): a component must have its spec `figma` node and Props table and a Code Connect template, and, with `FIGMA_ACCESS_TOKEN`, a library page with Docs and Props frames and a Prop table row per prop. If anything is missing, the label comes off again and a comment lists it. Otherwise it continues like the row below and publishes Code Connect when `FIGMA_ACCESS_TOKEN` is set. |
+| `status:triage` / `status:declined` / `status:released` is added | A small PR updates the file's status (and decision). Declined and released close the issue. |
 
 Secrets:
 - `PROPOSALS_BOT_TOKEN` (needed): a fine-grained token with contents, pull requests and issues write access. Without it the workflow falls back to `GITHUB_TOKEN`, which can't open PRs in this repo and whose PRs wouldn't trigger CI.
 - `CLAUDE_CODE_OAUTH_TOKEN` (optional): turns on the CI agent, which is Claude Code today (`claude setup-token`; runs on a Claude subscription). Leave it out to run those steps in a local agent session instead.
 
 The CI agent is swappable. The two agent steps only pass a prompt ("follow `docs/<playbook>.md`, with these CI limits") and an allow-list of commands. To use another agent, replace those steps' `uses:`/`with:` with that agent's GitHub Action, and point `HAS_AGENT` at its secret.
-- `FIGMA_ACCESS_TOKEN` (optional): Code Connect publish on release.
+- `FIGMA_ACCESS_TOKEN` (recommended): lets the release gate read the Figma library, and publishes Code Connect on release. Without it the gate checks only the repo half and the run shows a warning.
 
 The script steps live in `proposals/ci.mjs` (`npm run test:proposals`).
 
-Still manual on purpose: triage decisions, merging, the Figma library component and its publish, and adding `status:released` once it's published.
+Still manual on purpose: triage decisions, merging, the Figma library component (required, and checked by the release gate) and its publish, and adding `status:released` once it's published.
 
 ## Triage checklist
 
