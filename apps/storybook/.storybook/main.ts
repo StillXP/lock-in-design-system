@@ -22,8 +22,8 @@ const config: StorybookConfig = {
     config.resolve ??= {};
     config.resolve.alias = [
       ...(Array.isArray(config.resolve.alias) ? config.resolve.alias : []),
-      { find: /^@lockin\/react$/, replacement: fromRoot('packages/react/src/index.ts') },
-      { find: /^@lockin\/icons$/, replacement: fromRoot('packages/icons/src/index.ts') },
+      { find: /^@stillxp\/react$/, replacement: fromRoot('packages/react/src/index.ts') },
+      { find: /^@stillxp\/icons$/, replacement: fromRoot('packages/icons/src/index.ts') },
     ];
     return config;
   },
