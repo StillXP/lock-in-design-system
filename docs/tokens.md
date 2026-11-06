@@ -4,6 +4,20 @@
 
 Tokens are named design decisions. Source files live in `packages/tokens/src/` in [DTCG](https://www.designtokens.org/) format (`$value`, `$type`, `$description`). One build turns them into CSS, JS/TS, React Native and JSON. For why the names look the way they do, see [Token naming](./token-naming.md).
 
+## Source format
+
+Values follow the [DTCG Format Module 2025.10](https://www.designtokens.org/tr/2025.10/format/). The build rejects anything else and names the token and file.
+
+| `$type` | `$value` | CSS output |
+| --- | --- | --- |
+| `color` | `{ "colorSpace": "srgb", "components": [0.8627, 0.149, 0.149], "hex": "#DC2626" }`. Add `"alpha": 0.5` for translucency; `"alpha": 0` is transparent. `hex` must match `components`. | `#DC2626`, `rgba(0, 0, 0, 0.5)`, `transparent` |
+| `dimension` | `{ "value": 16, "unit": "px" }`. Units: `px`, `rem` | `16px` (`rem` for font sizes, spacing and sizes) |
+| `duration` | `{ "value": 120, "unit": "ms" }`. Units: `ms`, `s` | `120ms` |
+| `shadow` | `offsetX`, `offsetY`, `blur`, `spread` as dimensions, plus a `color` (opacity goes in the color's `alpha`) and an optional `inset` | `0px 4px 12px -2px rgba(…)` |
+| any | A reference: `"{color.neutral.900}"` | `var(--ds-color-neutral-900)` |
+
+Not yet spec-conformant, tracked in `TODO.md`: light/dark values sit inside `$value` as `{ "light": …, "dark": … }` instead of using the DTCG Resolver module; `font.letterSpacing.*` and `font.underlineOffset.*` use `em`, which the spec doesn't allow for dimensions; `font.decoration` and `font.transform` use `$type: "string"`, which isn't a DTCG type.
+
 ![Token pipeline: base, semantic and theme JSON are resolved, pass the WCAG contrast gate, then emit CSS, JS/TS, React Native and JSON outputs.](./diagrams/token-pipeline.svg)
 
 [Open full size](./diagrams/token-pipeline.html)

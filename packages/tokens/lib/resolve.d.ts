@@ -3,7 +3,10 @@ export type Mode = 'light' | 'dark';
 export interface RawToken {
   path: string;
   type?: string;
+  /** CSS-ready value (DTCG color/dimension/duration objects turned into strings). */
   value: unknown;
+  /** The $value as written in the source file (DTCG 2025.10). */
+  source: unknown;
   description?: string;
   extensions?: Record<string, unknown>;
   file?: string;
@@ -28,6 +31,8 @@ export declare const SRC_DIR: string;
 export declare const MODES: Mode[];
 export declare const CSS_PREFIX: string;
 export declare function isModeValue(v: unknown): boolean;
+export declare function valueErrors(type: string | undefined, value: unknown, path?: string): string[];
+export declare function toCssValue(value: unknown): unknown;
 export declare function loadTokens(opts?: { srcDir?: string; theme?: string | ThemeConfig | null }): Map<string, RawToken>;
 export declare function listThemes(srcDir?: string): ThemeConfig[];
 export declare function loadTheme(name: string, srcDir?: string): ThemeConfig;

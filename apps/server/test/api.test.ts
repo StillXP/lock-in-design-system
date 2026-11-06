@@ -166,6 +166,19 @@ describe('versioning and change tracking', () => {
     assert.ok(body.details.length > 0);
     assert.equal(readFileSync(file, 'utf8'), original);
   });
+  test('rejects token values that are not DTCG 2025.10 and leaves the file untouched', async () => {
+    const file = join(root, 'packages/tokens/src/base/spacing.json');
+    const original = readFileSync(file, 'utf8');
+    for (const value of ['16px', { value: 16, unit: 'pt' }]) {
+      const { status, body } = await api('PUT', '/api/tokens/space.md', keys.editor, { value });
+      assert.equal(status, 422, JSON.stringify(value));
+      assert.match(body.error, /space\.md/);
+    }
+    assert.equal(readFileSync(file, 'utf8'), original);
+    const { body } = await api('GET', '/api/tokens/space.md', keys.viewer);
+    assert.equal(body.value, '16px');
+    assert.deepEqual(body.source.value, { value: 16, unit: 'px' });
+  });
   test('rejects token names that could reach Object.prototype', async () => {
     for (const name of ['__proto__', '__proto__.x', 'color.constructor.prototype', 'a/b']) {
       const { status } = await api('PUT', `/api/tokens/${encodeURIComponent(name)}`, keys.editor, { value: '#fff', type: 'color' });

@@ -207,10 +207,10 @@ export function createMcpServer(store: DesignSystemStore, db: Db, principal: Pri
       'update_token',
       {
         title: 'Create or update a token',
-        description: 'Sets a token value. Semantic colors take { "light": "{color.x.y}", "dark": "{color.x.y}" } referencing base tokens. Rejected if any WCAG contrast pair would fail. Outputs are rebuilt and the change is logged.',
+        description: 'Sets a token value. Semantic colors take { "light": "{color.x.y}", "dark": "{color.x.y}" } referencing base tokens. Literal values use the DTCG 2025.10 format: colors { "colorSpace": "srgb", "components": [r, g, b], "alpha"?, "hex"? } (components 0-1), dimensions and durations { "value": 16, "unit": "px" }. Rejected if the value is malformed or any WCAG contrast pair would fail. Outputs are rebuilt and the change is logged.',
         inputSchema: {
           name: z.string().describe('Token path'),
-          value: z.unknown().describe('New $value'),
+          value: z.unknown().describe('New $value (DTCG 2025.10 format, or a {reference})'),
           type: z.string().optional().describe('Required when creating'),
           description: z.string().optional(),
           layer: z.enum(['base', 'semantic']).optional(),

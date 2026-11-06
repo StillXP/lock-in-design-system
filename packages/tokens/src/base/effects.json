@@ -2,19 +2,27 @@
   "shadow": {
     "$type": "shadow",
     "$description": "Elevation. In dark mode, pair elevation with a border (color.border.subtle) since shadows are less visible.",
-    "sm": { "$value": { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "color": "{color.neutral.900}", "alpha": 0.08 } },
-    "md": { "$value": { "offsetX": "0px", "offsetY": "4px", "blur": "12px", "spread": "-2px", "color": "{color.neutral.900}", "alpha": 0.12 } },
-    "lg": { "$value": { "offsetX": "0px", "offsetY": "12px", "blur": "24px", "spread": "-4px", "color": "{color.neutral.900}", "alpha": 0.16 } },
-    "xl": { "$value": { "offsetX": "0px", "offsetY": "24px", "blur": "48px", "spread": "-8px", "color": "{color.neutral.900}", "alpha": 0.24 } }
+    "sm": {
+      "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 1, "unit": "px" }, "blur": { "value": 2, "unit": "px" }, "spread": { "value": 0, "unit": "px" }, "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.08, "hex": "#000000" } }
+    },
+    "md": {
+      "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 4, "unit": "px" }, "blur": { "value": 12, "unit": "px" }, "spread": { "value": -2, "unit": "px" }, "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.12, "hex": "#000000" } }
+    },
+    "lg": {
+      "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 12, "unit": "px" }, "blur": { "value": 24, "unit": "px" }, "spread": { "value": -4, "unit": "px" }, "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.16, "hex": "#000000" } }
+    },
+    "xl": {
+      "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 24, "unit": "px" }, "blur": { "value": 48, "unit": "px" }, "spread": { "value": -8, "unit": "px" }, "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.24, "hex": "#000000" } }
+    }
   },
   "motion": {
     "duration": {
       "$type": "duration",
       "$description": "Honor prefers-reduced-motion: components drop to instant when the user asks for reduced motion (WCAG 2.3.3).",
-      "instant": { "$value": "0ms" },
-      "fast": { "$value": "120ms" },
-      "normal": { "$value": "200ms" },
-      "slow": { "$value": "320ms" }
+      "instant": { "$value": { "value": 0, "unit": "ms" } },
+      "fast": { "$value": { "value": 120, "unit": "ms" } },
+      "normal": { "$value": { "value": 200, "unit": "ms" } },
+      "slow": { "$value": { "value": 320, "unit": "ms" } }
     },
     "easing": {
       "$type": "cubicBezier",

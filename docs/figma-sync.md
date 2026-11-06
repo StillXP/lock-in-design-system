@@ -46,8 +46,8 @@ To build a themed mode:
 1. Load the tokens with the theme applied and read the light or dark value.
 2. In the default Light and Dark modes, a reference to `color.brand.N` stays an alias to `Primitives/brand/N`. In a themed mode it becomes an alias to `Primitives/<hue>/N`, where the hue is the theme's brand. Themes never remap `Primitives/brand/N` itself, because Primitives has only one mode.
 3. A reference to another semantic color becomes an alias to that Color variable.
-4. Tokens with `ds.alpha` (the modal scrim) have the alpha baked in, so they are literal RGBA values, not aliases.
-5. `transparent` becomes RGBA `0, 0, 0, 0`.
+4. Literal colors with an `alpha` below 1 (the modal scrim) become RGBA values, not aliases.
+5. A color with `alpha: 0` (`transparent` in CSS) becomes RGBA `0, 0, 0, 0`.
 
 ## Units and types
 
