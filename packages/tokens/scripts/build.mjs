@@ -32,7 +32,7 @@ function cssValue(path, entry, mode) {
   const value = entry.values[mode];
   const ref = entry.refs[mode];
   // Keep the alias chain visible in devtools: semantic -> base via var().
-  if (ref && typeof value === 'string' && !token.extensions?.['ds.alpha']) return `var(${cssVarName(ref)})`;
+  if (ref && typeof value === 'string') return `var(${cssVarName(ref)})`;
   switch (token.type) {
     case 'dimension':
       return REM_GROUPS.some((g) => path.startsWith(g)) && value.endsWith('px') ? pxToRem(value) : value;

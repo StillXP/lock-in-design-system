@@ -1,4 +1,4 @@
-// Token engine: loads DTCG-style JSON sources, applies a theme, and resolves
+// Token engine: loads DTCG (Format Module 2025.10) JSON sources, validates their values, applies a theme, and resolves
 // references per color mode. Zero dependencies so the build, the contrast
 // checker and the server can all share it.
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
@@ -21,6 +21,101 @@ export const isModeValue = (v) =>
   v !== null && typeof v === 'object' && !Array.isArray(v) && ('light' in v || 'dark' in v) &&
   Object.keys(v).every((k) => MODES.includes(k));
 
+// ---------- DTCG 2025.10 values ----------
+// Sources follow the Format Module 2025.10 (https://www.designtokens.org/tr/2025.10/format/):
+// colors are { colorSpace, components, alpha?, hex? }, dimensions and durations are { value, unit }.
+// The engine turns them into CSS-ready strings ("#DC2626", "rgba(…)", "16px", "120ms") so every
+// output (CSS, JS, native, JSON, Figma) keeps working on plain strings.
+
+const isPlainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+const isRef = (v) => typeof v === 'string' && REF.test(v);
+const isColorObject = (v) => isPlainObject(v) && 'colorSpace' in v;
+const isUnitObject = (v) =>
+  isPlainObject(v) && Object.keys(v).length === 2 && typeof v.value === 'number' && typeof v.unit === 'string';
+
+const DIMENSION_UNITS = ['px', 'rem'];
+// `em` is not a DTCG dimension unit. Letter spacing and underline offset still need it until
+// they move to a spec type (see TODO.md); nothing else may use it.
+const EM_PATHS = ['font.letterSpacing.', 'font.underlineOffset.'];
+const SHADOW_DIMENSIONS = ['offsetX', 'offsetY', 'blur', 'spread'];
+
+const hexFromComponents = (components) =>
+  `#${components.map((c) => Math.round(c * 255).toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+
+function colorErrors(v) {
+  if (isRef(v)) return [];
+  if (!isColorObject(v)) return [`color must be a reference or { colorSpace, components, alpha?, hex? }, got ${JSON.stringify(v)}`];
+  const errors = [];
+  if (v.colorSpace !== 'srgb') errors.push(`colorSpace "${v.colorSpace}" is not supported (use "srgb")`);
+  if (!Array.isArray(v.components) || v.components.length !== 3 || !v.components.every((c) => typeof c === 'number' && c >= 0 && c <= 1)) {
+    errors.push('components must be three numbers between 0 and 1');
+  }
+  if (v.alpha !== undefined && !(typeof v.alpha === 'number' && v.alpha >= 0 && v.alpha <= 1)) errors.push('alpha must be a number between 0 and 1');
+  if (v.hex !== undefined) {
+    if (!/^#[0-9a-f]{6}$/i.test(v.hex)) errors.push(`hex "${v.hex}" must be #RRGGBB`);
+    else if (!errors.length && hexFromComponents(v.components) !== v.hex.toUpperCase()) {
+      errors.push(`hex ${v.hex} does not match components (${hexFromComponents(v.components)})`);
+    }
+  }
+  const extra = Object.keys(v).filter((k) => !['colorSpace', 'components', 'alpha', 'hex'].includes(k));
+  if (extra.length) errors.push(`unknown color properties: ${extra.join(', ')}`);
+  return errors;
+}
+
+function unitErrors(v, units, kind) {
+  if (isRef(v)) return [];
+  if (!isUnitObject(v)) return [`${kind} must be a reference or { value, unit }, got ${JSON.stringify(v)}`];
+  return units.includes(v.unit) ? [] : [`${kind} unit "${v.unit}" must be one of ${units.join(', ')}`];
+}
+
+/** Errors for one raw $value against its DTCG type. Types without a check here pass. */
+export function valueErrors(type, value, path = '') {
+  if (isModeValue(value)) return Object.values(value).flatMap((v) => valueErrors(type, v, path));
+  switch (type) {
+    case 'color':
+      return colorErrors(value);
+    case 'dimension':
+      return unitErrors(value, EM_PATHS.some((p) => path.startsWith(p)) ? [...DIMENSION_UNITS, 'em'] : DIMENSION_UNITS, 'dimension');
+    case 'duration':
+      return unitErrors(value, ['ms', 's'], 'duration');
+    case 'shadow': {
+      if (isRef(value)) return [];
+      if (!isPlainObject(value)) return [`shadow must be an object, got ${JSON.stringify(value)}`];
+      const extra = Object.keys(value).filter((k) => ![...SHADOW_DIMENSIONS, 'color', 'inset'].includes(k));
+      return [
+        ...SHADOW_DIMENSIONS.flatMap((k) => (k in value ? unitErrors(value[k], DIMENSION_UNITS, `shadow ${k}`) : [`shadow is missing ${k}`])),
+        ...colorErrors(value.color),
+        ...(value.inset !== undefined && typeof value.inset !== 'boolean' ? ['shadow inset must be a boolean'] : []),
+        ...(extra.length ? [`unknown shadow properties: ${extra.join(', ')}`] : []),
+      ];
+    }
+    default:
+      return [];
+  }
+}
+
+function colorToCss(v) {
+  const alpha = v.alpha ?? 1;
+  if (alpha === 0) return 'transparent';
+  const [r, g, b] = v.components.map((c) => Math.round(c * 255));
+  return alpha < 1 ? `rgba(${r}, ${g}, ${b}, ${alpha})` : (v.hex?.toUpperCase() ?? hexFromComponents(v.components));
+}
+
+/** Turn DTCG value objects (anywhere inside a $value) into CSS-ready strings. References are kept. */
+export function toCssValue(v) {
+  if (isColorObject(v)) return colorToCss(v);
+  if (isUnitObject(v)) return `${v.value}${v.unit}`;
+  if (isPlainObject(v)) return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, toCssValue(x)]));
+  return v;
+}
+
+/** Validate a raw $value and return its CSS-ready form. Throws with the token path on invalid values. */
+function prepareValue(type, raw, path, where) {
+  const errors = valueErrors(type, raw, path);
+  if (errors.length) throw new Error(`${where}${path}: ${errors.join('; ')}`);
+  return toCssValue(raw);
+}
+
 /** Flatten a DTCG tree into Map<path, token>, inheriting $type from groups. */
 export function flatten(tree, { file, layer } = {}, prefix = [], inherited = {}, out = new Map()) {
   const type = tree.$type ?? inherited.type;
@@ -28,10 +123,13 @@ export function flatten(tree, { file, layer } = {}, prefix = [], inherited = {},
     if (key.startsWith('$') || node === null || typeof node !== 'object') continue;
     const path = [...prefix, key];
     if ('$value' in node) {
+      const tokenType = node.$type ?? type;
       out.set(path.join('.'), {
         path: path.join('.'),
-        type: node.$type ?? type,
-        value: node.$value,
+        type: tokenType,
+        // CSS-ready value the engine resolves; `source` keeps the DTCG $value as written.
+        value: prepareValue(tokenType, node.$value, path.join('.'), file ? `${file}: ` : ''),
+        source: node.$value,
         description: node.$description,
         extensions: node.$extensions,
         file,
@@ -80,7 +178,7 @@ function applyTheme(tokens, theme) {
   for (const [path, value] of Object.entries(theme.overrides ?? {})) {
     const token = tokens.get(path);
     if (!token) throw new Error(`Theme "${theme.name}" overrides unknown token ${path}`);
-    tokens.set(path, { ...token, value });
+    tokens.set(path, { ...token, value: prepareValue(token.type, value, path, `Theme "${theme.name}": `), source: value });
   }
 }
 
@@ -90,12 +188,7 @@ export function resolveToken(tokens, path, mode = 'light', seen = []) {
   const token = tokens.get(path);
   if (!token) throw new Error(`Unknown token reference {${path}}${seen.length ? ` (from ${seen.at(-1)})` : ''}`);
   const raw = isModeValue(token.value) ? token.value[mode] ?? token.value.light : token.value;
-  const resolved = resolveValue(tokens, raw, mode, [...seen, path]);
-  const alpha = token.extensions?.['ds.alpha'];
-  if (alpha !== undefined && typeof resolved.value === 'string') {
-    resolved.value = withAlpha(resolved.value, typeof alpha === 'object' ? alpha[mode] : alpha);
-  }
-  return resolved;
+  return resolveValue(tokens, raw, mode, [...seen, path]);
 }
 
 function resolveValue(tokens, raw, mode, seen) {
@@ -110,10 +203,6 @@ function resolveValue(tokens, raw, mode, seen) {
   if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
     const value = {};
     for (const [k, v] of Object.entries(raw)) value[k] = resolveValue(tokens, v, mode, seen).value;
-    if ('alpha' in value && typeof value.color === 'string') {
-      value.color = withAlpha(value.color, value.alpha);
-      delete value.alpha;
-    }
     return { value, refs: [] };
   }
   return { value: raw, refs: [] };

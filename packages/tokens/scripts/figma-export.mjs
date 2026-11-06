@@ -59,8 +59,6 @@ function colorValue(tokens, path, mode, themed) {
   const raw = typeof token.value === 'object' && ('light' in token.value || 'dark' in token.value)
     ? token.value[mode] ?? token.value.light
     : token.value;
-  // Alpha is baked into the color, so it can't stay an alias.
-  if (token.extensions?.['ds.alpha'] !== undefined) return parseColor(resolveToken(tokens, path, mode).value);
   const m = typeof raw === 'string' && raw.match(REF);
   return m ? colorAlias(tokens, m[1], themed) : parseColor(raw);
 }

@@ -139,7 +139,7 @@ export class DesignSystemStore {
     const usedBy = this.components()
       .filter((c) => c.tokens.some((t: Spec) => t.token === name))
       .map((c) => c.name);
-    return { ...flat, source: { value: raw.value, file: raw.file && basename(raw.file), layer: raw.layer }, usedBy };
+    return { ...flat, source: { value: raw.source, file: raw.file && basename(raw.file), layer: raw.layer }, usedBy };
   }
 
   /** Update (or create) a token in its source file, rebuild outputs and enforce contrast. */
