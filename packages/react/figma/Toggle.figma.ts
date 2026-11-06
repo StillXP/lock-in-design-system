@@ -15,7 +15,7 @@ const state = instance.getEnum('state', { default: 'default', hover: 'hover', fo
 
 export default {
   example: figma.code`<Toggle label="${label}"${hideLabel ? ' hideLabel' : ''}${description ? ` description="${description}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${checked === 'true' ? ' checked' : ''}${state === 'disabled' ? ' disabled' : ''} />`,
-  imports: ['import { Toggle } from "@lockin/react"'],
+  imports: ['import { Toggle } from "@stillxp/react"'],
   id: 'toggle',
   metadata: { nestable: true },
 }

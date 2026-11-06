@@ -16,7 +16,7 @@ When a component could fit two levels, pick by what it composes. A control that 
 
 Lock In stops at organisms. Templates and pages belong to each project, because they hold that project's content and routes. Build them from organisms, molecules and atoms.
 
-The level only organizes the system. Every component imports from `@lockin/react` (or `@lockin/react-native`) the same way, whatever its level.
+The level only organizes the system. Every component imports from `@stillxp/react` (or `@stillxp/react-native`) the same way, whatever its level.
 
 ### Atoms
 
@@ -66,7 +66,7 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 ```jsonc
 {
   "name": "Button",
-  "import": { "web": "import { Button } from '@lockin/react';", "native": "…" },
+  "import": { "web": "import { Button } from '@stillxp/react';", "native": "…" },
   "figma": { "fileKey": "1dgB7LeRgTrVIenTmmrlvr", "nodeId": "5:422", "props": [] }, // optional: the component set in the Figma library, and how its properties map to `props`
   "status": "beta",            // experimental | beta | stable | deprecated
   "version": "0.4.0",          // semver of this component's API
@@ -82,9 +82,9 @@ Every spec has the same shape (`packages/specs/schema/component.schema.json`):
 }
 ```
 
-`npm run validate -w @lockin/specs` checks every spec against the schema and that every referenced token exists.
+`npm run validate -w @stillxp/specs` checks every spec against the schema and that every referenced token exists.
 
-`npm run check:code -w @lockin/specs` checks every spec against the components themselves. It reads the props type of each React and React Native component with the TypeScript compiler and reports:
+`npm run check:code -w @stillxp/specs` checks every spec against the components themselves. It reads the props type of each React and React Native component with the TypeScript compiler and reports:
 
 - a prop the component declares that the spec doesn't list (props that only pass through from HTML or React Native types, plus `className`, `style` and `ref`, are exempt);
 - a spec prop the component doesn't have on a platform it lists;
@@ -105,11 +105,11 @@ Types other than string-literal unions are not compared, and a default that is a
 
 Validation requires every prop in `props` to appear in exactly one row, so adding a prop without mapping it fails. An `aligned` row also fails if the defaults differ. The hub shows the rows under "Figma ↔ code props" on the component page, and the same table is on the component's page in the Figma library, so keep the two in step.
 
-`npm run check:figma -w @lockin/specs` keeps the Code Connect templates in `packages/react/figma/` in step with these rows. For each component's main template it checks that every Figma property the template reads has a row, that the call matches the row's `figmaType`, and that a `getEnum` maps exactly the row's `figmaValues`. Templates for sub-components (Tab, DropdownItem and so on) and layer lookups (`findText`, `findInstance`) are not checked.
+`npm run check:figma -w @stillxp/specs` keeps the Code Connect templates in `packages/react/figma/` in step with these rows. For each component's main template it checks that every Figma property the template reads has a row, that the call matches the row's `figmaType`, and that a `getEnum` maps exactly the row's `figmaValues`. Templates for sub-components (Tab, DropdownItem and so on) and layer lookups (`findText`, `findInstance`) are not checked.
 
 ## Shared conventions
 
-Same API on both platforms. Prop names match between `@lockin/react` and `@lockin/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:
+Same API on both platforms. Prop names match between `@stillxp/react` and `@stillxp/react-native`. Where platforms genuinely differ, the spec marks the prop with `platforms`:
 
 | Concept | Web | Native |
 | --- | --- | --- |
@@ -147,7 +147,7 @@ Forwarded refs and rest props (web). Leaf components forward refs and spread rem
 ## Composition example (web)
 
 ```tsx
-import { Button, DataTable, Dropdown, Modal, Search, Tag, type DataTableColumn } from '@lockin/react';
+import { Button, DataTable, Dropdown, Modal, Search, Tag, type DataTableColumn } from '@stillxp/react';
 
 const columns: DataTableColumn<Team>[] = [
   { key: 'name', header: 'Team', isRowHeader: true, sortable: true },

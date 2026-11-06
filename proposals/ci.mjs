@@ -11,7 +11,7 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { figmaReleaseGaps, loadProposals, nextProposalId, proposalFromIssueBody, releaseGaps, validateProposal } from '@lockin/specs/proposals';
+import { figmaReleaseGaps, loadProposals, nextProposalId, proposalFromIssueBody, releaseGaps, validateProposal } from '@stillxp/specs/proposals';
 
 const STATUSES = ['proposed', 'triage', 'accepted', 'in-design', 'in-code', 'released', 'declined'];
 const today = () => new Date().toISOString().slice(0, 10);

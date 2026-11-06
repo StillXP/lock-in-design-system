@@ -76,7 +76,7 @@ h1 { font: var(--ds-typography-heading-xl); letter-spacing: var(--ds-typography-
 ```
 
 ```html
-<h2 class="ds-text-heading-md">Group A</h2>   <!-- with @lockin/tokens/css/typography -->
+<h2 class="ds-text-heading-md">Group A</h2>   <!-- with @stillxp/tokens/css/typography -->
 ```
 
 ```tsx
@@ -93,11 +93,11 @@ The web token sheets load the fonts the family tokens name, so there is nothing 
 - Inter, for `font.family.sans` and `font.family.display`.
 - JetBrains Mono, for `font.family.mono`.
 
-Both ship as variable fonts inside `@lockin/tokens`, so every token weight (300 to 700) comes from one file per subset. The `@font-face` rules cover the Latin and Latin Extended subsets, use `font-display: swap`, and are inlined at the top of `tokens.css` and every theme sheet. Browsers download a file only when the page uses characters from its subset.
+Both ship as variable fonts inside `@stillxp/tokens`, so every token weight (300 to 700) comes from one file per subset. The `@font-face` rules cover the Latin and Latin Extended subsets, use `font-display: swap`, and are inlined at the top of `tokens.css` and every theme sheet. Browsers download a file only when the page uses characters from its subset.
 
-The files are served from `@lockin/tokens/fonts/*` (`dist/fonts/`); a token sheet reaches them with `../fonts/<file>`, so your bundler or server needs to handle `url()` assets in CSS (Vite, Next.js and webpack do, and the hub serves them at `/assets/fonts/`). Both fonts use the SIL Open Font License 1.1, and the license texts sit next to the files.
+The files are served from `@stillxp/tokens/fonts/*` (`dist/fonts/`); a token sheet reaches them with `../fonts/<file>`, so your bundler or server needs to handle `url()` assets in CSS (Vite, Next.js and webpack do, and the hub serves them at `/assets/fonts/`). Both fonts use the SIL Open Font License 1.1, and the license texts sit next to the files.
 
-To add or replace a font, put the `.woff2` and its license in `packages/tokens/src/fonts/`, add its `@font-face` rule to `fonts.css` with `url('./<file>')`, and run `npm run build -w @lockin/tokens`. A project theme that swaps `font.family.display` for another face has to ship that face's `@font-face` itself.
+To add or replace a font, put the `.woff2` and its license in `packages/tokens/src/fonts/`, add its `@font-face` rule to `fonts.css` with `url('./<file>')`, and run `npm run build -w @stillxp/tokens`. A project theme that swaps `font.family.display` for another face has to ship that face's `@font-face` itself.
 
 React Native uses the platform system font (`ds.native: System`) and does not load these files.
 
@@ -132,12 +132,12 @@ Base unit is 16px (`space.md`). Ten steps, all divisible by 4:
 
 | Import | Contents |
 | --- | --- |
-| `@lockin/tokens/css` | `--ds-*` custom properties; light on `:root`, dark via `[data-theme="dark"]` or `prefers-color-scheme`. Includes the `@font-face` rules for Inter and JetBrains Mono |
-| `@lockin/tokens/css/themes/<name>` | Complete sheet for a project theme (use instead of `css`), with the same font rules |
-| `@lockin/tokens/fonts/*` | The font files (`.woff2`) and their licenses |
-| `@lockin/tokens` | `tokens.light`, `tokens.dark`, `themes`, `cssVars` (typed) |
-| `@lockin/tokens/native` | `nativeTokens.light/dark`, `nativeThemes` (numbers, RN shadows) |
-| `@lockin/tokens/json/tokens.flat.json` | Flat list for tooling and AI: `name`, `cssVar`, `type`, `layer`, `value` (light/dark), `aliasOf`, `description` |
+| `@stillxp/tokens/css` | `--ds-*` custom properties; light on `:root`, dark via `[data-theme="dark"]` or `prefers-color-scheme`. Includes the `@font-face` rules for Inter and JetBrains Mono |
+| `@stillxp/tokens/css/themes/<name>` | Complete sheet for a project theme (use instead of `css`), with the same font rules |
+| `@stillxp/tokens/fonts/*` | The font files (`.woff2`) and their licenses |
+| `@stillxp/tokens` | `tokens.light`, `tokens.dark`, `themes`, `cssVars` (typed) |
+| `@stillxp/tokens/native` | `nativeTokens.light/dark`, `nativeThemes` (numbers, RN shadows) |
+| `@stillxp/tokens/json/tokens.flat.json` | Flat list for tooling and AI: `name`, `cssVar`, `type`, `layer`, `value` (light/dark), `aliasOf`, `description` |
 
 CSS variable names are the token path with dots replaced by dashes and camelCase turned into kebab-case: `color.text.primary` → `--ds-color-text-primary`, `color.text.linkHover` → `--ds-color-text-link-hover`. Every other surface (JS, React Native, JSON, REST, MCP) keeps the camelCase token name, and the flat JSON lists the exact `cssVar` for each token.
 

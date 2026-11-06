@@ -9,7 +9,7 @@ The Figma library is https://www.figma.com/design/1dgB7LeRgTrVIenTmmrlvr. It was
 ## Generating the payload
 
 ```
-npm run figma -w @lockin/tokens
+npm run figma -w @stillxp/tokens
 ```
 
 This reads `packages/tokens/src/` and writes `packages/tokens/dist/figma/variables.json`. It does not touch Figma. Applying the payload (creating, updating and flagging variables through the Figma plugin API) is a separate step.

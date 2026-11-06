@@ -3,8 +3,8 @@
   "name": "Icon",
   "slug": "icon",
   "import": {
-    "web": "import { Icon } from '@lockin/react';",
-    "native": "import { Icon } from '@lockin/react-native';"
+    "web": "import { Icon } from '@stillxp/react';",
+    "native": "import { Icon } from '@stillxp/react-native';"
   },
   "figma": {
     "fileKey": "1dgB7LeRgTrVIenTmmrlvr",
@@ -21,7 +21,7 @@
   "version": "0.4.0",
   "category": "media",
   "level": "atom",
-  "purpose": "Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
+  "purpose": "Renders a glyph from the @stillxp/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.",
   "props": [
     { "name": "name", "type": "IconName", "required": true, "description": "Icon id. List with GET /api/icons or the MCP tool list_icons." },
     { "name": "size", "type": "'sm' | 'md' | 'lg' | 'xl' | number", "default": "md", "required": false, "description": "16/20/24/32px, or a pixel number." },

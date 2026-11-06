@@ -10,7 +10,7 @@ const external = instance.getBoolean('external')
 
 export default {
   example: figma.code`<Link href="/"${variant !== 'inline' ? ` variant="${variant}"` : ''}${external ? ' external' : ''}>${children}</Link>`,
-  imports: ['import { Link } from "@lockin/react"'],
+  imports: ['import { Link } from "@stillxp/react"'],
   id: 'link',
   metadata: { nestable: true },
 }

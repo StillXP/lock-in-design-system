@@ -22,7 +22,7 @@ Read `AGENTS.md`, "Adding a component" in [Contributing](./contributing.md) and 
 3. **Native:** add `packages/react-native/src/components/<Name>.tsx` with the same props, and export it. Use `t.typography.*.lineHeight` for line-based heights.
 4. **Stories:** add `apps/storybook/src/stories/<level>s/<Name>.stories.tsx` with `specMeta('<slug>')`, one story per variant and notable state.
 5. **Docs:** add a row in `docs/components.md`, add the component to `llms.txt`, and bump the component count in `apps/server/test/api.test.ts`.
-6. **Checks:** `npm run check`, `npm test -w @lockin/specs`, `npm test -w @lockin/server`, `npm run validate:proposals`, then `npm run build` (includes the story and axe tests). Fix failures until they pass. On Windows, if vitest crashes on start with an access violation, rerun it once before treating it as a failure.
+6. **Checks:** `npm run check`, `npm test -w @stillxp/specs`, `npm test -w @stillxp/server`, `npm run validate:proposals`, then `npm run build` (includes the story and axe tests). Fix failures until they pass. On Windows, if vitest crashes on start with an access violation, rerun it once before treating it as a failure.
 
 ## 2. Figma library (required)
 
@@ -36,8 +36,8 @@ Needs a person's Figma access, so CI never does this half, but the proposal can'
    - Resizing a frame can freeze hug sizing; check it after any resize.
    - Variant copy must not keep the sibling's defaults (for example "Email").
 5. Clone the sibling's **Docs / <Sibling>** and **Props / <Sibling>** frames, rewrite them for the new component, and screenshot both.
-6. Add `figma` (fileKey, nodeId, `props` rows) to the spec, and run `npm run validate -w @lockin/specs`.
-7. Write `packages/react/figma/<Name>.figma.ts`. Read nested properties from their instances: `instance.findInstance('Label row').getString('label')`, `findInstance('Hint').getString('text')`, `findInstance('Error').getString('message')`. Then run `npm run check:figma -w @lockin/specs` and `npx figma connect parse`.
+6. Add `figma` (fileKey, nodeId, `props` rows) to the spec, and run `npm run validate -w @stillxp/specs`.
+7. Write `packages/react/figma/<Name>.figma.ts`. Read nested properties from their instances: `instance.findInstance('Label row').getString('label')`, `findInstance('Hint').getString('text')`, `findInstance('Error').getString('message')`. Then run `npm run check:figma -w @stillxp/specs` and `npx figma connect parse`.
 
 ## Acceptance criteria
 
@@ -48,8 +48,8 @@ A component proposal is done when design and code match. `status:released` is re
 | A `<Name>` page in the library, laid out like the other component pages: **Docs / <Name>** at the top left, the component set below it and **Props / <Name>** to the right | Figma library | Release gate, with `FIGMA_ACCESS_TOKEN` |
 | The Props frame's **Prop table** has a row for every code prop (`<code prop> → <Figma property>`, status and notes) | Figma library | Release gate, with `FIGMA_ACCESS_TOKEN` |
 | The spec has `figma.fileKey` and `figma.nodeId` (the component set) | `packages/specs/components/<slug>.json` | Release gate, `npm run validate:proposals` |
-| The spec's `figma.props` maps every prop, with a note on each row that isn't aligned | same spec | `npm run validate -w @lockin/specs` |
-| A Code Connect template for the component set, matching `figma.props` | `packages/react/figma/<Name>.figma.ts` | Release gate, `npm run check:figma -w @lockin/specs`, `npx figma connect parse` |
+| The spec's `figma.props` maps every prop, with a note on each row that isn't aligned | same spec | `npm run validate -w @stillxp/specs` |
+| A Code Connect template for the component set, matching `figma.props` | `packages/react/figma/<Name>.figma.ts` | Release gate, `npm run check:figma -w @stillxp/specs`, `npx figma connect parse` |
 
 The release gate is `node proposals/ci.mjs check-release`. The Proposals workflow runs it when `status:released` is added; if anything is missing it takes the label off again and comments with the list. `npm run validate:proposals` (part of `npm run check`) fails for any proposal file marked `released` whose repo half is missing.
 

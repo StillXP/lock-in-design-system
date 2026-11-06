@@ -14,7 +14,7 @@ const icon = state !== 'loading' && swap && swap.type === 'INSTANCE' ? swap.exec
 
 export default {
   example: figma.code`<Button iconOnly${icon ? ` iconStart="${icon}"` : ''} aria-label="Describe the action"${variant !== 'primary' ? ` variant="${variant}"` : ''}${size !== 'md' ? ` size="${size}"` : ''}${state === 'disabled' ? ' disabled' : ''}${state === 'loading' ? ' loading' : ''} />`,
-  imports: ['import { Button } from "@lockin/react"'],
+  imports: ['import { Button } from "@stillxp/react"'],
   id: 'button-icon-only',
   metadata: { nestable: true },
 }

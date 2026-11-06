@@ -1,4 +1,4 @@
-Renders a glyph from the @lockin/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.
+Renders a glyph from the @stillxp/icons set (24×24 stroke icons). Decorative by default; becomes an image with a name when given a label.
 
 Atomic level: atom.
 

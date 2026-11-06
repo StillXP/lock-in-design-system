@@ -16,7 +16,7 @@ The `intake.status` field and the issue's `status:*` label always match. Only th
 
 ## What a proposal contains
 
-`packages/specs/schema/proposal.schema.json` defines the format (validation lives in `@lockin/specs/proposals`, shared by the CLI and the hub).
+`packages/specs/schema/proposal.schema.json` defines the format (validation lives in `@stillxp/specs/proposals`, shared by the CLI and the hub).
 
 - **`intake`:** id (`LIP-NNN`, never reused), kind, problem, evidence of reuse (with Figma and code links), closest existing component and why it can't be extended, stand-in, proposed Figma properties, contrast results, open questions, and links to the prototype and the issue.
 - **`spec`** (component proposals): a draft that already passes `packages/specs/schema/component.schema.json` and the token check, with `status: "experimental"`. Accepting the proposal means finishing this draft and moving it to `packages/specs/components/`.

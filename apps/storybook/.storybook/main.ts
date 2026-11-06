@@ -14,7 +14,7 @@ const config: StorybookConfig = {
   ],
   core: { disableTelemetry: true },
   typescript: {
-    // Prop tables come from the TypeScript source of @lockin/react.
+    // Prop tables come from the TypeScript source of @stillxp/react.
     reactDocgen: 'react-docgen',
   },
   async viteFinal(config) {

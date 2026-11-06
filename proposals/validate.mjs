@@ -6,7 +6,7 @@
 import { readFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { duplicateIds, loadProposals, releaseGaps, validateProposal } from '@lockin/specs/proposals';
+import { duplicateIds, loadProposals, releaseGaps, validateProposal } from '@stillxp/specs/proposals';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(dir, '..');

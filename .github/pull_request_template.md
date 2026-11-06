@@ -4,7 +4,7 @@
 
 ## Checklist
 
-- [ ] `npm run check`, `npm run build` and `npm test -w @lockin/server` pass
+- [ ] `npm run check`, `npm run build` and `npm test -w @stillxp/server` pass
 - [ ] Web and native props are in sync, and the component spec is updated (version bumped)
 - [ ] Stories updated for any component change
 - [ ] New or changed component: the Figma library matches (component set, Docs and Props frames), `figma.props` maps every prop and the Code Connect template is updated. Required before a proposal is released.

@@ -13,7 +13,7 @@ Each diagram links to a full-size interactive version. Sources live in `docs/dia
 - Tokens is the foundation. Four packages depend on it, so a token change flows everywhere at once.
 - Icons is shared path data, rendered as inline SVG on web and with `react-native-svg` on mobile.
 - Component specs describe every component's contract, and the hub serves them to agents.
-- Your apps only ever import `@lockin/react` or `@lockin/react-native` (plus the token CSS on web).
+- Your apps only ever import `@stillxp/react` or `@stillxp/react-native` (plus the token CSS on web).
 
 ## Token pipeline
 
