@@ -31,9 +31,9 @@
     "node": ">=22.13"
   },
   "devDependencies": {
-    "@figma/code-connect": "^2.0.2",
+    "@figma/code-connect": "^2.1.0",
     "ajv-formats": "^3.0.1",
-    "chromatic": "^18.13.3",
+    "chromatic": "^18.14.2",
     "typescript": "^5.9.0"
   }
 }
