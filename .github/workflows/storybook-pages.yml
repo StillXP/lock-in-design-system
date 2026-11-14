@@ -1,0 +1,55 @@
+name: Storybook (GitHub Pages)
+
+# Publishes the static Storybook to https://stillxp.github.io/lock-in-design-system/
+# on every push to main. Repo setting: Pages → Source → GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Same steps as the Chromatic job in ci.yml.
+      - name: Build workspace packages
+        run: npm run build -w @stillxp/tokens -w @stillxp/icons -w @stillxp/specs -w @stillxp/react
+
+      - name: Build Storybook
+        run: npm run build -w @stillxp/storybook
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: apps/storybook/storybook-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
