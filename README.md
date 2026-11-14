@@ -20,6 +20,8 @@ npm test -w @stillxp/server
 
 Requires Node ≥ 22.13.
 
+Published Storybook: https://stillxp.github.io/lock-in-design-system/ (deployed from `main` by `.github/workflows/storybook-pages.yml`).
+
 ## Repo map
 
 | Path | What |
