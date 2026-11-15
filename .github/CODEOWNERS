@@ -4,5 +4,5 @@
 
 # Security-sensitive: CI, the local git guard, and the hub server (auth, writes).
 /.github/             @StillXP
-/.claude/hooks/       @StillXP
+/.githooks/           @StillXP
 /apps/server/src/     @StillXP

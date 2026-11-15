@@ -55,9 +55,10 @@ Rules:
 
 ## Git workflow
 
-- Never commit or push to `main`. Start every change on a branch named `type/short-description` (`feat/`, `fix/`, `docs/`, `chore/`). Git hooks in `.githooks/` (enabled by `npm install`) block commits on `main`, pushes to `main` and force pushes, whatever tool runs git; GitHub branch protection backs them up. Claude Code also runs `.claude/hooks/guard-main.mjs`, which catches the same commands before they run. Don't bypass them with `--no-verify`.
+- Never commit or push to `main`. Start every change on a branch named `type/short-description` (`feat/`, `fix/`, `docs/`, `chore/`). Git hooks in `.githooks/` (enabled by `npm install`) block commits on `main`, pushes to `main` and force pushes, whatever tool runs git; GitHub branch protection backs them up. Don't bypass them with `--no-verify`.
 - Commit messages and PR titles use Conventional Commits: `type(scope): summary`, with `!` after the type for breaking changes. Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. CI rejects PR titles that don't match.
 - One logical change per commit; put the why in the body.
+- No AI attribution in commits or PRs: no `Co-authored-by` trailers for AI tools and no "Generated with" footers.
 - Land changes with a pull request (`gh pr create`), squash-merged, then delete the branch. The PR title becomes the commit on `main`, and the PR template lists what to check.
 - CI (`.github/workflows/ci.yml`) runs `npm run check`, `npm run build` (includes the story and axe tests) and the server tests on every PR. Don't merge a red PR.
 - Only commit, push or merge when the user asks.
